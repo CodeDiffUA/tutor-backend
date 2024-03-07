@@ -4,3 +4,5 @@ spring:
     url: ${DATABASE_NAME}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
+  jpa:
+    generate-ddl: true
