@@ -23,10 +23,12 @@
 hs_err_pid*
 replay_pid*
 
+# additional
 .idea
 .mvn
-
 mvnw.cmd
 mvnw
-
 HELP.md
+tutor.iml
+.env
+
