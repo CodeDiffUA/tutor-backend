@@ -5,6 +5,7 @@ import dev.backend.tutor.utills.student.StudentBuilder;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "accounts")
@@ -31,7 +32,21 @@ public class Student {
         return new StudentBuilder();
     }
 
-//  getter and setters
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Objects.equals(username, student.username)
+                && Objects.equals(email, student.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, email);
+    }
+
+    //  getter and setters
 
     public String getUsername() {
         return username;

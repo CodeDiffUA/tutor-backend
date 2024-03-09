@@ -2,7 +2,9 @@ package dev.backend.tutor.sevices.student;
 
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.repositories.StudentRepository;
+import dev.backend.tutor.sevices.validation.StudentValidationService;
 import dev.backend.tutor.sevices.validation.ValidationService;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ public class StudentService implements RegistrationService {
 
     public StudentService(
             StudentRepository studentRepository,
-            ValidationService validationService
+            StudentValidationService validationService
 //            PasswordEncoder passwordEncoder
             ) {
         this.studentRepository = studentRepository;
@@ -25,14 +27,14 @@ public class StudentService implements RegistrationService {
     }
 
     @Override
-    public void registerAccount(RegistrationDtoRequest registrationDtoRequest) {
+    public void registerAccount(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException {
         validateRequest(registrationDtoRequest);
         Student student = buildStudent(registrationDtoRequest);
         System.out.println(student.getUsername());
         studentRepository.save(student);
     }
 
-    private void validateRequest(RegistrationDtoRequest registrationDtoRequest) {
+    private void validateRequest(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException {
         validationService.validateEmail(registrationDtoRequest.email());
         validationService.validateUsername(registrationDtoRequest.username());
     }

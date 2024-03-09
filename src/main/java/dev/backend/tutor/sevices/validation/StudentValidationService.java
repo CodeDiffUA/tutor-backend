@@ -14,7 +14,7 @@ public class StudentValidationService implements ValidationService{
     }
 
     @Override
-    public void validateEmail(String email) {
+    public void validateEmail(String email) throws AlreadyExistsUserException {
         boolean emailAlreadyExists = studentRepository.existsStudentByEmail(email);
         if (emailAlreadyExists) {
             throw new AlreadyExistsUserException("This email already exists");
@@ -22,7 +22,7 @@ public class StudentValidationService implements ValidationService{
     }
 
     @Override
-    public void validateUsername(String username) {
+    public void validateUsername(String username) throws AlreadyExistsUserException {
         boolean usernameAlreadyExists = studentRepository.existsStudentByUsername(username);
         if (usernameAlreadyExists) {
             throw new AlreadyExistsUserException("This username already exists");

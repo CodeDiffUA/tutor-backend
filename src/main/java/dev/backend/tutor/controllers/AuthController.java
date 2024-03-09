@@ -1,6 +1,7 @@
 package dev.backend.tutor.controllers;
 
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
+import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.sevices.student.RegistrationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity<?> registerStudent(
-            @RequestBody RegistrationDtoRequest registrationDtoRequest) {
+            @RequestBody RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException {
         registrationService.registerAccount(registrationDtoRequest);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
