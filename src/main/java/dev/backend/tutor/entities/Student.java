@@ -23,6 +23,43 @@ public class Student {
     @OneToMany(mappedBy = "owner")
     private List<CreditCard> creditCardsList;
 
+    @ManyToMany
+    @JoinTable(
+            name = "friends",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id")
+    )
+    private List<Student> friends;
+
+    public void addFriend(Student student) {
+        friends.add(student);
+        student.getFriends().add(this);
+    }
+
+    public void removeFriend(Student student) {
+        friends.remove(student);
+        student.getFriends().remove(this);
+    }
+
+    @ManyToMany
+    @JoinTable(
+            name = "blocked_users",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "blocked_id")
+    )
+    private List<Student> blockedStudents;
+
+    public void blockStudent(Student student) {
+        blockedStudents.add(student);
+        student.getBlockedStudents().add(this);
+    }
+
+    public void unblockStudent(Student student) {
+        blockedStudents.remove(student);
+        student.getBlockedStudents().remove(this);
+    }
+
+
 //    constructor and builder
 
     public Student() {
@@ -56,43 +93,27 @@ public class Student {
         this.username = username;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
     public void setAge(Integer age) {
         this.age = age;
-    }
-
-    public Form getForm() {
-        return form;
     }
 
     public void setForm(Form form) {
         this.form = form;
     }
 
-    public List<CreditCard> getCreditCardsList() {
-        return creditCardsList;
+    public List<Student> getFriends() {
+        return friends;
     }
 
-    public void setCreditCardsList(List<CreditCard> creditCardsList) {
-        this.creditCardsList = creditCardsList;
+    public List<Student> getBlockedStudents() {
+        return blockedStudents;
     }
 }
