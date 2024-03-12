@@ -73,7 +73,13 @@
 			<scope>test</scope>
 		</dependency>
 
-<!--		-->
+<!--	dependency so message converter could convert data	-->
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-hibernate5</artifactId>
+			<version>2.14.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>

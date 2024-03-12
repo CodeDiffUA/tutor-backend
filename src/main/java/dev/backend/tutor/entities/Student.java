@@ -4,6 +4,8 @@ import dev.backend.tutor.utills.student.Form;
 import dev.backend.tutor.utills.student.StudentBuilder;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,13 +25,13 @@ public class Student {
     @OneToMany(mappedBy = "owner")
     private List<CreditCard> creditCardsList;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "friends",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "friend_id")
     )
-    private List<Student> friends;
+    private List<Student> friends = new ArrayList<>();
 
     public void addFriend(Student student) {
         friends.add(student);
@@ -41,13 +43,13 @@ public class Student {
         student.getFriends().remove(this);
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "blocked_users",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "blocked_id")
     )
-    private List<Student> blockedStudents;
+    private List<Student> blockedStudents = new ArrayList<>();
 
     public void blockStudent(Student student) {
         blockedStudents.add(student);
