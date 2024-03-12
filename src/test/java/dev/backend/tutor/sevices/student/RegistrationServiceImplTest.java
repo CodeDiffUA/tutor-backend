@@ -2,30 +2,27 @@ package dev.backend.tutor.sevices.student;
 
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.entities.Student;
-import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.repositories.StudentRepository;
-import dev.backend.tutor.sevices.student.StudentService;
+import dev.backend.tutor.sevices.registration.RegistrationServiceImpl;
 import dev.backend.tutor.sevices.validation.StudentValidationService;
-import dev.backend.tutor.sevices.validation.ValidationService;
 import dev.backend.tutor.utills.student.Form;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class StudentServiceTest {
+public class RegistrationServiceImplTest {
 
     @Mock
     private StudentRepository studentRepository;
 
     @InjectMocks
-    private StudentService studentService;
+    private RegistrationServiceImpl underTest;
 
     @Mock
     private StudentValidationService validationService;
@@ -40,7 +37,7 @@ public class StudentServiceTest {
         lenient().doReturn(false).when(studentRepository).existsStudentByEmail(registrationDtoRequest.email());
 
         // when
-        assertDoesNotThrow(() -> studentService.registerAccount(registrationDtoRequest));
+        assertDoesNotThrow(() -> underTest.registerAccount(registrationDtoRequest));
 
         // then
         verify(studentRepository, times(1)).save(any(Student.class));
