@@ -6,9 +6,10 @@ import dev.backend.tutor.exceptions.frienship.AlreadyFriendsException;
 import dev.backend.tutor.exceptions.frienship.BlockedUsersException;
 import dev.backend.tutor.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class StudentValidationService implements ValidationService{
+public class StudentValidationService implements ValidationStudentDataService, ValidationStudentFriendshipService{
 
     private final StudentRepository studentRepository;
 
@@ -17,6 +18,7 @@ public class StudentValidationService implements ValidationService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void validateEmail(String email) throws AlreadyExistsUserException {
         boolean emailAlreadyExists = studentRepository.existsStudentByEmail(email);
         if (emailAlreadyExists) {
@@ -25,6 +27,7 @@ public class StudentValidationService implements ValidationService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void validateUsername(String username) throws AlreadyExistsUserException {
         boolean usernameAlreadyExists = studentRepository.existsStudentByUsername(username);
         if (usernameAlreadyExists) {
@@ -32,12 +35,14 @@ public class StudentValidationService implements ValidationService{
         }
     }
 
+    @Transactional(readOnly = true)
     public void validateIfStudentsAreFriends(Student senderStudent, Student recipientStudent) throws AlreadyFriendsException {
         if (senderStudent.getFriends().contains(recipientStudent)) {
             throw new AlreadyFriendsException("You already have this student in friends");
         }
     }
 
+    @Transactional(readOnly = true)
     public void validateIfSomeoneBlocked(Student senderStudent, Student recipientStudent) throws BlockedUsersException {
         if (senderStudent.getBlockedStudents().contains(recipientStudent)) {
             throw new BlockedUsersException("You have blocked this user");
