@@ -1,8 +1,10 @@
 package dev.backend.tutor.controllers.webSocketControllers;
 
 import dev.backend.tutor.dtos.FriendShipRequestDto;
-import dev.backend.tutor.exceptions.AlreadyFriendsException;
+import dev.backend.tutor.exceptions.frienship.AlreadyFriendsException;
+import dev.backend.tutor.exceptions.frienship.BlockedUsersException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
+import dev.backend.tutor.exceptions.frienship.FriendshipException;
 import dev.backend.tutor.sevices.messages.FriendshipService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -20,7 +22,7 @@ public class FriendController{
     }
 
     @MessageMapping("/friends.createFriendship")
-    public void onCreatingFriendshipRequest(@Payload FriendShipRequestDto friendShipRequestDto) throws AlreadyFriendsException, NotFoundUserException {
+    public void onCreatingFriendshipRequest(@Payload FriendShipRequestDto friendShipRequestDto) throws FriendshipException, NotFoundUserException {
         friendshipService.requestFriendShip(friendShipRequestDto);
     }
 }

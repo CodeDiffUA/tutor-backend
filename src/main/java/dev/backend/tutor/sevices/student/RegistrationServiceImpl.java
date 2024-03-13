@@ -26,8 +26,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         studentRepository.save(student);
     }
 
-
-
     private void validateRequest(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException {
         validationService.validateEmail(registrationDtoRequest.email());
         validationService.validateUsername(registrationDtoRequest.username());

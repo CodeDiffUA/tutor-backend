@@ -19,10 +19,10 @@ public class Student {
     @Column(nullable = false)
     private String password;
 
-    private Integer age;
+    private Integer age; //todo make datetime
     private Form form;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private List<CreditCard> creditCardsList;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -53,12 +53,10 @@ public class Student {
 
     public void blockStudent(Student student) {
         blockedStudents.add(student);
-        student.getBlockedStudents().add(this);
     }
 
     public void unblockStudent(Student student) {
         blockedStudents.remove(student);
-        student.getBlockedStudents().remove(this);
     }
 
 
@@ -83,6 +81,19 @@ public class Student {
     @Override
     public int hashCode() {
         return Objects.hash(username, email);
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", age=" + age +
+                ", form=" + form +
+                ", friends=" + friends.stream().map(Student::getUsername).toList() +
+                ", blockedStudents=" + blockedStudents.stream().map(Student::getUsername).toList() +
+                '}';
     }
 
     //  getter and setters

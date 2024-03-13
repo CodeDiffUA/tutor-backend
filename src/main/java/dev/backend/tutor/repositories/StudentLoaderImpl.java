@@ -23,27 +23,24 @@ public class StudentLoaderImpl implements StudentLoader {
             String senderLogin, String recipientLogin
     ) {
         List<Student> students = entityManager.createQuery("""
-                                select s
-                                from Student s
-                                left join fetch s.friends
-                                where s.username=:senderLogin or s.username=:recipientLogin
-                                """, Student.class)
-                        .setParameter("senderLogin", senderLogin)
-                        .setParameter("recipientLogin", recipientLogin)
-                        .getResultList();
+                        select distinct s
+                        from Student s
+                        left join fetch s.friends
+                        where s.username=:senderLogin or s.username=:recipientLogin
+                        """, Student.class)
+                .setParameter("senderLogin", senderLogin)
+                .setParameter("recipientLogin", recipientLogin)
+                .getResultList();
 
-        List<Student> resultList = new ArrayList<>();
-        for (Student student : students) {
-            student = entityManager.createQuery("""
-                            select distinct s
-                            from Student s
-                            left join fetch s.blockedStudents
-                            where s = :student
-                            """, Student.class)
-                    .setParameter("student", student)
-                    .getSingleResult();
-            resultList.add(student);
-        }
-        return resultList;
+        students = entityManager.createQuery("""
+                        select distinct s
+                        from Student s
+                        left join fetch s.blockedStudents
+                        where s in :students
+                        """, Student.class)
+                .setParameter("students", students)
+                .getResultList();
+
+        return students;
     }
 }

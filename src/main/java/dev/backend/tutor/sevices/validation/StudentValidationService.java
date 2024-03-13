@@ -2,7 +2,8 @@ package dev.backend.tutor.sevices.validation;
 
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
-import dev.backend.tutor.exceptions.AlreadyFriendsException;
+import dev.backend.tutor.exceptions.frienship.AlreadyFriendsException;
+import dev.backend.tutor.exceptions.frienship.BlockedUsersException;
 import dev.backend.tutor.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
 
@@ -37,12 +38,12 @@ public class StudentValidationService implements ValidationService{
         }
     }
 
-    public void validateIfSomeoneBlocked(Student senderStudent, Student recipientStudent) throws AlreadyFriendsException {
+    public void validateIfSomeoneBlocked(Student senderStudent, Student recipientStudent) throws BlockedUsersException {
         if (senderStudent.getBlockedStudents().contains(recipientStudent)) {
-            throw new AlreadyFriendsException("You have blocked this user");
+            throw new BlockedUsersException("You have blocked this user");
         }
         if (recipientStudent.getBlockedStudents().contains(senderStudent)) {
-            throw new AlreadyFriendsException("This user blocked you");
+            throw new BlockedUsersException("This user blocked you");
         }
     }
 }

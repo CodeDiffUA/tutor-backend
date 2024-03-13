@@ -4,8 +4,10 @@ import dev.backend.tutor.dtos.ExceptionDto;
 import dev.backend.tutor.dtos.FriendShipRequestDto;
 import dev.backend.tutor.dtos.MessageDto;
 import dev.backend.tutor.entities.Student;
-import dev.backend.tutor.exceptions.AlreadyFriendsException;
+import dev.backend.tutor.exceptions.frienship.AlreadyFriendsException;
+import dev.backend.tutor.exceptions.frienship.BlockedUsersException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
+import dev.backend.tutor.exceptions.frienship.FriendshipException;
 import dev.backend.tutor.repositories.StudentRepository;
 import dev.backend.tutor.sevices.validation.StudentValidationService;
 import org.springframework.stereotype.Service;
@@ -30,7 +32,7 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService{
 
     @Override
     public void requestFriendShip(FriendShipRequestDto friendShipRequestDto)
-            throws NotFoundUserException, AlreadyFriendsException {
+            throws NotFoundUserException, FriendshipException {
         var senderLogin = friendShipRequestDto.sender();
         var recipientLogin = friendShipRequestDto.recipient();
         validateIfTheyCanBecomeFriends(senderLogin, recipientLogin);
@@ -55,7 +57,7 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService{
 
 
     private void validateIfTheyCanBecomeFriends(String senderLogin, String recipientLogin)
-            throws AlreadyFriendsException, NotFoundUserException {
+            throws FriendshipException, NotFoundUserException {
         List<Student> studentThatAboutToBeFriends =  studentRepository
                 .findSenderAndRecipientStudentsWithFriendsAndBlocked(senderLogin,recipientLogin);
         var senderStudent = extractStudentFromListByUsername(studentThatAboutToBeFriends, senderLogin, senderLogin);

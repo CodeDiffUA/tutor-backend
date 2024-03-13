@@ -24,9 +24,9 @@ public class MessageService {
             recipientLogin, "/queue/notifications", messageDto
         );
     }
-    public void sendExceptionToUser(String recipientLogin, ExceptionDto ExceptionDto){
+    public void sendExceptionToUser(String recipientLogin, ExceptionDto exceptionDto){
         messagingTemplate.convertAndSendToUser(
-                recipientLogin, "/queue/errors", ExceptionDto
+                recipientLogin, "/queue/errors", exceptionDto
         );
     }
 
