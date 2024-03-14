@@ -1,11 +1,11 @@
 package dev.backend.tutor.entities;
 
+import dev.backend.tutor.entities.SubjectGrades.UkrMovaGrades;
 import dev.backend.tutor.utills.student.Form;
 import dev.backend.tutor.utills.student.StudentBuilder;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,6 +24,8 @@ public class Student {
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private List<CreditCard> creditCardsList;
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    private List<GeneralGrades> generalGradesList;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -95,6 +97,7 @@ public class Student {
                 ", blockedStudents=" + blockedStudents.stream().map(Student::getUsername).toList() +
                 '}';
     }
+
 
     //  getter and setters
 
