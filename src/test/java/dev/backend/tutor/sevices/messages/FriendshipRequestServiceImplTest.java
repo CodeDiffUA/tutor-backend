@@ -1,7 +1,7 @@
 package dev.backend.tutor.sevices.messages;
 
-import dev.backend.tutor.dtos.FriendShipRequestDto;
-import dev.backend.tutor.dtos.MessageDto;
+import dev.backend.tutor.dtos.messages.FriendshipRequestDto;
+import dev.backend.tutor.dtos.messages.MessageDto;
 import dev.backend.tutor.exceptions.frienship.AlreadyFriendsException;
 import dev.backend.tutor.exceptions.frienship.BlockedUsersException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
@@ -42,7 +42,7 @@ class FriendshipRequestServiceImplTest {
         // arrange
         var senderLogin = "senderLogin";
         var recipientLogin = "senderLogin";
-        FriendShipRequestDto requestDto = new FriendShipRequestDto(senderLogin, recipientLogin);
+        FriendshipRequestDto requestDto = new FriendshipRequestDto(senderLogin, recipientLogin);
 
         var senderStudent = StudentGenerator.generateStudent(senderLogin);
         var recipientStudent = StudentGenerator.generateStudent(recipientLogin);
@@ -68,7 +68,7 @@ class FriendshipRequestServiceImplTest {
         // arrange
         var senderLogin = "senderLogin";
         var recipientLogin = "senderLogin";
-        FriendShipRequestDto requestDto = new FriendShipRequestDto(senderLogin, recipientLogin);
+        FriendshipRequestDto requestDto = new FriendshipRequestDto(senderLogin, recipientLogin);
 
         var senderStudent = StudentGenerator.generateStudent(senderLogin);
         var recipientStudent = StudentGenerator.generateStudent(recipientLogin);
@@ -93,7 +93,7 @@ class FriendshipRequestServiceImplTest {
         // arrange
         var senderLogin = "senderLogin";
         var recipientLogin = "senderLogin";
-        FriendShipRequestDto requestDto = new FriendShipRequestDto(senderLogin, recipientLogin);
+        FriendshipRequestDto requestDto = new FriendshipRequestDto(senderLogin, recipientLogin);
 
         var senderStudent = StudentGenerator.generateStudent(senderLogin);
         var recipientStudent = StudentGenerator.generateStudent(recipientLogin);

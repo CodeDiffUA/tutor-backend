@@ -1,8 +1,6 @@
 package dev.backend.tutor.sevices.messages;
 
-import dev.backend.tutor.dtos.FriendShipRequestDto;
-import dev.backend.tutor.exceptions.frienship.AlreadyFriendsException;
-import dev.backend.tutor.exceptions.frienship.BlockedUsersException;
+import dev.backend.tutor.dtos.messages.FriendshipRequestDto;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.exceptions.frienship.FriendshipException;
 
@@ -17,6 +15,5 @@ public interface FriendshipRequestService {
      * @param friendshipRequestDto The DTO containing information about the friendship request.
      */
 
-    void requestFriendShip(FriendShipRequestDto friendshipRequestDto) throws NotFoundUserException, FriendshipException;
-
+    void requestFriendShip(FriendshipRequestDto friendshipRequestDto) throws NotFoundUserException, FriendshipException;
 }

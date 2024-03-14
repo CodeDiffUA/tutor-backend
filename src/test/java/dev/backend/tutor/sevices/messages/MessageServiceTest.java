@@ -1,9 +1,8 @@
 package dev.backend.tutor.sevices.messages;
 
 import dev.backend.tutor.dtos.ExceptionDto;
-import dev.backend.tutor.dtos.MessageDto;
+import dev.backend.tutor.dtos.messages.MessageDto;
 import dev.backend.tutor.utills.student.DateUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
