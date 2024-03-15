@@ -1,11 +1,9 @@
 package dev.backend.tutor.sevices.messages;
 
 import dev.backend.tutor.dtos.ExceptionDto;
-import dev.backend.tutor.dtos.FriendShipRequestDto;
-import dev.backend.tutor.dtos.MessageDto;
+import dev.backend.tutor.dtos.messages.FriendshipRequestDto;
+import dev.backend.tutor.dtos.messages.MessageDto;
 import dev.backend.tutor.entities.Student;
-import dev.backend.tutor.exceptions.frienship.AlreadyFriendsException;
-import dev.backend.tutor.exceptions.frienship.BlockedUsersException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.exceptions.frienship.FriendshipException;
 import dev.backend.tutor.repositories.StudentRepository;
@@ -31,7 +29,7 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService{
     }
 
     @Override
-    public void requestFriendShip(FriendShipRequestDto friendShipRequestDto)
+    public void requestFriendShip(FriendshipRequestDto friendShipRequestDto)
             throws NotFoundUserException, FriendshipException {
         var senderLogin = friendShipRequestDto.sender();
         var recipientLogin = friendShipRequestDto.recipient();

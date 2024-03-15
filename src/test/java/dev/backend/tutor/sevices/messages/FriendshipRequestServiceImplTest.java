@@ -1,7 +1,7 @@
 package dev.backend.tutor.sevices.messages;
 
-import dev.backend.tutor.dtos.FriendShipRequestDto;
-import dev.backend.tutor.dtos.MessageDto;
+import dev.backend.tutor.dtos.messages.FriendshipRequestDto;
+import dev.backend.tutor.dtos.messages.MessageDto;
 import dev.backend.tutor.exceptions.frienship.AlreadyFriendsException;
 import dev.backend.tutor.exceptions.frienship.BlockedUsersException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
@@ -20,6 +20,7 @@ import static org.mockito.Mockito.*;
 
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,7 +43,7 @@ class FriendshipRequestServiceImplTest {
         // arrange
         var senderLogin = "senderLogin";
         var recipientLogin = "senderLogin";
-        FriendShipRequestDto requestDto = new FriendShipRequestDto(senderLogin, recipientLogin);
+        FriendshipRequestDto requestDto = new FriendshipRequestDto(senderLogin, recipientLogin);
 
         var senderStudent = StudentGenerator.generateStudent(senderLogin);
         var recipientStudent = StudentGenerator.generateStudent(recipientLogin);
@@ -68,7 +69,7 @@ class FriendshipRequestServiceImplTest {
         // arrange
         var senderLogin = "senderLogin";
         var recipientLogin = "senderLogin";
-        FriendShipRequestDto requestDto = new FriendShipRequestDto(senderLogin, recipientLogin);
+        FriendshipRequestDto requestDto = new FriendshipRequestDto(senderLogin, recipientLogin);
 
         var senderStudent = StudentGenerator.generateStudent(senderLogin);
         var recipientStudent = StudentGenerator.generateStudent(recipientLogin);
@@ -93,7 +94,7 @@ class FriendshipRequestServiceImplTest {
         // arrange
         var senderLogin = "senderLogin";
         var recipientLogin = "senderLogin";
-        FriendShipRequestDto requestDto = new FriendShipRequestDto(senderLogin, recipientLogin);
+        FriendshipRequestDto requestDto = new FriendshipRequestDto(senderLogin, recipientLogin);
 
         var senderStudent = StudentGenerator.generateStudent(senderLogin);
         var recipientStudent = StudentGenerator.generateStudent(recipientLogin);
@@ -111,6 +112,21 @@ class FriendshipRequestServiceImplTest {
                 () ->friendshipRequestService.requestFriendShip(requestDto));
 
         // verify
+        verify(messageService, never()).sendMessageToUser(recipientLogin, expectedMessage);
+    }
+
+    @Test
+    void Should_ThrowNotFoundUserException_When_UsernameInvalid() {
+        var senderLogin = "senderLogin";
+        var recipientLogin = "senderLogin";
+        FriendshipRequestDto requestDto = new FriendshipRequestDto(senderLogin, recipientLogin);
+        var expectedMessage = new MessageDto(senderLogin, recipientLogin, recipientLogin + ", user " + senderLogin + " wants to become your friend", DateUtil.currentTimeStamp());
+        when(studentRepository.findSenderAndRecipientStudentsWithFriendsAndBlocked(
+                senderLogin, recipientLogin
+        )).thenReturn(new ArrayList<>());
+
+        Assertions.assertThrows(NotFoundUserException.class,
+                () -> friendshipRequestService.requestFriendShip(requestDto));
         verify(messageService, never()).sendMessageToUser(recipientLogin, expectedMessage);
     }
 }
