@@ -20,6 +20,7 @@ import static org.mockito.Mockito.*;
 
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -111,6 +112,21 @@ class FriendshipRequestServiceImplTest {
                 () ->friendshipRequestService.requestFriendShip(requestDto));
 
         // verify
+        verify(messageService, never()).sendMessageToUser(recipientLogin, expectedMessage);
+    }
+
+    @Test
+    void Should_ThrowNotFoundUserException_When_UsernameInvalid() {
+        var senderLogin = "senderLogin";
+        var recipientLogin = "senderLogin";
+        FriendshipRequestDto requestDto = new FriendshipRequestDto(senderLogin, recipientLogin);
+        var expectedMessage = new MessageDto(senderLogin, recipientLogin, recipientLogin + ", user " + senderLogin + " wants to become your friend", DateUtil.currentTimeStamp());
+        when(studentRepository.findSenderAndRecipientStudentsWithFriendsAndBlocked(
+                senderLogin, recipientLogin
+        )).thenReturn(new ArrayList<>());
+
+        Assertions.assertThrows(NotFoundUserException.class,
+                () -> friendshipRequestService.requestFriendShip(requestDto));
         verify(messageService, never()).sendMessageToUser(recipientLogin, expectedMessage);
     }
 }

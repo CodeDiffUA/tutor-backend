@@ -2,6 +2,7 @@ package dev.backend.tutor.sevices.messages;
 
 import dev.backend.tutor.dtos.ExceptionDto;
 import dev.backend.tutor.dtos.messages.MessageDto;
+import dev.backend.tutor.dtos.messages.SystemMessageDto;
 import dev.backend.tutor.utills.student.DateUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,8 +10,6 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -102,5 +101,48 @@ public class MessageServiceTest {
         String expectedTimestamp = DateUtil.currentTimeStamp();
         assert exceptionDto.message().equals(exceptionMessage);
         assert exceptionDto.timestamp().equals(expectedTimestamp);
+    }
+
+    @Test
+    public void testSendSystemMessageToUser() {
+        // Arrange
+        String recipientLogin = "recipient";
+        SystemMessageDto messageDto = new SystemMessageDto(recipientLogin, "content", "timestamp");
+
+        // Act
+        messageService.sendSystemMessageToUser(recipientLogin, messageDto);
+
+        // Assert
+        verify(messagingTemplate).convertAndSendToUser(
+                recipientLogin, "/queue/notifications", messageDto
+        );
+    }
+
+    @Test
+    public void testMessageDtoForAcceptingFriendshipRequest() {
+        // Arrange
+        String recipientLogin = "recipient";
+
+        // Act
+        SystemMessageDto messageDto = messageService.messageDtoForAcceptingFriendshipRequest(recipientLogin);
+
+        // Assert
+        String expectedContent = recipientLogin + ", your friendship request has been accepted";
+        assert messageDto.recipient().equals(recipientLogin);
+        assert messageDto.content().equals(expectedContent);
+    }
+
+    @Test
+    public void testMessageDtoForDecliningFriendshipRequest() {
+        // Arrange
+        String recipientLogin = "recipient";
+
+        // Act
+        SystemMessageDto messageDto = messageService.messageDtoForDecliningFriendshipRequest(recipientLogin);
+
+        // Assert
+        String expectedContent = recipientLogin + ", your friendship request has been declined";
+        assert messageDto.recipient().equals(recipientLogin);
+        assert messageDto.content().equals(expectedContent);
     }
 }

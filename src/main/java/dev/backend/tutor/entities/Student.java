@@ -5,7 +5,6 @@ import dev.backend.tutor.utills.student.StudentBuilder;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,8 +27,8 @@ public class Student {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "friends",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id")
+            joinColumns = @JoinColumn(name = "student_id", unique = true),
+            inverseJoinColumns = @JoinColumn(name = "friend_id", unique = true)
     )
     private List<Student> friends = new ArrayList<>();
 
@@ -46,8 +45,8 @@ public class Student {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "blocked_users",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "blocked_id")
+            joinColumns = @JoinColumn(name = "student_id", unique = true),
+            inverseJoinColumns = @JoinColumn(name = "blocked_id", unique = true)
     )
     private List<Student> blockedStudents = new ArrayList<>();
 
@@ -61,7 +60,6 @@ public class Student {
 
 
 //    constructor and builder
-
     public Student() {
     }
 

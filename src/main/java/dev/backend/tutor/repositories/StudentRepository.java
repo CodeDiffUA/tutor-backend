@@ -14,17 +14,16 @@ public interface StudentRepository extends JpaRepository<Student, String>, Stude
 
     Optional<Student> findStudentByEmail(@Param("email") String email);
 
-    @Query(
-            """
-                select s from Student s
-                left join fetch s.friends
-                where s.username=:firstStudentUsername or s.username=:secondStudentUsername
-                """
+
+    @Query("select s " +
+            "from Student s " +
+            "left join fetch s.friends " +
+            "where s.username=:firstStudentUsername or s.username=:secondStudentUsername"
     )
     List<Student> findStudentsByUsernameFetchFriends(
             @Param("firstStudentUsername") String firstStudentUsername,
             @Param("secondStudentUsername") String secondStudentUsername
-            );
+    );
 
     boolean existsStudentByUsername(String username);
     boolean existsStudentByEmail(String email);
