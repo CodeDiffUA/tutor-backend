@@ -1,6 +1,6 @@
 package dev.backend.tutor.entities;
 
-import dev.backend.tutor.entities.SubjectGrades.UkrMovaGrades;
+
 import dev.backend.tutor.utills.student.Form;
 import dev.backend.tutor.utills.student.StudentBuilder;
 import jakarta.persistence.*;
@@ -25,7 +25,7 @@ public class Student {
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private List<CreditCard> creditCardsList;
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
-    private List<GeneralGrades> generalGradesList;
+    private List<GeneralGrades> generalGradesList = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

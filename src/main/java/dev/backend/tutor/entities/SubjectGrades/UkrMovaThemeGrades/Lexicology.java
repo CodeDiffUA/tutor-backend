@@ -8,42 +8,25 @@ import jakarta.persistence.*;
 @Table(name = "lexicology")
 public class Lexicology {
     @Id
-    private String username;
+    @Column(name = "student_ukrmova_grades")
+    private String studentLexicologyGrades;
     private Integer lexicalMeaningOfAWord;
     private Integer synonymus;
     private Integer lexicalError;
     private Integer phraseology;
-    @OneToOne(mappedBy = "lexicology")
+    @OneToOne(mappedBy = "lexicologyEntity", fetch = FetchType.LAZY)
     private UkrMovaGrades ukrMovaGrades;
 
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
     public Integer getLexicalMeaningOfAWord() {
         return lexicalMeaningOfAWord;
-    }
-    public void setLexicalMeaningOfAWord(Integer lexicalMeaningOfAWord) {
-        this.lexicalMeaningOfAWord = lexicalMeaningOfAWord;
     }
     public Integer getSynonymus() {
         return synonymus;
     }
-    public void setSynonymus(Integer synonymus) {
-        this.synonymus = synonymus;
-    }
     public Integer getLexicalError() {
         return lexicalError;
     }
-    public void setLexicalError(Integer lexicalError) {
-        this.lexicalError = lexicalError;
-    }
     public Integer getPhraseology() {
         return phraseology;
-    }
-    public void setPhraseology(Integer phraseology) {
-        this.phraseology = phraseology;
     }
 }

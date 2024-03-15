@@ -7,29 +7,18 @@ import jakarta.persistence.*;
 @Table(name = "phonetics_graphemics_orthoepy")
 public class PhoneticsGraphemicsOrthoepy {
     @Id
-    private String username;
+    @Column(name = "student_ukrmova_grades")
+    private String studentPhoneticsGraphemicsOrthoepyGrades;
     private Integer syllableStress;
     private Integer soundLetterCorrespondence;
 
-    @OneToOne(mappedBy = "phoneticsGraphemicsOrthoepy")
+    @OneToOne(mappedBy = "phoneticsGraphemicsOrthoepyEntity", fetch = FetchType.LAZY)
     private UkrMovaGrades ukrMovaGrades;
 
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
     public Integer getSyllableStress() {
         return syllableStress;
     }
-    public void setSyllableStress(Integer syllableStress) {
-        this.syllableStress = syllableStress;
-    }
     public Integer getSoundLetterCorrespondence() {
         return soundLetterCorrespondence;
-    }
-    public void setSoundLetterCorrespondence(Integer soundLetterCorrespondence) {
-        this.soundLetterCorrespondence = soundLetterCorrespondence;
     }
 }

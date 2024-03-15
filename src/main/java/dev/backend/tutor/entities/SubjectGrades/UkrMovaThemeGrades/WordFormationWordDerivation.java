@@ -7,22 +7,14 @@ import jakarta.persistence.*;
 @Table(name = "word_formation_word_derivation")
 public class WordFormationWordDerivation {
     @Id
-    private String username;
+    @Column(name = "student_ukrmova_grades")
+    private String studentWordFormationWordDerivationGrades;
     private Integer wordStructureWordFormation;
 
-    @OneToOne(mappedBy = "word_formation_word_derivation")
+    @OneToOne(mappedBy = "wordFormationWordDerivationEntity", fetch = FetchType.LAZY)
     private UkrMovaGrades ukrMovaGrades;
 
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
     public Integer getWordStructureWordFormation() {
         return wordStructureWordFormation;
-    }
-    public void setWordStructureWordFormation(Integer wordStructureWordFormation) {
-        this.wordStructureWordFormation = wordStructureWordFormation;
     }
 }

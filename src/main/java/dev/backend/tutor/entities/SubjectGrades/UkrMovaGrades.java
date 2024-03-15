@@ -1,7 +1,6 @@
 package dev.backend.tutor.entities.SubjectGrades;
 
 import dev.backend.tutor.entities.SubjectGrades.UkrMovaThemeGrades.*;
-import dev.backend.tutor.entities.Student;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,7 +8,8 @@ import jakarta.persistence.*;
 public class UkrMovaGrades {
 
     @Id
-    private String username;
+    @Column(name = "student_grades")
+    private String studentUkrmovaGrades;
     private Integer phoneticsGraphemicsOrthoepy;
     private Integer orthography;
     private Integer lexicology;
@@ -18,40 +18,33 @@ public class UkrMovaGrades {
     private Integer syntaxPunctuation;
     private Integer stylisticsTextLanguageDevelopment;
 
-    @OneToOne
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_phonetics_graphemics_orthoepy_grades", referencedColumnName = "student_ukrmova_grades")
     private PhoneticsGraphemicsOrthoepy phoneticsGraphemicsOrthoepyEntity;
 
-    @OneToOne
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_orphography_grades", referencedColumnName = "student_ukrmova_grades")
     private Orthography orthographyEntity;
 
-    @OneToOne
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_lexicology_grades", referencedColumnName = "student_ukrmova_grades")
     private Lexicology lexicologyEntity;
 
-    @OneToOne
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_word_formation_word_derivation_grades", referencedColumnName = "student_ukrmova_grades")
     private WordFormationWordDerivation wordFormationWordDerivationEntity;
 
-    @OneToOne
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_morphology_grades", referencedColumnName = "student_ukrmova_grades")
     private Morphology morphologyEntity;
 
-    @OneToOne
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_syntax_punctuation_grades", referencedColumnName = "student_ukrmova_grades")
     private SyntaxPunctuation syntaxPunctuationEntity;
 
-    @OneToOne
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_stylistics_text_language_development_grades", referencedColumnName = "student_ukrmova_grades")
     private StylisticsTextLanguageDevelopment stylisticsTextLanguageDevelopmentEntity;
-
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public Integer getPhoneticsGraphemicsOrthoepy() {
         return phoneticsGraphemicsOrthoepy;
