@@ -1,8 +1,8 @@
-package dev.backend.tutor.sevices.messages;
+package dev.backend.tutor.sevices.friendship.request;
 
 import dev.backend.tutor.dtos.messages.FriendshipRequestDto;
 import dev.backend.tutor.exceptions.NotFoundUserException;
-import dev.backend.tutor.exceptions.frienship.FriendshipException;
+import dev.backend.tutor.exceptions.friendship.FriendshipException;
 
 /**
  * Interface for sending messages related to friendships and general messaging.

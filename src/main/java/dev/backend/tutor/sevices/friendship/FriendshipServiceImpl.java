@@ -1,18 +1,22 @@
-package dev.backend.tutor.sevices.messages;
+package dev.backend.tutor.sevices.friendship;
 
 import dev.backend.tutor.dtos.messages.FriendshipRequestDto;
 import dev.backend.tutor.dtos.messages.FriendshipResponseDto;
 import dev.backend.tutor.exceptions.NotFoundUserException;
-import dev.backend.tutor.exceptions.frienship.FriendshipException;
+import dev.backend.tutor.exceptions.friendship.FriendshipException;
+import dev.backend.tutor.sevices.friendship.request.FriendshipRequestService;
+import dev.backend.tutor.sevices.friendship.request.FriendshipRequestServiceImpl;
+import dev.backend.tutor.sevices.friendship.response.FriendshipResponseService;
+import dev.backend.tutor.sevices.friendship.response.FriendshipResponseServiceImpl;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FriendshipService implements FriendshipManager{
+public class FriendshipServiceImpl implements FriendshipService{
 
     private final FriendshipRequestService friendshipRequestService;
     private final FriendshipResponseService friendshipResponseService;
 
-    public FriendshipService(FriendshipRequestServiceImpl friendshipRequestService, FriendshipResponseServiceImpl friendshipResponseService) {
+    public FriendshipServiceImpl(FriendshipRequestServiceImpl friendshipRequestService, FriendshipResponseServiceImpl friendshipResponseService) {
         this.friendshipRequestService = friendshipRequestService;
         this.friendshipResponseService = friendshipResponseService;
     }

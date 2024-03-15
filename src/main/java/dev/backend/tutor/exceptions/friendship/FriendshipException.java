@@ -1,4 +1,4 @@
-package dev.backend.tutor.exceptions.frienship;
+package dev.backend.tutor.exceptions.friendship;
 
 public class FriendshipException extends Exception{
     public FriendshipException() {

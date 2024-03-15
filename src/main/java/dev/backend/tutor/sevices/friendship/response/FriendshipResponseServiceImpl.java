@@ -1,10 +1,11 @@
-package dev.backend.tutor.sevices.messages;
+package dev.backend.tutor.sevices.friendship.response;
 
 import dev.backend.tutor.dtos.messages.FriendshipResponseDto;
 import dev.backend.tutor.dtos.messages.SystemMessageDto;
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.StudentRepository;
+import dev.backend.tutor.sevices.messages.MessageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

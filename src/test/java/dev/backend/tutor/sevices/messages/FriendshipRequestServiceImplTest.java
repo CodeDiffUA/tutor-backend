@@ -2,11 +2,12 @@ package dev.backend.tutor.sevices.messages;
 
 import dev.backend.tutor.dtos.messages.FriendshipRequestDto;
 import dev.backend.tutor.dtos.messages.MessageDto;
-import dev.backend.tutor.exceptions.frienship.AlreadyFriendsException;
-import dev.backend.tutor.exceptions.frienship.BlockedUsersException;
+import dev.backend.tutor.exceptions.friendship.AlreadyFriendsException;
+import dev.backend.tutor.exceptions.friendship.BlockedUsersException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
-import dev.backend.tutor.exceptions.frienship.FriendshipException;
+import dev.backend.tutor.exceptions.friendship.FriendshipException;
 import dev.backend.tutor.repositories.StudentRepository;
+import dev.backend.tutor.sevices.friendship.request.FriendshipRequestServiceImpl;
 import dev.backend.tutor.sevices.validation.StudentValidationService;
 import dev.backend.tutor.utills.student.DateUtil;
 import dev.backend.tutor.utils.StudentGenerator;

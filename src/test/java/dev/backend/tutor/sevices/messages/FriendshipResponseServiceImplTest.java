@@ -4,6 +4,7 @@ import dev.backend.tutor.dtos.messages.FriendshipResponseDto;
 import dev.backend.tutor.dtos.messages.SystemMessageDto;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.StudentRepository;
+import dev.backend.tutor.sevices.friendship.response.FriendshipResponseServiceImpl;
 import dev.backend.tutor.utils.StudentGenerator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

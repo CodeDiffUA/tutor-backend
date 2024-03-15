@@ -1,4 +1,4 @@
-package dev.backend.tutor.exceptions.frienship;
+package dev.backend.tutor.exceptions.friendship;
 
 public class AlreadyFriendsException extends FriendshipException{
     public AlreadyFriendsException(String message) {

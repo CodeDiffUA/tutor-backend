@@ -1,12 +1,13 @@
-package dev.backend.tutor.sevices.messages;
+package dev.backend.tutor.sevices.friendship.request;
 
 import dev.backend.tutor.dtos.ExceptionDto;
 import dev.backend.tutor.dtos.messages.FriendshipRequestDto;
 import dev.backend.tutor.dtos.messages.MessageDto;
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.exceptions.NotFoundUserException;
-import dev.backend.tutor.exceptions.frienship.FriendshipException;
+import dev.backend.tutor.exceptions.friendship.FriendshipException;
 import dev.backend.tutor.repositories.StudentRepository;
+import dev.backend.tutor.sevices.messages.MessageService;
 import dev.backend.tutor.sevices.validation.StudentValidationService;
 import org.springframework.stereotype.Service;
 

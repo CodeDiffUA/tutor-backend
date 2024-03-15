@@ -2,8 +2,8 @@ package dev.backend.tutor.sevices.validation;
 
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
-import dev.backend.tutor.exceptions.frienship.AlreadyFriendsException;
-import dev.backend.tutor.exceptions.frienship.BlockedUsersException;
+import dev.backend.tutor.exceptions.friendship.AlreadyFriendsException;
+import dev.backend.tutor.exceptions.friendship.BlockedUsersException;
 import dev.backend.tutor.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
