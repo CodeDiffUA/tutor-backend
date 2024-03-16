@@ -22,8 +22,6 @@ public class Student {
     private Integer age; //todo make datetime
     private Form form;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
-    private List<CreditCard> creditCardsList;
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<GeneralGrades> generalGradesList = new ArrayList<>();
 

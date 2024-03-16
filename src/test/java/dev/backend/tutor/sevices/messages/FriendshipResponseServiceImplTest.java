@@ -27,7 +27,7 @@ class FriendshipResponseServiceImplTest {
     @Mock
     private StudentRepository studentRepository;
     @Mock
-    private MessageService messageService;
+    private MessageSender messageSender;
 
     @Test
     void responseFriendship_Accepted() throws NotFoundUserException {
@@ -42,7 +42,7 @@ class FriendshipResponseServiceImplTest {
 
         // Assert
         ArgumentCaptor<SystemMessageDto> systemMessageCaptor = ArgumentCaptor.forClass(SystemMessageDto.class);
-        verify(messageService).sendSystemMessageToUser(eq("recipient"), systemMessageCaptor.capture());
+        verify(messageSender).sendSystemMessageToUser(eq("recipient"), systemMessageCaptor.capture());
         Assertions.assertThat(senderStudent.getFriends()).contains(recipientStudent);
         Assertions.assertThat(recipientStudent.getFriends()).contains(senderStudent);
     }
@@ -52,12 +52,11 @@ class FriendshipResponseServiceImplTest {
         // Arrange
         var messageDto = new SystemMessageDto("sender", "content", "timestamp");
         FriendshipResponseDto dto = new FriendshipResponseDto("sender", "recipient", false);
-        when(messageService.messageDtoForDecliningFriendshipRequest("recipient")).thenReturn(messageDto);
 
         // Act
         friendshipResponseService.responseFriendship(dto);
 
         // Assert
-        verify(messageService).sendSystemMessageToUser("recipient", messageDto);
+        verify(messageSender).sendSystemMessageToUser("recipient", messageDto);
     }
 }

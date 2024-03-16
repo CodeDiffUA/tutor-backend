@@ -7,6 +7,8 @@ import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.exceptions.friendship.FriendshipException;
 import dev.backend.tutor.repositories.StudentRepository;
+import dev.backend.tutor.sevices.messages.MessageProvider;
+import dev.backend.tutor.sevices.messages.MessageSender;
 import dev.backend.tutor.sevices.messages.MessageService;
 import dev.backend.tutor.sevices.validation.StudentValidationService;
 import org.springframework.stereotype.Service;
@@ -16,15 +18,12 @@ import java.util.List;
 @Service
 public class FriendshipRequestServiceImpl implements FriendshipRequestService{
 
-    private final MessageService messageService;
+    private final MessageSender messageSender;
     private final StudentRepository studentRepository;
     private final StudentValidationService studentValidationService;
 
-    public FriendshipRequestServiceImpl(
-            MessageService messageService,
-            StudentRepository studentRepository,
-            StudentValidationService studentValidationService) {
-        this.messageService = messageService;
+    public FriendshipRequestServiceImpl(MessageSender messageSender, StudentRepository studentRepository, StudentValidationService studentValidationService) {
+        this.messageSender = messageSender;
         this.studentRepository = studentRepository;
         this.studentValidationService = studentValidationService;
     }
@@ -35,23 +34,18 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService{
         var senderLogin = friendShipRequestDto.sender();
         var recipientLogin = friendShipRequestDto.recipient();
         validateIfTheyCanBecomeFriends(senderLogin, recipientLogin);
-        MessageDto messageDtoForFriendShipRequest = getMessageDtoForFriendShipRequest(senderLogin,recipientLogin);
+        MessageDto messageDtoForFriendShipRequest = MessageProvider.messageDtoForFriendshipRequest(senderLogin,recipientLogin);
         sendRequestToRecipient(recipientLogin, messageDtoForFriendShipRequest);
     }
 
-    private MessageDto getMessageDtoForFriendShipRequest(String senderLogin, String recipientLogin) {
-        return messageService.messageDtoForFriendshipRequest(senderLogin, recipientLogin);
-    }
-
-    private void sendRequestToRecipient(
-            String recipientLogin, MessageDto messageDto) {
-        messageService.sendMessageToUser(recipientLogin, messageDto);
+    private void sendRequestToRecipient(String recipientLogin, MessageDto messageDto) {
+        messageSender.sendMessageToUser(recipientLogin, messageDto);
     }
 
     private void sendExceptionToSender(
             String senderLogin, String exceptionMessage) {
-        ExceptionDto exceptionDto = messageService.exceptionDtoForFriendshipRequest(exceptionMessage);
-        messageService.sendExceptionToUser(senderLogin, exceptionDto);
+        ExceptionDto exceptionDto = MessageProvider.exceptionDtoForFriendshipRequest(exceptionMessage);
+        messageSender.sendExceptionToUser(senderLogin, exceptionDto);
     }
 
 

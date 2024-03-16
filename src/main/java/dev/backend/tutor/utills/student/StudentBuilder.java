@@ -1,10 +1,7 @@
 package dev.backend.tutor.utills.student;
 
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
-import dev.backend.tutor.entities.CreditCard;
 import dev.backend.tutor.entities.Student;
-
-import java.util.List;
 
 public class StudentBuilder {
     private String username;
@@ -12,7 +9,6 @@ public class StudentBuilder {
     private String password;
     private Integer age;
     private Form form;
-    private List<CreditCard> creditCardsList;
 
     public StudentBuilder withUsername(String username) {
         this.username = username;

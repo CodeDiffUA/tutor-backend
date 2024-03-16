@@ -5,7 +5,8 @@ import dev.backend.tutor.dtos.messages.SystemMessageDto;
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.StudentRepository;
-import dev.backend.tutor.sevices.messages.MessageService;
+import dev.backend.tutor.sevices.messages.MessageProvider;
+import dev.backend.tutor.sevices.messages.MessageSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,11 +16,11 @@ import java.util.List;
 public class FriendshipResponseServiceImpl implements FriendshipResponseService {
 
     private final StudentRepository studentRepository;
-    private final MessageService messageService;
+    private final MessageSender messageSender;
 
-    public FriendshipResponseServiceImpl(StudentRepository studentRepository, MessageService messageService) {
+    public FriendshipResponseServiceImpl(StudentRepository studentRepository, MessageSender messageSender) {
         this.studentRepository = studentRepository;
-        this.messageService = messageService;
+        this.messageSender = messageSender;
     }
 
     @Override
@@ -27,12 +28,12 @@ public class FriendshipResponseServiceImpl implements FriendshipResponseService 
     public void responseFriendship(FriendshipResponseDto friendshipResponseDto) throws NotFoundUserException {
         SystemMessageDto systemMessageToUser;
         if (!friendshipResponseDto.acceptedFriendship()) {
-            systemMessageToUser = messageService.messageDtoForDecliningFriendshipRequest(friendshipResponseDto.recipient());
+            systemMessageToUser = MessageProvider.messageDtoForDecliningFriendshipRequest(friendshipResponseDto.recipient());
         } else {
             establishFriendship(friendshipResponseDto);
-            systemMessageToUser = messageService.messageDtoForAcceptingFriendshipRequest(friendshipResponseDto.recipient());
+            systemMessageToUser = MessageProvider.messageDtoForAcceptingFriendshipRequest(friendshipResponseDto.recipient());
         }
-        messageService.sendSystemMessageToUser(friendshipResponseDto.recipient(), systemMessageToUser);
+        messageSender.sendSystemMessageToUser(friendshipResponseDto.recipient(), systemMessageToUser);
     }
 
     private void establishFriendship(FriendshipResponseDto friendshipResponseDto) throws NotFoundUserException {

@@ -37,7 +37,7 @@ class FriendshipRequestServiceImplTest {
     private StudentValidationService studentValidationService;
 
     @Mock
-    private MessageService messageService;
+    private MessageSender messageSender;
 
     @Test
     public void Should_SuccessfullySendRequest() throws FriendshipException, NotFoundUserException {
@@ -57,13 +57,12 @@ class FriendshipRequestServiceImplTest {
         doNothing().when(studentValidationService).validateIfStudentsAreFriends(senderStudent, recipientStudent);
         doNothing().when(studentValidationService).validateIfSomeoneBlocked(senderStudent, recipientStudent);
         var expectedMessage = new MessageDto(senderLogin, recipientLogin, recipientLogin + ", user " + senderLogin + " wants to become your friend", DateUtil.currentTimeStamp());
-        when(messageService.messageDtoForFriendshipRequest(senderLogin, recipientLogin)).thenReturn(expectedMessage);
 
         // when
         friendshipRequestService.requestFriendShip(requestDto);
 
         // verify
-        verify(messageService).sendMessageToUser(recipientLogin, expectedMessage);
+        verify(messageSender).sendMessageToUser(recipientLogin, expectedMessage);
     }
     @Test
     public void Should_NotSendRequestMessage_When_AreFriends() throws AlreadyFriendsException {
@@ -87,7 +86,7 @@ class FriendshipRequestServiceImplTest {
                 () ->friendshipRequestService.requestFriendShip(requestDto));
 
         // verify
-        verify(messageService, never()).sendMessageToUser(recipientLogin, expectedMessage);
+        verify(messageSender, never()).sendMessageToUser(recipientLogin, expectedMessage);
     }
 
     @Test
@@ -113,7 +112,7 @@ class FriendshipRequestServiceImplTest {
                 () ->friendshipRequestService.requestFriendShip(requestDto));
 
         // verify
-        verify(messageService, never()).sendMessageToUser(recipientLogin, expectedMessage);
+        verify(messageSender, never()).sendMessageToUser(recipientLogin, expectedMessage);
     }
 
     @Test
@@ -128,6 +127,6 @@ class FriendshipRequestServiceImplTest {
 
         Assertions.assertThrows(NotFoundUserException.class,
                 () -> friendshipRequestService.requestFriendShip(requestDto));
-        verify(messageService, never()).sendMessageToUser(recipientLogin, expectedMessage);
+        verify(messageSender, never()).sendMessageToUser(recipientLogin, expectedMessage);
     }
 }
