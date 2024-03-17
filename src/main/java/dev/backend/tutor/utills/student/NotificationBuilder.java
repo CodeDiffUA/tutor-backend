@@ -6,14 +6,8 @@ import dev.backend.tutor.entities.messegeEntities.Notification;
 import java.time.LocalDate;
 
 public class NotificationBuilder {
-    private Student sender;
     private Student recipient;
     private String content;
-
-    public NotificationBuilder withSender(Student sender) {
-        this.sender = sender;
-        return this;
-    }
 
     public NotificationBuilder withRecipient(Student recipient) {
         this.recipient = recipient;
@@ -27,7 +21,7 @@ public class NotificationBuilder {
 
     public Notification build() {
         LocalDate currentTimestamp = LocalDate.now();
-        return new Notification(sender, recipient, content, currentTimestamp);
+        return new Notification(recipient, content, currentTimestamp);
     }
 
 }

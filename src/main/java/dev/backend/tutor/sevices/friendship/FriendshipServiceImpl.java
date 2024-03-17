@@ -1,7 +1,7 @@
 package dev.backend.tutor.sevices.friendship;
 
-import dev.backend.tutor.dtos.messages.FriendshipRequestDto;
-import dev.backend.tutor.dtos.messages.FriendshipResponseDto;
+import dev.backend.tutor.dtos.friendship.RequestFriendshipRequestDto;
+import dev.backend.tutor.dtos.friendship.RequestFriendshipResponseDto;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.exceptions.friendship.FriendshipException;
 import dev.backend.tutor.sevices.friendship.request.FriendshipRequestService;
@@ -22,13 +22,13 @@ public class FriendshipServiceImpl implements FriendshipService{
     }
 
     @Override
-    public void requestFriendShip(FriendshipRequestDto friendShipRequestDto)
+    public void requestFriendShip(RequestFriendshipRequestDto friendShipRequestDto)
             throws NotFoundUserException, FriendshipException {
         friendshipRequestService.requestFriendShip(friendShipRequestDto);
     }
 
     @Override
-    public void responseFriendship(FriendshipResponseDto friendshipResponseDto) throws NotFoundUserException, FriendshipException {
+    public void responseFriendship(RequestFriendshipResponseDto friendshipResponseDto) throws NotFoundUserException, FriendshipException {
         friendshipResponseService.responseFriendship(friendshipResponseDto);
 
     }
