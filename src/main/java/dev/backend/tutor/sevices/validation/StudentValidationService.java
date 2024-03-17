@@ -18,7 +18,6 @@ public class StudentValidationService implements ValidationStudentDataService, V
     }
 
     @Override
-    @Transactional(readOnly = true)
     public void validateEmail(String email) throws AlreadyExistsUserException {
         boolean emailAlreadyExists = studentRepository.existsStudentByEmail(email);
         if (emailAlreadyExists) {
@@ -27,7 +26,6 @@ public class StudentValidationService implements ValidationStudentDataService, V
     }
 
     @Override
-    @Transactional(readOnly = true)
     public void validateUsername(String username) throws AlreadyExistsUserException {
         boolean usernameAlreadyExists = studentRepository.existsStudentByUsername(username);
         if (usernameAlreadyExists) {
