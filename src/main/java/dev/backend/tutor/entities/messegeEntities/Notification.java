@@ -3,9 +3,6 @@ package dev.backend.tutor.entities.messegeEntities;
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.utills.student.NotificationBuilder;
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.hibernate.id.uuid.UuidGenerator;
 
 import java.time.LocalDate;
 
@@ -17,10 +14,7 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "sender_username", nullable = false)
-    private Student sender;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "recipient_username", nullable = false)
     private Student recipient;
     @Column(nullable = false)
@@ -32,8 +26,7 @@ public class Notification {
 
     }
 
-    public Notification(Student sender, Student recipient, String content, LocalDate timestamp) {
-        this.sender = sender;
+    public Notification(Student recipient, String content, LocalDate timestamp) {
         this.recipient = recipient;
         this.content = content;
         this.timestamp = timestamp;
@@ -43,4 +36,15 @@ public class Notification {
         return new NotificationBuilder();
     }
 
+    public Student getRecipient() {
+        return recipient;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public LocalDate getTimestamp() {
+        return timestamp;
+    }
 }

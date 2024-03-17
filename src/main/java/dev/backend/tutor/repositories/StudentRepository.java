@@ -3,6 +3,7 @@ package dev.backend.tutor.repositories;
 import dev.backend.tutor.entities.Student;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -21,6 +22,15 @@ public interface StudentRepository extends JpaRepository<Student, String>, Stude
             "where s.username=:firstStudentUsername or s.username=:secondStudentUsername"
     )
     List<Student> findStudentsByUsernameFetchFriends(
+            @Param("firstStudentUsername") String firstStudentUsername,
+            @Param("secondStudentUsername") String secondStudentUsername
+    );
+
+    @Query("select s " +
+            "from Student s " +
+            "where s.username=:firstStudentUsername or s.username=:secondStudentUsername"
+    )
+    List<Student> findStudentsByUsername(
             @Param("firstStudentUsername") String firstStudentUsername,
             @Param("secondStudentUsername") String secondStudentUsername
     );
