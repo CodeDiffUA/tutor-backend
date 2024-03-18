@@ -1,4 +1,4 @@
-package dev.backend.tutor.dtos;
+package dev.backend.tutor.dtos.message;
 
 
 public record ExceptionDto (

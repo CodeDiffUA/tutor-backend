@@ -7,6 +7,7 @@ import dev.backend.tutor.repositories.StudentRepository;
 import dev.backend.tutor.sevices.validation.StudentValidationService;
 import dev.backend.tutor.utills.student.StudentBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RegistrationServiceImpl implements RegistrationService {

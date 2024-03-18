@@ -1,6 +1,7 @@
 package dev.backend.tutor.entities;
 
 
+import dev.backend.tutor.entities.messegeEntities.Notification;
 import dev.backend.tutor.utills.student.Form;
 import dev.backend.tutor.utills.student.StudentBuilder;
 import jakarta.persistence.*;
@@ -24,6 +25,9 @@ public class Student {
 
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<GeneralGrades> generalGradesList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "recipient")
+    private List<Notification> notifications = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

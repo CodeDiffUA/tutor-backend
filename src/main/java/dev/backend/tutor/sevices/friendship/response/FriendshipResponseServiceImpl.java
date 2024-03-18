@@ -1,59 +1,52 @@
 package dev.backend.tutor.sevices.friendship.response;
 
-import dev.backend.tutor.dtos.messages.FriendshipResponseDto;
-import dev.backend.tutor.dtos.messages.SystemMessageDto;
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.dtos.friendship.RequestFriendshipResponseDto;
+import dev.backend.tutor.entities.messegeEntities.Notification;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.StudentRepository;
-import dev.backend.tutor.sevices.messages.MessageProvider;
-import dev.backend.tutor.sevices.messages.MessageSender;
+import dev.backend.tutor.sevices.nofications.NotificationService;
+import dev.backend.tutor.utills.student.NotificationFactory;
+import static dev.backend.tutor.utills.student.StudentListProcessor.extractStudentFromListByUsername;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Service
 public class FriendshipResponseServiceImpl implements FriendshipResponseService {
 
     private final StudentRepository studentRepository;
-    private final MessageSender messageSender;
+    private final NotificationService notificationService;
 
-    public FriendshipResponseServiceImpl(StudentRepository studentRepository, MessageSender messageSender) {
+    public FriendshipResponseServiceImpl(StudentRepository studentRepository, NotificationService notificationService) {
         this.studentRepository = studentRepository;
-        this.messageSender = messageSender;
+        this.notificationService = notificationService;
     }
 
     @Override
     @Transactional
-    public void responseFriendship(FriendshipResponseDto friendshipResponseDto) throws NotFoundUserException {
-        SystemMessageDto systemMessageToUser;
+    public void responseFriendship(RequestFriendshipResponseDto friendshipResponseDto) throws NotFoundUserException {
+        Notification notification;
         if (!friendshipResponseDto.acceptedFriendship()) {
-            systemMessageToUser = MessageProvider.messageDtoForDecliningFriendshipRequest(friendshipResponseDto.recipient());
+            notification = createDeclineNotificationForRecipient(friendshipResponseDto.recipient());
         } else {
-            establishFriendship(friendshipResponseDto);
-            systemMessageToUser = MessageProvider.messageDtoForAcceptingFriendshipRequest(friendshipResponseDto.recipient());
+            notification = establishFriendshipAndCreateAcceptNotification(friendshipResponseDto.sender(), friendshipResponseDto.recipient());
         }
-        messageSender.sendSystemMessageToUser(friendshipResponseDto.recipient(), systemMessageToUser);
+        notificationService.notifyUser(notification);
     }
 
-    private void establishFriendship(FriendshipResponseDto friendshipResponseDto) throws NotFoundUserException {
-        var students = getStudentsByUsernameInRequest(friendshipResponseDto.sender(), friendshipResponseDto.recipient());
-        var studentOne = students.get(0);
-        var studentTwo = students.get(1);
-        studentOne.addFriend(studentTwo);
+    private Notification createDeclineNotificationForRecipient(String username) throws NotFoundUserException {
+        Notification notification;
+        var recipient = studentRepository.findStudentByUsername(username)
+                .orElseThrow(() -> new NotFoundUserException("cannot find user " + username));
+        notification = NotificationFactory.declineRequestNotification(recipient);
+        return notification;
     }
 
-    private List<Student> getStudentsByUsernameInRequest(String firstStudentUsername, String secondStudentUsername) throws NotFoundUserException {
-        List<Student> fetchedStudents = studentRepository.findStudentsByUsernameFetchFriends(firstStudentUsername, secondStudentUsername);
-        checkIfUserFetched(fetchedStudents, firstStudentUsername);
-        checkIfUserFetched(fetchedStudents, secondStudentUsername);
-        return fetchedStudents;
-    }
-
-    private void checkIfUserFetched(List<Student> students, String username) throws NotFoundUserException {
-        boolean isUserInList = students.stream().anyMatch(student -> student.getUsername().equals(username));
-        if (!isUserInList) {
-            throw new NotFoundUserException("Sorry, the requested user (" + username + ") could not be found. Please check the username and try again.");
-        }
+    private Notification establishFriendshipAndCreateAcceptNotification(String senderUsername, String recipientUsername) throws NotFoundUserException {
+        var fetchedStudents = studentRepository.findStudentsByUsernameFetchFriends(senderUsername, recipientUsername);
+        var sender = extractStudentFromListByUsername(fetchedStudents, senderUsername);
+        var recipient = extractStudentFromListByUsername(fetchedStudents, recipientUsername);
+        sender.addFriend(recipient);
+        return NotificationFactory.acceptRequestNotification(recipient);
     }
 }
