@@ -3,13 +3,12 @@ package dev.backend.tutor.repositories;
 import dev.backend.tutor.entities.Student;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface StudentRepository extends JpaRepository<Student, String>, StudentLoader{
+public interface StudentRepository extends JpaRepository<Student, String>, StudentCustomRepository{
 
     Optional<Student> findStudentByUsername(@Param("username") String username);
 
@@ -34,6 +33,10 @@ public interface StudentRepository extends JpaRepository<Student, String>, Stude
             @Param("firstStudentUsername") String firstStudentUsername,
             @Param("secondStudentUsername") String secondStudentUsername
     );
+    @Query("select s from Student s " +
+            "left join fetch s.friends " +
+            "where s.username=:username")
+    Optional<Student> findStudentsByUsernameWithRoles(String username);
 
     boolean existsStudentByUsername(String username);
     boolean existsStudentByEmail(String email);

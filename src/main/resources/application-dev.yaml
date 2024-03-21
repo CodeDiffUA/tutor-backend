@@ -14,7 +14,6 @@ spring:
     port: 1025
     username: hello
     password: hello
-
     properties:
       mail:
         smtp:
@@ -26,3 +25,10 @@ spring:
           connectiontimeout: 5000
           timeout: 3000
           writetimeout: 5000
+
+jwt:
+  secret: W5Eca1S9aAf8l8Q6tVV1g5KrJyHUZ+BYi/GRpm1KhdQ=
+  expiration: 20m
+  refresh:
+    expiration: 14d
+

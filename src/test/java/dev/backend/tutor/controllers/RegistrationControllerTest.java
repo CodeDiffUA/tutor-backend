@@ -27,7 +27,7 @@ import org.testcontainers.lifecycle.Startables;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
-public class AuthControllerTest {
+public class RegistrationControllerTest {
     @Container
     @ServiceConnection
     static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:alpine");

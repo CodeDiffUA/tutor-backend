@@ -1,4 +1,4 @@
-package dev.backend.tutor.sevices.student;
+package dev.backend.tutor.sevices.registration;
 
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;

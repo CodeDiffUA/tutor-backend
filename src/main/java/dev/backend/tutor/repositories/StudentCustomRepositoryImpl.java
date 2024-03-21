@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class StudentLoaderImpl implements StudentLoader {
+public class StudentCustomRepositoryImpl implements StudentCustomRepository {
 
     private final EntityManager entityManager;
 
-    public StudentLoaderImpl(EntityManager entityManager) {
+    public StudentCustomRepositoryImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

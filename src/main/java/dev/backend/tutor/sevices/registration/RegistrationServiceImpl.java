@@ -1,4 +1,4 @@
-package dev.backend.tutor.sevices.student;
+package dev.backend.tutor.sevices.registration;
 
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.entities.Student;
@@ -6,23 +6,26 @@ import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.repositories.StudentRepository;
 import dev.backend.tutor.sevices.validation.StudentValidationService;
 import dev.backend.tutor.utills.student.StudentBuilder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
     private final StudentRepository studentRepository;
     private final StudentValidationService validationService;
+    private final PasswordEncoder passwordEncoder;
 
-    public RegistrationServiceImpl(StudentRepository studentRepository, StudentValidationService validationService) {
+    public RegistrationServiceImpl(StudentRepository studentRepository, StudentValidationService validationService, PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
         this.validationService = validationService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void registerAccount(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException {
         validateRequest(registrationDtoRequest);
         Student student = StudentBuilder.buildStudent(registrationDtoRequest);
+        student.setPassword(passwordEncoder.encode(student.getPassword()));
         studentRepository.save(student);
     }
 
