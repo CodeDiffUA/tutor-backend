@@ -22,6 +22,10 @@ public class RefreshToken {
         return token;
     }
 
+    public Student getStudent() {
+        return student;
+    }
+
     public Instant getExpiryDate() {
         return expiryDate;
     }

@@ -5,6 +5,7 @@ import dev.backend.tutor.dtos.friendship.RequestFriendshipResponseDto;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.exceptions.friendship.FriendshipException;
 import dev.backend.tutor.sevices.friendship.FriendshipService;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ public class FriendController{
     }
 
     @PostMapping("/request")
+    @RolesAllowed("STUDENT")
     public ResponseEntity<String> onCreatingFriendshipRequest(@RequestBody RequestFriendshipRequestDto friendShipRequestDto)
             throws FriendshipException, NotFoundUserException {
         friendshipService.requestFriendShip(friendShipRequestDto);
@@ -27,6 +29,7 @@ public class FriendController{
     }
 
     @PostMapping("/response")
+    @RolesAllowed("STUDENT")
     public ResponseEntity<String> responseRequest(@RequestBody RequestFriendshipResponseDto friendshipResponseDto)
             throws FriendshipException, NotFoundUserException {
         friendshipService.responseFriendship(friendshipResponseDto);

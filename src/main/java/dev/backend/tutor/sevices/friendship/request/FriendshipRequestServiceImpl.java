@@ -8,10 +8,11 @@ import dev.backend.tutor.repositories.student.StudentRepository;
 import dev.backend.tutor.sevices.nofications.NotificationService;
 import dev.backend.tutor.sevices.registration.validation.StudentValidationService;
 import dev.backend.tutor.utills.student.NotificationFactory;
-import static dev.backend.tutor.utills.student.StudentListProcessor.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static dev.backend.tutor.utills.student.StudentListProcessor.extractStudentFromListByUsername;
 
 @Service
 public class FriendshipRequestServiceImpl implements FriendshipRequestService{

@@ -17,7 +17,7 @@ public class RegistrationController {
         this.registrationService = registrationService;
     }
 
-    @PostMapping
+    @PostMapping("/registration")
     public ResponseEntity<?> registerStudent(
             @RequestBody RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException {
         registrationService.registerAccount(registrationDtoRequest);

@@ -6,9 +6,10 @@ import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.student.StudentRepository;
 import dev.backend.tutor.sevices.nofications.NotificationService;
 import dev.backend.tutor.utills.student.NotificationFactory;
-import static dev.backend.tutor.utills.student.StudentListProcessor.extractStudentFromListByUsername;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static dev.backend.tutor.utills.student.StudentListProcessor.extractStudentFromListByUsername;
 
 
 @Service
