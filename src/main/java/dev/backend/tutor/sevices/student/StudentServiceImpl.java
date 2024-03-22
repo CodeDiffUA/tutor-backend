@@ -17,9 +17,9 @@ public class StudentServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var student = studentRepository.findStudentsByUsernameWithRoles(username)
-                .orElseThrow(() -> new UsernameNotFoundException("cannot find user - " + username));
-        return new User(username, student.getPassword(), student.getRoles());
+    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+        var student = studentRepository.findStudentsByUsernameOrEmailWithRoles(usernameOrEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("cannot find user with user or email - " + usernameOrEmail));
+        return new User(usernameOrEmail, student.getPassword(), student.getRoles());
     }
 }

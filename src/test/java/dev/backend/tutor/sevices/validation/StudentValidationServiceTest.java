@@ -2,6 +2,7 @@ package dev.backend.tutor.sevices.validation;
 
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.repositories.StudentRepository;
+import dev.backend.tutor.sevices.registration.validation.StudentValidationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

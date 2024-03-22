@@ -1,7 +1,6 @@
 package dev.backend.tutor.sevices.messages;
 
 import dev.backend.tutor.dtos.friendship.RequestFriendshipRequestDto;
-import dev.backend.tutor.dtos.message.MessageDto;
 import dev.backend.tutor.entities.messegeEntities.Notification;
 import dev.backend.tutor.exceptions.friendship.AlreadyFriendsException;
 import dev.backend.tutor.exceptions.friendship.BlockedUsersException;
@@ -10,8 +9,7 @@ import dev.backend.tutor.exceptions.friendship.FriendshipException;
 import dev.backend.tutor.repositories.StudentRepository;
 import dev.backend.tutor.sevices.friendship.request.FriendshipRequestServiceImpl;
 import dev.backend.tutor.sevices.nofications.NotificationService;
-import dev.backend.tutor.sevices.validation.StudentValidationService;
-import dev.backend.tutor.utills.student.DateUtil;
+import dev.backend.tutor.sevices.registration.validation.StudentValidationService;
 import dev.backend.tutor.utils.StudentGenerator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

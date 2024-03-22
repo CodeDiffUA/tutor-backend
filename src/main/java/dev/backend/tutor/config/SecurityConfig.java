@@ -2,8 +2,6 @@ package dev.backend.tutor.config;
 
 
 import dev.backend.tutor.sevices.security.JwtFilter;
-import dev.backend.tutor.sevices.student.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;

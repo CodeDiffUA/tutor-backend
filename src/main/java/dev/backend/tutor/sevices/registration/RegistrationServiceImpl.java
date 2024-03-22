@@ -4,7 +4,7 @@ import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.repositories.StudentRepository;
-import dev.backend.tutor.sevices.validation.StudentValidationService;
+import dev.backend.tutor.sevices.registration.validation.StudentValidationService;
 import dev.backend.tutor.utills.student.StudentBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
