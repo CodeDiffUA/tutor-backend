@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.dtos.friendship.RequestFriendshipRequestDto;
 import dev.backend.tutor.dtos.friendship.RequestFriendshipResponseDto;
-import dev.backend.tutor.repositories.StudentRepository;
+import dev.backend.tutor.repositories.student.StudentRepository;
 import dev.backend.tutor.utills.student.Form;
 import dev.backend.tutor.utills.student.StudentListProcessor;
 import dev.backend.tutor.utils.StudentGenerator;

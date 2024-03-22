@@ -1,4 +1,4 @@
-package dev.backend.tutor.sevices.security;
+package dev.backend.tutor.sevices.security.jwt;
 
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

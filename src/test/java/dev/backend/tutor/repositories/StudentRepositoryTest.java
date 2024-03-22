@@ -1,6 +1,7 @@
 package dev.backend.tutor.repositories;
 
 import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.repositories.student.StudentRepository;
 import dev.backend.tutor.utils.StudentGenerator;
 import org.hibernate.LazyInitializationException;
 import org.junit.jupiter.api.Assertions;
@@ -11,7 +12,6 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.lifecycle.Startables;

@@ -1,4 +1,4 @@
-package dev.backend.tutor.repositories;
+package dev.backend.tutor.repositories.student;
 
 import dev.backend.tutor.entities.Student;
 import io.lettuce.core.dynamic.annotation.Param;

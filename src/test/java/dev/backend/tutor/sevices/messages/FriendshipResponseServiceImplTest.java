@@ -1,17 +1,15 @@
 package dev.backend.tutor.sevices.messages;
 
 import dev.backend.tutor.dtos.friendship.RequestFriendshipResponseDto;
-import dev.backend.tutor.dtos.message.NotificationDto;
 import dev.backend.tutor.entities.messegeEntities.Notification;
 import dev.backend.tutor.exceptions.NotFoundUserException;
-import dev.backend.tutor.repositories.StudentRepository;
+import dev.backend.tutor.repositories.student.StudentRepository;
 import dev.backend.tutor.sevices.friendship.response.FriendshipResponseServiceImpl;
 import dev.backend.tutor.sevices.nofications.NotificationService;
 import dev.backend.tutor.utils.StudentGenerator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import static org.mockito.Mockito.*;
 

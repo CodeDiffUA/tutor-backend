@@ -3,7 +3,7 @@ package dev.backend.tutor.sevices.student;
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
-import dev.backend.tutor.repositories.StudentRepository;
+import dev.backend.tutor.repositories.student.StudentRepository;
 import dev.backend.tutor.sevices.registration.RegistrationServiceImpl;
 import dev.backend.tutor.sevices.registration.validation.StudentValidationService;
 import dev.backend.tutor.utills.student.Form;

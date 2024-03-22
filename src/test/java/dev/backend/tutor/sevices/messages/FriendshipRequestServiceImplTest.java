@@ -6,7 +6,7 @@ import dev.backend.tutor.exceptions.friendship.AlreadyFriendsException;
 import dev.backend.tutor.exceptions.friendship.BlockedUsersException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.exceptions.friendship.FriendshipException;
-import dev.backend.tutor.repositories.StudentRepository;
+import dev.backend.tutor.repositories.student.StudentRepository;
 import dev.backend.tutor.sevices.friendship.request.FriendshipRequestServiceImpl;
 import dev.backend.tutor.sevices.nofications.NotificationService;
 import dev.backend.tutor.sevices.registration.validation.StudentValidationService;

@@ -1,6 +1,5 @@
-package dev.backend.tutor.sevices.security;
+package dev.backend.tutor.sevices.security.jwt;
 
-import dev.backend.tutor.entities.auth.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Component;

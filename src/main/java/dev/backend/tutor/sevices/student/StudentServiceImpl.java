@@ -1,6 +1,6 @@
 package dev.backend.tutor.sevices.student;
 
-import dev.backend.tutor.repositories.StudentRepository;
+import dev.backend.tutor.repositories.student.StudentRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

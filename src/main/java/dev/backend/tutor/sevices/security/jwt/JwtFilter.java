@@ -1,4 +1,4 @@
-package dev.backend.tutor.sevices.security;
+package dev.backend.tutor.sevices.security.jwt;
 
 import dev.backend.tutor.exceptions.InvalidJwtException;
 import jakarta.servlet.FilterChain;
@@ -14,7 +14,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Optional;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
