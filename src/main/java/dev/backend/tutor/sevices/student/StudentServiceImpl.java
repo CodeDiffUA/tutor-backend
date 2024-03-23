@@ -19,10 +19,9 @@ public class StudentServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        var student = studentRepository.findStudentsByUsernameOrEmailWithRoles(usernameOrEmail)
-                .orElseThrow(() -> new UsernameNotFoundException("cannot find user with user or email - " + usernameOrEmail));
+        var student = studentRepository.findStudentsByUsernameOrEmailWithRoles(usernameOrEmail).orElseThrow();
         if (!student.isEnabled()) {
-            throw new NotConfirmedEmailException("student have not confirmed email ");
+            throw new NotConfirmedEmailException("User has not confirmed email yet");
         }
         return new User(usernameOrEmail, student.getPassword(), student.getRoles());
     }

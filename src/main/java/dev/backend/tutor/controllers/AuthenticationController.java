@@ -4,11 +4,12 @@ import dev.backend.tutor.dtos.auth.AuthenticationDtoRequest;
 import dev.backend.tutor.dtos.auth.AuthenticationResponseDto;
 import dev.backend.tutor.dtos.auth.UpdateJwtTokenRequest;
 import dev.backend.tutor.exceptions.InvalidTokenException;
+import dev.backend.tutor.exceptions.NotConfirmedEmailException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
-import dev.backend.tutor.exceptions.WrongPasswordOrUsernameException;
 import dev.backend.tutor.sevices.authentication.AuthenticationService;
 import dev.backend.tutor.sevices.security.updateToken.UpdateTokenService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,7 +26,7 @@ public class AuthenticationController {
 
     @PostMapping
     public ResponseEntity<AuthenticationResponseDto> signIn(
-            @RequestBody AuthenticationDtoRequest dtoRequestWithEmail) throws WrongPasswordOrUsernameException, NotFoundUserException {
+            @RequestBody AuthenticationDtoRequest dtoRequestWithEmail) throws UsernameNotFoundException, NotConfirmedEmailException, NotFoundUserException {
         AuthenticationResponseDto response = authenticationService.signIn(dtoRequestWithEmail);
         return ResponseEntity
                 .ok()

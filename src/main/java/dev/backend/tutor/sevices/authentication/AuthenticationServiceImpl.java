@@ -2,15 +2,15 @@ package dev.backend.tutor.sevices.authentication;
 
 import dev.backend.tutor.dtos.auth.AuthenticationDtoRequest;
 import dev.backend.tutor.dtos.auth.AuthenticationResponseDto;
+import dev.backend.tutor.exceptions.NotConfirmedEmailException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
-import dev.backend.tutor.exceptions.WrongPasswordOrUsernameException;
 import dev.backend.tutor.sevices.security.jwt.JwtBuilder;
 import dev.backend.tutor.sevices.security.refresh.RefreshTokenService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,7 +29,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public AuthenticationResponseDto signIn(AuthenticationDtoRequest authenticationDtoRequest) throws WrongPasswordOrUsernameException, NotFoundUserException {
+    public AuthenticationResponseDto signIn(AuthenticationDtoRequest authenticationDtoRequest) throws UsernameNotFoundException, NotConfirmedEmailException, NotFoundUserException {
         getAuthentication(authenticationDtoRequest.usernameOrEmail(), authenticationDtoRequest.password());
         UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDtoRequest.usernameOrEmail());
         String jwt = jwtBuilder.generateJwt(userDetails);
@@ -37,13 +37,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return new AuthenticationResponseDto(jwt, refreshToken);
     }
 
-    private void getAuthentication(String usernameOrEmail, String password) throws WrongPasswordOrUsernameException {
+    private void getAuthentication(String usernameOrEmail, String password) throws UsernameNotFoundException, NotConfirmedEmailException {
         var usernamePasswordToken = new UsernamePasswordAuthenticationToken(usernameOrEmail, password);
-        try {
-            authenticator.authenticate(usernamePasswordToken);
-        } catch (AuthenticationException e) {
-            throw new WrongPasswordOrUsernameException("wrong credentials");
-        }
+        authenticator.authenticate(usernamePasswordToken);
     }
 
 }
