@@ -1,5 +1,6 @@
 package dev.backend.tutor.sevices.student;
 
+import dev.backend.tutor.exceptions.NotConfirmedEmailException;
 import dev.backend.tutor.repositories.student.StudentRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,9 @@ public class StudentServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         var student = studentRepository.findStudentsByUsernameOrEmailWithRoles(usernameOrEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("cannot find user with user or email - " + usernameOrEmail));
+        if (!student.isEnabled()) {
+            throw new NotConfirmedEmailException("student have not confirmed email ");
+        }
         return new User(usernameOrEmail, student.getPassword(), student.getRoles());
     }
 }

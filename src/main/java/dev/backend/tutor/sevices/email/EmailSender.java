@@ -3,6 +3,6 @@ package dev.backend.tutor.sevices.email;
 
 public interface EmailSender {
 
-    void sendVerification(String token);
+    void sendEmailVerificationMessage(String email, String token);
 
 }

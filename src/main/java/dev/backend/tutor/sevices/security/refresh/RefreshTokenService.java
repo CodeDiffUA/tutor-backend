@@ -11,17 +11,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class RefreshTokenService {
 
-    private final RefreshTokenFactory refreshTokenFactory;
+    private final TokenFactory tokenFactory;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    public RefreshTokenService(RefreshTokenFactory refreshTokenFactory, RefreshTokenRepository refreshTokenRepository) {
-        this.refreshTokenFactory = refreshTokenFactory;
+    public RefreshTokenService(TokenFactory tokenFactory, RefreshTokenRepository refreshTokenRepository) {
+        this.tokenFactory = tokenFactory;
         this.refreshTokenRepository = refreshTokenRepository;
     }
 
-
     public RefreshToken createRefreshToken(@NonNull UserDetails userDetails) throws NotFoundUserException {
-        var refreshToken = refreshTokenFactory.createRefreshToken(userDetails);
+        var refreshToken = tokenFactory.createRefreshToken(userDetails);
         return refreshTokenRepository.save(refreshToken);
     }
 

@@ -8,8 +8,8 @@ import dev.backend.tutor.exceptions.InvalidTokenException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.refresh.RefreshTokenRepository;
 import dev.backend.tutor.sevices.security.jwt.JwtBuilder;
-import dev.backend.tutor.sevices.security.refresh.RefreshTokenFactory;
 import dev.backend.tutor.sevices.security.refresh.RefreshTokenValidationService;
+import dev.backend.tutor.sevices.security.refresh.TokenFactory;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -18,13 +18,13 @@ import org.springframework.stereotype.Service;
 public class UpdateTokenServiceImpl implements UpdateTokenService{
 
     private final RefreshTokenRepository refreshTokenRepository;
-    private final RefreshTokenFactory refreshTokenFactory;
+    private final TokenFactory tokenFactory;
     private final RefreshTokenValidationService refreshTokenValidationService;
     private final JwtBuilder jwtBuilder;
 
-    public UpdateTokenServiceImpl(RefreshTokenRepository refreshTokenRepository, RefreshTokenFactory refreshTokenFactory, RefreshTokenValidationService refreshTokenValidationService, JwtBuilder jwtBuilder) {
+    public UpdateTokenServiceImpl(RefreshTokenRepository refreshTokenRepository, TokenFactory tokenFactory, RefreshTokenValidationService refreshTokenValidationService, JwtBuilder jwtBuilder) {
         this.refreshTokenRepository = refreshTokenRepository;
-        this.refreshTokenFactory = refreshTokenFactory;
+        this.tokenFactory = tokenFactory;
         this.refreshTokenValidationService = refreshTokenValidationService;
         this.jwtBuilder = jwtBuilder;
     }
@@ -35,7 +35,7 @@ public class UpdateTokenServiceImpl implements UpdateTokenService{
         refreshTokenValidationService.validateExpiration(refreshToken);
         Student student = extractStudentFromRefreshToken(refreshToken);
         UserDetails userDetails = getUserDetailsFromStudent(student);
-        RefreshToken newRefreshToken = refreshTokenFactory.createRefreshToken(userDetails);
+        RefreshToken newRefreshToken = tokenFactory.createRefreshToken(userDetails);
         refreshTokenRepository.delete(refreshToken);
         refreshTokenRepository.save(newRefreshToken);
         String jwt = jwtBuilder.generateJwt(userDetails);

@@ -39,6 +39,8 @@ public class Student {
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserRole> roles = new HashSet<>();
 
+    private boolean enabled;
+
     public void addRole(UserRole userRole) {
         roles.add(userRole);
     }
@@ -146,5 +148,13 @@ public class Student {
 
     public Set<UserRole> getRoles() {
         return roles;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 }

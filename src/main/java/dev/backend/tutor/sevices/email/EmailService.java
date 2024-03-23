@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 @Service
-public class EmailService{
+public class EmailService implements EmailSender{
 
     private static final String EMAIL_CONFIRMATION_PATH = "src/main/resources/static/gmailConfirmation.html";
     private static final String CORPORATE_EMAIL = "tutorai@gmail.com";
@@ -22,12 +22,12 @@ public class EmailService{
         this.mailSender = mailSender;
     }
 
-    public void sendEmailVerificationMessage(String email)  {
+    public void sendEmailVerificationMessage(String email, String token)  {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper =
                     new MimeMessageHelper(mimeMessage, "utf-8");
-            String content = getEmailHtml();
+            String content = getEmailHtml(token);
             helper.setFrom(CORPORATE_EMAIL);
             helper.setTo(email);
             helper.setText(content, true);
@@ -40,8 +40,11 @@ public class EmailService{
     }
 
 
-    private String getEmailHtml() throws IOException {
-        return Jsoup.parse(new File(EMAIL_CONFIRMATION_PATH), "UTF-8").outerHtml();
-
+    private String getEmailHtml(String token) throws IOException {
+        var html = Jsoup.parse(new File(EMAIL_CONFIRMATION_PATH), "UTF-8").outerHtml();
+        html = html.replace(
+                "http://localhost:3000/confirm-page",
+                "http://localhost:3000/confirm-page/"+token);
+        return html;
     }
 }

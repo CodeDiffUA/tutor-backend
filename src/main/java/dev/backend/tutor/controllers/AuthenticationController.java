@@ -8,8 +8,6 @@ import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.exceptions.WrongPasswordOrUsernameException;
 import dev.backend.tutor.sevices.authentication.AuthenticationService;
 import dev.backend.tutor.sevices.security.updateToken.UpdateTokenService;
-import jakarta.annotation.security.RolesAllowed;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
