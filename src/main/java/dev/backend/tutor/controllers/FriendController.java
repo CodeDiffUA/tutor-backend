@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("31.144.169.9")
+@CrossOrigin(originPatterns = "*")
 @RequestMapping("/api/v1/friendship")
 public class FriendController{
 

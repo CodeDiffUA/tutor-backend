@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/student/registration")
-@CrossOrigin("31.144.169.9")
+@CrossOrigin(originPatterns = "*")
 public class RegistrationController {
     private final RegistrationService registrationService;
     private final ConfirmationEmailService confirmationEmailService;

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/authentication")
-@CrossOrigin("31.144.169.9")
+@CrossOrigin(originPatterns = "*")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
