@@ -10,14 +10,14 @@ import java.util.Properties;
 @Configuration
 public class EmailConfig {
 
-    private static final String EMAIL_SENDER = "EMAIL_SENDER";
-    private static final String EMAIL_PASSWORD = "EMAIL_PASSWORD";
+    private static final String EMAIL_SENDER = "shraierbohdan@gmail.com";
+    private static final String EMAIL_PASSWORD = "ubflwnzuzgjgkxrv";
 
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("localhost");
-        mailSender.setPort(1026);
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
 
         mailSender.setUsername(EMAIL_SENDER);
         mailSender.setPassword(EMAIL_PASSWORD);

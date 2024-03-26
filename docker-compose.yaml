@@ -2,24 +2,24 @@ version: "3.8"
 
 services:
   postgres-tutor-db:
-    container_name: postgres-tutor-db
-    image: postgres:alpine
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_DB=tutor-postgres-db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-  maildev:
-    image: maildev/maildev
-    restart: always
-    environment:
-      - MAILDEV_WEB_PORT=1080
-      - MAILDEV_SMTP_PORT=1026
-    ports:
-      - "1080:1080"
-      - "1026:1026"
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
+      container_name: postgres-tutor-db
+      image: postgres:alpine
+      ports:
+        - "5432:5432"
+      environment:
+        - POSTGRES_DB=tutor-postgres-db
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+#  maildev:
+#    image: maildev/maildev
+#    restart: always
+#    environment:
+#      - MAILDEV_WEB_PORT=1080
+#      - MAILDEV_SMTP_PORT=1026
+#    ports:
+#      - "1080:1080"
+#      - "1026:1026"
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: "1m"

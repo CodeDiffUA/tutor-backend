@@ -33,12 +33,12 @@ public class TokenFactory {
                 .buildRefreshToken();
     }
 
-    public ConfirmationEmailToken createConfirmationEmailToken(@NonNull UserDetails userDetails) throws NotFoundUserException {
+    public ConfirmationEmailToken createConfirmationEmailToken(@NonNull UserDetails userDetails) {
         return Token.builder()
                 .withToken(UUID.randomUUID().toString())
                 .withExpiryDate(Instant.now().plusSeconds(3600*24))
                 .withStudent(studentRepository.findStudentByUsername(userDetails.getUsername())
-                        .orElseThrow(() -> new NotFoundUserException("cannot find user - " + userDetails.getUsername())))
+                        .orElseThrow())
                 .buildConfirmationToken();
     }
 }

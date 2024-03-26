@@ -34,7 +34,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     @Transactional
-    public RegistrationDtoResponse registerAccount(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException {
+    public RegistrationDtoResponse registerAccount(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException {
         validateRequest(registrationDtoRequest);
         Student student = createStudent(registrationDtoRequest);
         studentRepository.save(student);
@@ -43,7 +43,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         return new RegistrationDtoResponse(token.getToken());
     }
 
-    private ConfirmationEmailToken createConfirmationToken(Student student) throws NotFoundUserException {
+    private ConfirmationEmailToken createConfirmationToken(Student student) {
         var userDetails = new User(student.getUsername(), student.getPassword(), student.getRoles());
         return tokenFactory.createConfirmationEmailToken(userDetails);
     }

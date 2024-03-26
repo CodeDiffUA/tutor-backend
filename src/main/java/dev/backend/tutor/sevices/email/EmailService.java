@@ -14,7 +14,7 @@ import java.io.IOException;
 public class EmailService implements EmailSender{
 
     private static final String EMAIL_CONFIRMATION_PATH = "src/main/resources/static/gmailConfirmation.html";
-    private static final String CORPORATE_EMAIL = "tutorai@gmail.com";
+    private static final String CORPORATE_EMAIL = "shraierbohdan@gmail.com";
 
     private final JavaMailSender mailSender;
 

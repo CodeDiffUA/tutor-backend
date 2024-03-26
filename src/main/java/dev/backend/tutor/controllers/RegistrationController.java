@@ -13,8 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/student")
-@CrossOrigin("http://localhost:3000/")
+@RequestMapping("/api/v1/student/registration")
+@CrossOrigin("http://localhost:3000")
 public class RegistrationController {
     private final RegistrationService registrationService;
     private final ConfirmationEmailService confirmationEmailService;
@@ -24,9 +24,9 @@ public class RegistrationController {
         this.confirmationEmailService = confirmationEmailService;
     }
 
-    @PostMapping("/registration")
+    @PostMapping
     public ResponseEntity<RegistrationDtoResponse> registerStudent(
-            @RequestBody RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException {
+            @RequestBody RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException {
         RegistrationDtoResponse confirmationToken  = registrationService.registerAccount(registrationDtoRequest);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

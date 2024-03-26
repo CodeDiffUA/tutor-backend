@@ -1,6 +1,7 @@
 package dev.backend.tutor.sevices.security.updateToken;
 
 import dev.backend.tutor.dtos.auth.AuthenticationResponseDto;
+import dev.backend.tutor.dtos.auth.JwtAndRefreshDto;
 import dev.backend.tutor.dtos.auth.UpdateJwtTokenRequest;
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.entities.auth.RefreshToken;
@@ -30,7 +31,7 @@ public class UpdateTokenServiceImpl implements UpdateTokenService{
     }
 
     @Override
-    public AuthenticationResponseDto updateRefreshTokenToken(UpdateJwtTokenRequest updateJwtTokenRequest) throws InvalidTokenException, NotFoundUserException {
+    public JwtAndRefreshDto updateRefreshTokenToken(UpdateJwtTokenRequest updateJwtTokenRequest) throws InvalidTokenException, NotFoundUserException {
         var refreshToken = getRefreshToken(updateJwtTokenRequest.refreshToken());
         refreshTokenValidationService.validateExpiration(refreshToken);
         Student student = extractStudentFromRefreshToken(refreshToken);
@@ -39,7 +40,7 @@ public class UpdateTokenServiceImpl implements UpdateTokenService{
         refreshTokenRepository.delete(refreshToken);
         refreshTokenRepository.save(newRefreshToken);
         String jwt = jwtBuilder.generateJwt(userDetails);
-        return new AuthenticationResponseDto(jwt, refreshToken.getToken());
+        return new JwtAndRefreshDto(jwt, refreshToken.getToken());
     }
 
     private RefreshToken getRefreshToken(String token) throws InvalidTokenException {
