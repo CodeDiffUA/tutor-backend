@@ -15,7 +15,7 @@ public class StudentGenerator {
     public static Student generateStudent(String username) {
         return Student.builder()
                 .withUsername(username)
-                .withEmail("username@gmail.com")
+                .withEmail(username+"@gmail.com")
                 .withPassword("password")
                 .build();
     }

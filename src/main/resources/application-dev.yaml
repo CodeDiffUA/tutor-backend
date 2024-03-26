@@ -5,6 +5,14 @@ spring:
     username: postgres
     password: postgres
   jpa:
-    generate-ddl: true
+    hibernate:
+      ddl-auto: update
     show-sql: true
     open-in-view: false
+
+jwt:
+  secret: W5Eca1S9aAf8l8Q6tVV1g5KrJyHUZ+BYi/GRpm1KhdQ=
+  expiration: 20m
+  refresh:
+    expiration: 14d
+

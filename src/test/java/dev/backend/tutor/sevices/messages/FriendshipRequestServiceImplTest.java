@@ -1,14 +1,15 @@
 package dev.backend.tutor.sevices.messages;
 
-import dev.backend.tutor.dtos.FriendShipRequestDto;
-import dev.backend.tutor.dtos.MessageDto;
-import dev.backend.tutor.exceptions.frienship.AlreadyFriendsException;
-import dev.backend.tutor.exceptions.frienship.BlockedUsersException;
+import dev.backend.tutor.dtos.friendship.RequestFriendshipRequestDto;
+import dev.backend.tutor.entities.messegeEntities.Notification;
+import dev.backend.tutor.exceptions.friendship.AlreadyFriendsException;
+import dev.backend.tutor.exceptions.friendship.BlockedUsersException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
-import dev.backend.tutor.exceptions.frienship.FriendshipException;
-import dev.backend.tutor.repositories.StudentRepository;
-import dev.backend.tutor.sevices.validation.StudentValidationService;
-import dev.backend.tutor.utills.student.DateUtil;
+import dev.backend.tutor.exceptions.friendship.FriendshipException;
+import dev.backend.tutor.repositories.student.StudentRepository;
+import dev.backend.tutor.sevices.friendship.request.FriendshipRequestServiceImpl;
+import dev.backend.tutor.sevices.nofications.NotificationService;
+import dev.backend.tutor.sevices.registration.validation.StudentValidationService;
 import dev.backend.tutor.utils.StudentGenerator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,7 @@ import static org.mockito.Mockito.*;
 
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,14 +37,14 @@ class FriendshipRequestServiceImplTest {
     private StudentValidationService studentValidationService;
 
     @Mock
-    private MessageService messageService;
+    private NotificationService notificationService;
 
     @Test
     public void Should_SuccessfullySendRequest() throws FriendshipException, NotFoundUserException {
         // arrange
         var senderLogin = "senderLogin";
         var recipientLogin = "senderLogin";
-        FriendShipRequestDto requestDto = new FriendShipRequestDto(senderLogin, recipientLogin);
+        RequestFriendshipRequestDto requestDto = new RequestFriendshipRequestDto(senderLogin, recipientLogin);
 
         var senderStudent = StudentGenerator.generateStudent(senderLogin);
         var recipientStudent = StudentGenerator.generateStudent(recipientLogin);
@@ -54,21 +56,19 @@ class FriendshipRequestServiceImplTest {
 
         doNothing().when(studentValidationService).validateIfStudentsAreFriends(senderStudent, recipientStudent);
         doNothing().when(studentValidationService).validateIfSomeoneBlocked(senderStudent, recipientStudent);
-        var expectedMessage = new MessageDto(senderLogin, recipientLogin, recipientLogin + ", user " + senderLogin + " wants to become your friend", DateUtil.currentTimeStamp());
-        when(messageService.messageDtoForFriendshipRequest(senderLogin, recipientLogin)).thenReturn(expectedMessage);
 
         // when
         friendshipRequestService.requestFriendShip(requestDto);
 
         // verify
-        verify(messageService).sendMessageToUser(recipientLogin, expectedMessage);
+        verify(notificationService).notifyUser(any(Notification.class));
     }
     @Test
     public void Should_NotSendRequestMessage_When_AreFriends() throws AlreadyFriendsException {
         // arrange
         var senderLogin = "senderLogin";
         var recipientLogin = "senderLogin";
-        FriendShipRequestDto requestDto = new FriendShipRequestDto(senderLogin, recipientLogin);
+        RequestFriendshipRequestDto requestDto = new RequestFriendshipRequestDto(senderLogin, recipientLogin);
 
         var senderStudent = StudentGenerator.generateStudent(senderLogin);
         var recipientStudent = StudentGenerator.generateStudent(recipientLogin);
@@ -79,13 +79,12 @@ class FriendshipRequestServiceImplTest {
         )).thenReturn(expectedStudents);
 
         doThrow(AlreadyFriendsException.class).when(studentValidationService).validateIfStudentsAreFriends(senderStudent, recipientStudent);
-        var expectedMessage = new MessageDto(senderLogin, recipientLogin, recipientLogin + ", user " + senderLogin + " wants to become your friend", DateUtil.currentTimeStamp());
         // when/then
         Assertions.assertThrows(AlreadyFriendsException.class,
                 () ->friendshipRequestService.requestFriendShip(requestDto));
 
         // verify
-        verify(messageService, never()).sendMessageToUser(recipientLogin, expectedMessage);
+        verify(notificationService, never()).notifyUser(any(Notification.class));
     }
 
     @Test
@@ -93,7 +92,7 @@ class FriendshipRequestServiceImplTest {
         // arrange
         var senderLogin = "senderLogin";
         var recipientLogin = "senderLogin";
-        FriendShipRequestDto requestDto = new FriendShipRequestDto(senderLogin, recipientLogin);
+        RequestFriendshipRequestDto requestDto = new RequestFriendshipRequestDto(senderLogin, recipientLogin);
 
         var senderStudent = StudentGenerator.generateStudent(senderLogin);
         var recipientStudent = StudentGenerator.generateStudent(recipientLogin);
@@ -105,12 +104,25 @@ class FriendshipRequestServiceImplTest {
 
         doNothing().when(studentValidationService).validateIfStudentsAreFriends(senderStudent, recipientStudent);
         doThrow(BlockedUsersException.class).when(studentValidationService).validateIfSomeoneBlocked(senderStudent, recipientStudent);
-        var expectedMessage = new MessageDto(senderLogin, recipientLogin, recipientLogin + ", user " + senderLogin + " wants to become your friend", DateUtil.currentTimeStamp());
         // when/then
         Assertions.assertThrows(BlockedUsersException.class,
                 () ->friendshipRequestService.requestFriendShip(requestDto));
 
         // verify
-        verify(messageService, never()).sendMessageToUser(recipientLogin, expectedMessage);
+        verify(notificationService, never()).notifyUser(any(Notification.class));
+    }
+
+    @Test
+    void Should_ThrowNotFoundUserException_When_UsernameInvalid() {
+        var senderLogin = "senderLogin";
+        var recipientLogin = "senderLogin";
+        RequestFriendshipRequestDto requestDto = new RequestFriendshipRequestDto(senderLogin, recipientLogin);
+        when(studentRepository.findSenderAndRecipientStudentsWithFriendsAndBlocked(
+                senderLogin, recipientLogin
+        )).thenReturn(new ArrayList<>());
+
+        Assertions.assertThrows(NotFoundUserException.class,
+                () -> friendshipRequestService.requestFriendShip(requestDto));
+        verify(notificationService, never()).notifyUser(any(Notification.class));
     }
 }

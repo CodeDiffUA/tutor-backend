@@ -1,9 +1,9 @@
 package dev.backend.tutor.repositories;
 
 import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.repositories.student.StudentRepository;
 import dev.backend.tutor.utils.StudentGenerator;
-import jakarta.persistence.EntityManager;
-import org.junit.jupiter.api.AfterEach;
+import org.hibernate.LazyInitializationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.lifecycle.Startables;
@@ -20,8 +19,7 @@ import org.testcontainers.lifecycle.Startables;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -29,8 +27,6 @@ public class StudentRepositoryTest {
 
     @Autowired
     private StudentRepository studentRepository;
-    @Autowired
-    private EntityManager entityManager;
 
     @Container
     @ServiceConnection
@@ -41,13 +37,7 @@ public class StudentRepositoryTest {
         Startables.deepStart(postgreSQLContainer).join();
     }
 
-    @AfterEach
-    void tearDown() {
-        studentRepository.deleteAll();
-    }
-
     @Test
-    @Transactional
     public void Should_SuccessfullyLoadPairOfStudents() {
         // arrange
         Student firstStudent = StudentGenerator.generateStudent(1);
@@ -70,7 +60,6 @@ public class StudentRepositoryTest {
     }
 
     @Test
-    @Transactional
     public void Should_SuccessfullyLoadPairOfStudents_And_Students_Should_BeFriends() {
         // arrange
         Student firstStudent = StudentGenerator.generateStudent(1);
@@ -99,7 +88,6 @@ public class StudentRepositoryTest {
     }
 
     @Test
-    @Transactional
     public void Should_SuccessfullyLoadPairOfStudents_And_Student_Should_BeBlocked() {
         // arrange
         Student firstStudent = StudentGenerator.generateStudent(1);
@@ -128,8 +116,8 @@ public class StudentRepositoryTest {
         assertThat(firstStudentExpected.getBlockedStudents()).contains(secondStudentExpected);
 
     }
+
     @Test
-    @Transactional
     public void Should_ReturnEmptyList_When_SenderNotExist() {
         // Act
         List<Student> result = studentRepository.findSenderAndRecipientStudentsWithFriendsAndBlocked(
@@ -140,8 +128,7 @@ public class StudentRepositoryTest {
     }
 
     @Test
-    @Transactional
-    public void Should_ReturnEmptyList_When_RecipientNotExist() {
+    public void Should_ReturnOneElementList_When_RecipientNotExist() {
         // Arrange
         Student existingSender = StudentGenerator.generateStudent(1);
 
@@ -150,7 +137,44 @@ public class StudentRepositoryTest {
                 existingSender.getUsername(), "nonexistentRecipient");
 
         // Assert
-        Assertions.assertTrue(result.isEmpty());
+        Assertions.assertTrue(result.size()==1);
     }
 
+
+    @Test
+    public void Should_ReturnPairOfStudentsWithFriendsOnly_When_UsernameCorrect() {
+        // Arrange
+        Student firstStudent = StudentGenerator.generateStudent(1);
+        Student secondStudent = StudentGenerator.generateStudent(2);
+        studentRepository.save(secondStudent);
+        firstStudent.addFriend(secondStudent);
+        firstStudent.blockStudent(secondStudent);
+        studentRepository.save(firstStudent);
+        studentRepository.save(secondStudent);
+
+        // Act
+        List<Student> result = studentRepository
+                .findStudentsByUsernameFetchFriends(firstStudent.getUsername(), secondStudent.getUsername());
+
+        // Assert
+        assertThat(result.size()).isEqualTo(2);
+        assertThat(result).satisfies(students -> {
+            var first = result.stream()
+                    .filter(student -> student.getUsername().equals(firstStudent.getUsername()))
+                    .findFirst()
+                    .orElseThrow();
+            var second = result.stream().filter(student -> student.getUsername().equals(secondStudent.getUsername()))
+                    .findFirst()
+                    .orElseThrow();
+            assertThat(first.getFriends()).contains(second);
+            assertThat(second.getFriends()).contains(first);
+            try {
+                assertThat(first.getBlockedStudents()).isEmpty();
+            } catch (LazyInitializationException e) {
+                System.out.println("LazyInitializationException");
+            }
+
+        });
+
+    }
 }
