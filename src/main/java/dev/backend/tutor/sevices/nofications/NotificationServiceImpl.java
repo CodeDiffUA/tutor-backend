@@ -1,7 +1,6 @@
 package dev.backend.tutor.sevices.nofications;
 
 import dev.backend.tutor.dtos.message.NotificationDto;
-import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.entities.messegeEntities.Notification;
 import dev.backend.tutor.repositories.notification.NotificationRepository;
 import dev.backend.tutor.utills.student.DateUtil;

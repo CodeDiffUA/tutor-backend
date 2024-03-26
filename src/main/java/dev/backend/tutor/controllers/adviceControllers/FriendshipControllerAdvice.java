@@ -4,29 +4,18 @@ import dev.backend.tutor.dtos.message.ExceptionDto;
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.exceptions.friendship.AlreadyFriendsException;
+import dev.backend.tutor.exceptions.friendship.BlockedUsersException;
+import dev.backend.tutor.exceptions.friendship.FriendshipException;
 import dev.backend.tutor.utills.student.DateUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.rmi.AlreadyBoundException;
-
 @ControllerAdvice
-public class CredentialController {
-
-    @ExceptionHandler(AlreadyExistsUserException.class)
-    public ResponseEntity<?> alreadyExistsUserHandler(AlreadyExistsUserException e) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(new ExceptionDto(
-                        e.getMessage(),
-                        DateUtil.currentTimeStamp()
-                ));
-    }
-
+public class FriendshipControllerAdvice {
     @ExceptionHandler(AlreadyFriendsException.class)
-    public ResponseEntity<?> alreadyBoundExceptionHandler(AlreadyFriendsException e) {
+    public ResponseEntity<?> AlreadyFriendsException(AlreadyFriendsException e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ExceptionDto(
@@ -35,8 +24,18 @@ public class CredentialController {
                 ));
     }
 
-    @ExceptionHandler(NotFoundUserException.class)
-    public ResponseEntity<?> notExistUserHandler(NotFoundUserException e) {
+    @ExceptionHandler(BlockedUsersException.class)
+    public ResponseEntity<?> BlockedUsersException(BlockedUsersException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ExceptionDto(
+                        e.getMessage(),
+                        DateUtil.currentTimeStamp()
+                ));
+    }
+
+    @ExceptionHandler(FriendshipException.class)
+    public ResponseEntity<?> FriendshipException(FriendshipException e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ExceptionDto(

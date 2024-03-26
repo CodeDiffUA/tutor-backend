@@ -1,19 +1,18 @@
-package dev.backend.tutor.repositories;
+package dev.backend.tutor.repositories.student;
 
 import dev.backend.tutor.entities.Student;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class StudentLoaderImpl implements StudentLoader {
+public class StudentCustomRepositoryImpl implements StudentCustomRepository {
 
     private final EntityManager entityManager;
 
-    public StudentLoaderImpl(EntityManager entityManager) {
+    public StudentCustomRepositoryImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

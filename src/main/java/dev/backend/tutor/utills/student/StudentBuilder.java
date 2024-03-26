@@ -2,6 +2,8 @@ package dev.backend.tutor.utills.student;
 
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.auth.Role;
+import dev.backend.tutor.entities.auth.UserRole;
 
 public class StudentBuilder {
     private String username;
@@ -42,12 +44,12 @@ public class StudentBuilder {
         student.setPassword(this.password);
         student.setAge(this.age);
         student.setForm(this.form);
+        student.addRole(new UserRole(student, Role.ROLE_STUDENT));
         return student;
     }
 
     public static Student buildStudent(RegistrationDtoRequest registrationDtoRequest){
         var password = registrationDtoRequest.password();
-//        var encryptedPassword = passwordEncoder.encode(password);
         return Student.builder()
                 .withUsername(registrationDtoRequest.username())
                 .withEmail(registrationDtoRequest.email())

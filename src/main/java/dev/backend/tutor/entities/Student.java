@@ -1,14 +1,13 @@
 package dev.backend.tutor.entities;
 
 
+import dev.backend.tutor.entities.auth.UserRole;
 import dev.backend.tutor.entities.messegeEntities.Notification;
 import dev.backend.tutor.utills.student.Form;
 import dev.backend.tutor.utills.student.StudentBuilder;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "accounts")
@@ -36,6 +35,15 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "friend_id", unique = true)
     )
     private List<Student> friends = new ArrayList<>();
+
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<UserRole> roles = new HashSet<>();
+
+    private boolean enabled;
+
+    public void addRole(UserRole userRole) {
+        roles.add(userRole);
+    }
 
     public void addFriend(Student student) {
         friends.add(student);
@@ -132,5 +140,21 @@ public class Student {
 
     public List<Student> getBlockedStudents() {
         return blockedStudents;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Set<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 }
