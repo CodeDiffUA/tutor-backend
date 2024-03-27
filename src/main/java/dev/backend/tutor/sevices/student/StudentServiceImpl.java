@@ -25,4 +25,15 @@ public class StudentServiceImpl implements UserDetailsService {
         }
         return new User(usernameOrEmail, student.getPassword(), student.getRoles());
     }
+    public void banStudent(String usernameOrEmail) {
+        var student = studentRepository.findStudentsByUsernameOrEmailWithRoles(usernameOrEmail).orElseThrow();
+        student.setIsBanned(true);
+        studentRepository.save(student);
+    }
+
+    public void unbanStudent(String usernameOrEmail) {
+        var student = studentRepository.findStudentsByUsernameOrEmailWithRoles(usernameOrEmail).orElseThrow();
+        student.setIsBanned(false);
+        studentRepository.save(student);
+    }
 }

@@ -2,8 +2,8 @@
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/tutor-postgres-db
-    username: postgres
-    password: postgres
+    url: postgresql://tutor-bakcend_owner:xQM3fPdRtN4e@ep-red-mode-a55hpw26.us-east-2.aws.neon.tech/tutor-bakcend?sslmode=require
+    username: tutor-bakcend_owner
+    password: xQM3fPdRtN4e
   jpa:
     open-in-view: false

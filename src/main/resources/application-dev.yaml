@@ -1,9 +1,9 @@
 # Database Configuration
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/tutor-postgres-db
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://ep-red-mode-a55hpw26.us-east-2.aws.neon.tech/tutor-bakcend?user=tutor-bakcend_owner&password=xQM3fPdRtN4e&sslmode=require #jdbc:postgresql://localhost:5432/tutor-postgres-db
+    username: tutor-bakcend_owner #postgres
+    password: xQM3fPdRtN4e #postgres
   jpa:
     hibernate:
       ddl-auto: update
