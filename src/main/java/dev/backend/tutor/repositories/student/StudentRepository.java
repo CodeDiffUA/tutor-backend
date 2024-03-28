@@ -38,6 +38,10 @@ public interface StudentRepository extends JpaRepository<Student, String>, Stude
             "where s.username=:usernameOrEmail or s.email=:usernameOrEmail")
     Optional<Student> findStudentsByUsernameOrEmailWithRoles(String usernameOrEmail);
 
+    @Query("select s from Student s " +
+            "where s.username=:usernameOrEmail or s.email=:usernameOrEmail")
+    Optional<Student> findStudentsByUsernameOrEmail(String usernameOrEmail);
+
     boolean existsStudentByUsername(String username);
     boolean existsStudentByEmail(String email);
 }

@@ -34,7 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public JwtAndRefreshDto signIn(AuthenticationDtoRequest authenticationDtoRequest) throws UsernameNotFoundException, NotConfirmedEmailException, NotFoundUserException {
         getAuthentication(authenticationDtoRequest.usernameOrEmail(), authenticationDtoRequest.password());
-        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDtoRequest.usernameOrEmail());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDtoRequest.usernameOrEmail());;
         String jwt = jwtBuilder.generateJwt(userDetails);
         String refreshToken = refreshTokenService.createRefreshToken(userDetails).getToken();
         return new JwtAndRefreshDto(jwt, refreshToken);
