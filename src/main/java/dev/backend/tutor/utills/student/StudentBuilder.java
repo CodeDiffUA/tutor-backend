@@ -11,6 +11,7 @@ public class StudentBuilder {
     private String password;
     private Integer age;
     private Form form;
+    private boolean enabled = false;
 
     public StudentBuilder withUsername(String username) {
         this.username = username;
@@ -37,6 +38,11 @@ public class StudentBuilder {
         return this;
     }
 
+    public StudentBuilder isEnabled(boolean flag) {
+        this.enabled = flag;
+        return this;
+    }
+
     public Student build() {
         Student student = new Student();
         student.setUsername(this.username);
@@ -44,7 +50,10 @@ public class StudentBuilder {
         student.setPassword(this.password);
         student.setAge(this.age);
         student.setForm(this.form);
-        student.addRole(new UserRole(student, Role.ROLE_STUDENT));
+        student.setEnabled(this.enabled);
+        if (student.getRoles().isEmpty()) {
+            student.addRole(new UserRole(student, Role.ROLE_STUDENT));
+        }
         return student;
     }
 

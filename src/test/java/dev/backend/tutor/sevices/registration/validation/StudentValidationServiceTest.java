@@ -1,17 +1,17 @@
-package dev.backend.tutor.sevices.validation;
+package dev.backend.tutor.sevices.registration.validation;
 
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.repositories.student.StudentRepository;
-import dev.backend.tutor.sevices.registration.validation.StudentValidationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class StudentValidationServiceTest {

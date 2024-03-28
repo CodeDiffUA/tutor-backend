@@ -157,4 +157,8 @@ public class Student {
     public boolean isEnabled() {
         return enabled;
     }
+
+    public String getEmail() {
+        return email;
+    }
 }

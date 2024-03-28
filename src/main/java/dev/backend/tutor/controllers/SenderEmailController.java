@@ -1,5 +1,7 @@
 package dev.backend.tutor.controllers;
 
+import dev.backend.tutor.exceptions.InvalidTokenException;
+import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.sevices.email.EmailSender;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,7 @@ public class SenderEmailController {
     @GetMapping("/send-verification")
     public ResponseEntity<?> sendConfirmationEmailMessage(
             @Param("email") String email,
-            @Param("token") String token) {
+            @Param("token") String token) throws NotFoundUserException, InvalidTokenException {
         emailSender.sendEmailVerificationMessage(email, token);
         return ResponseEntity.ok().build();
     }

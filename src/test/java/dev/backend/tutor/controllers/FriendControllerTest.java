@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.dtos.friendship.RequestFriendshipRequestDto;
 import dev.backend.tutor.dtos.friendship.RequestFriendshipResponseDto;
+import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.repositories.student.StudentRepository;
+import dev.backend.tutor.sevices.security.jwt.JwtBuilder;
 import dev.backend.tutor.utills.student.Form;
 import dev.backend.tutor.utills.student.StudentListProcessor;
 import dev.backend.tutor.utils.StudentGenerator;
@@ -17,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -49,6 +52,9 @@ class FriendControllerTest {
     private StudentRepository studentRepository;
 
     @Autowired
+    private JwtBuilder jwtBuilder;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
@@ -66,34 +72,28 @@ class FriendControllerTest {
     @Transactional
     void Should_SendRequest_When_HttpRequestValid() throws Exception {
         // arrange
-        RegistrationDtoRequest registrationDto1 = new RegistrationDtoRequest(
-                "login", "email", "password", Form.ELEVENTH, 16);
-
-        RegistrationDtoRequest registrationDto2 = new RegistrationDtoRequest(
-                "login1", "email2", "password", Form.ELEVENTH, 16);
-
-        // when/then
-        mockMvc.perform(post("/api/v1/student")
-                        .content(objectMapper.writeValueAsString(registrationDto1))
-                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-
-        mockMvc.perform(post("/api/v1/student")
-                        .content(objectMapper.writeValueAsString(registrationDto2))
-                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+        var studentSender = StudentGenerator.generateStudent("sender");
+        var studentRecipient = StudentGenerator.generateStudent("recipient");
+        studentRepository.saveAll(List.of(studentSender, studentRecipient));
+        var jwt = getJwtForStudent(studentSender);
 
         // when/then
-        var requestFriendshipRequestDto = new RequestFriendshipRequestDto("login", "login1");
+        var requestFriendshipRequestDto = new RequestFriendshipRequestDto("sender", "recipient");
         mockMvc.perform(post("/api/v1/friendship/request")
+                        .header("Authorization", "Bearer " + jwt)
                         .content(objectMapper.writeValueAsString(requestFriendshipRequestDto))
                         .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
+    private String getJwtForStudent(Student student) {
+        var userDetails = new User(student.getUsername(), student.getPassword(), student.getRoles());
+        return jwtBuilder.generateJwt(userDetails);
+    }
+
     @Test
     @Transactional
-    void Should_SendRequest_When_StudentNotExist() throws Exception {
+    void ShouldNot_SendRequest_When_StudentNotExist() throws Exception {
         // arrange
         var recipient = StudentGenerator.generateStudent(RECIPIENT_USERNAME);
         studentRepository.saveAll(List.of(recipient));
@@ -103,7 +103,7 @@ class FriendControllerTest {
         mockMvc.perform(post("/api/v1/friendship/request")
                         .content(objectMapper.writeValueAsString(requestFriendshipRequestDto))
                         .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -116,9 +116,11 @@ class FriendControllerTest {
         sender.addFriend(recipient);
         studentRepository.save(sender);
         RequestFriendshipRequestDto requestFriendshipRequestDto = new RequestFriendshipRequestDto(SENDER_USERNAME, RECIPIENT_USERNAME);
+        var jwt = getJwtForStudent(sender);
 
         // when/then
         mockMvc.perform(post("/api/v1/friendship/request")
+                        .header("Authorization", "Bearer " + jwt)
                         .content(objectMapper.writeValueAsString(requestFriendshipRequestDto))
                         .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -136,9 +138,11 @@ class FriendControllerTest {
         studentRepository.save(recipient);
         studentRepository.save(sender);
         RequestFriendshipResponseDto requestFriendshipResponseDto = new RequestFriendshipResponseDto(SENDER_USERNAME, RECIPIENT_USERNAME, true);
+        var jwt = getJwtForStudent(sender);
 
         // when/then
         mockMvc.perform(post("/api/v1/friendship/response")
+                        .header("Authorization", "Bearer " +jwt)
                         .content(objectMapper.writeValueAsString(requestFriendshipResponseDto))
                         .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -159,9 +163,12 @@ class FriendControllerTest {
         studentRepository.save(recipient);
         studentRepository.save(sender);
         RequestFriendshipResponseDto requestFriendshipResponseDto = new RequestFriendshipResponseDto(SENDER_USERNAME, RECIPIENT_USERNAME, false);
+        var jwt = getJwtForStudent(sender);
+
 
         // when/then
         mockMvc.perform(post("/api/v1/friendship/response")
+                        .header("Authorization", "Bearer " +jwt)
                         .content(objectMapper.writeValueAsString(requestFriendshipResponseDto))
                         .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

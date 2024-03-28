@@ -18,7 +18,7 @@ public class AuthControllerAdvice {
     @ExceptionHandler(NotFoundUserException.class)
     public ResponseEntity<?> NotFoundUserException(NotFoundUserException e) {
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .status(HttpStatus.NOT_FOUND)
                 .body(new ExceptionDto(
                         e.getMessage(),
                         DateUtil.currentTimeStamp()
@@ -46,7 +46,7 @@ public class AuthControllerAdvice {
     }
 
     @ExceptionHandler(InvalidTokenException.class)
-    public ResponseEntity<?> UsernameNotFoundException(InvalidTokenException e) {
+    public ResponseEntity<?> InvalidTokenException(InvalidTokenException e) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ExceptionDto(

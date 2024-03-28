@@ -4,6 +4,7 @@ import dev.backend.tutor.entities.Student;
 
 
 import java.time.Instant;
+import java.util.Objects;
 
 import dev.backend.tutor.utills.student.TokenBuilder;
 import jakarta.persistence.*;
@@ -32,6 +33,18 @@ public abstract class Token {
         this.student = student;
         this.token = token;
         this.expiryDate = expiryDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Token token1)) return false;
+        return Objects.equals(getId(), token1.getId()) && Objects.equals(getToken(), token1.getToken());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getStudent(), getToken(), getExpiryDate());
     }
 
     // Getters and setters for common fields
