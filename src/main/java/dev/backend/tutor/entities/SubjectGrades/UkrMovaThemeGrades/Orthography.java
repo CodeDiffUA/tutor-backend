@@ -65,5 +65,4 @@ public class Orthography {
     public Integer getBasicCasesOfAlternationYVIU() {
         return basicCasesOfAlternationYVIU;
     }
-
 }

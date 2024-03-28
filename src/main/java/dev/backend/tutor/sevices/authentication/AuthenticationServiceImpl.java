@@ -3,6 +3,8 @@ package dev.backend.tutor.sevices.authentication;
 import dev.backend.tutor.dtos.auth.AuthenticationDtoRequest;
 import dev.backend.tutor.dtos.auth.AuthenticationResponseDto;
 import dev.backend.tutor.dtos.auth.JwtAndRefreshDto;
+import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.exceptions.BannedException;
 import dev.backend.tutor.exceptions.NotConfirmedEmailException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.sevices.security.jwt.JwtBuilder;
@@ -32,7 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public JwtAndRefreshDto signIn(AuthenticationDtoRequest authenticationDtoRequest) throws UsernameNotFoundException, NotConfirmedEmailException, NotFoundUserException {
         getAuthentication(authenticationDtoRequest.usernameOrEmail(), authenticationDtoRequest.password());
-        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDtoRequest.usernameOrEmail());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDtoRequest.usernameOrEmail());;
         String jwt = jwtBuilder.generateJwt(userDetails);
         String refreshToken = refreshTokenService.createRefreshToken(userDetails).getToken();
         return new JwtAndRefreshDto(jwt, refreshToken);
@@ -43,4 +45,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         authenticator.authenticate(usernamePasswordToken);
     }
 
+    private void checkIfBanned(Student student) throws BannedException {
+        if (student.getIsBanned()) {
+            throw new BannedException("User is banned");
+        }
+    }
 }
