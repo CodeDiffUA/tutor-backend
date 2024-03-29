@@ -1,5 +1,4 @@
 # Database Configuration
-
 spring:
   datasource:
     url: jdbc:postgresql://ep-red-mode-a55hpw26.us-east-2.aws.neon.tech/tutor-bakcend?user=tutor-bakcend_owner&password=xQM3fPdRtN4e&sslmode=require
@@ -7,7 +6,7 @@ spring:
     password: xQM3fPdRtN4e
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
     open-in-view: false
 
@@ -16,3 +15,4 @@ jwt:
   expiration: 20m
   refresh:
     expiration: 14d
+
