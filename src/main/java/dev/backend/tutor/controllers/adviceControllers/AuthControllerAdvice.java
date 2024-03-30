@@ -1,10 +1,7 @@
 package dev.backend.tutor.controllers.adviceControllers;
 
 import dev.backend.tutor.dtos.message.ExceptionDto;
-import dev.backend.tutor.exceptions.InvalidJwtException;
-import dev.backend.tutor.exceptions.InvalidTokenException;
-import dev.backend.tutor.exceptions.NotConfirmedEmailException;
-import dev.backend.tutor.exceptions.NotFoundUserException;
+import dev.backend.tutor.exceptions.*;
 import dev.backend.tutor.utills.student.DateUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +56,16 @@ public class AuthControllerAdvice {
     public ResponseEntity<?> InvalidJwtException(InvalidJwtException e) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
+                .body(new ExceptionDto(
+                        e.getMessage(),
+                        DateUtil.currentTimeStamp()
+                ));
+    }
+
+    @ExceptionHandler(BannedException.class)
+    public ResponseEntity<?> BannedException(BannedException e) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
                 .body(new ExceptionDto(
                         e.getMessage(),
                         DateUtil.currentTimeStamp()

@@ -21,6 +21,7 @@ public class Student {
 
     private Integer age; //todo make datetime
     private Form form;
+    private boolean isBanned;
 
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<GeneralGrades> generalGradesList = new ArrayList<>();
@@ -157,8 +158,13 @@ public class Student {
     public boolean isEnabled() {
         return enabled;
     }
-
     public String getEmail() {
         return email;
+    public boolean getIsBanned() {
+        return isBanned;
+    }
+
+    public void setIsBanned(boolean isBanned) {
+        this.isBanned = isBanned;
     }
 }
