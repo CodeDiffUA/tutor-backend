@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/student/registration")
+@RequestMapping("/api/v1/registration")
 @CrossOrigin(originPatterns = "*")
 public class RegistrationController {
     private final SignUpService signUpService;
