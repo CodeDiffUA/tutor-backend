@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: dev.backend.tutor.repositories.StudentRepositoryTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.72 s -- in dev.backend.tutor.repositories.StudentRepositoryTest

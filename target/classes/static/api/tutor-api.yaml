@@ -1,0 +1,211 @@
+openapi: 3.0.3
+info:
+  title: Tutor backend API
+  version: 1.0.0
+servers:
+  - url: https://localhost:8080
+paths:
+  /api/v1/student/registration:
+    post:
+      requestBody:
+        content:
+          application/user.auth.registration.v1+json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  title: new username for registered user. Should be unique
+                  nullable: false
+                  example: Mykola
+                  maxLength: 15
+                  minLength: 4
+                email:
+                  type: string
+                  title: user's email. Should be unique
+                  format: email
+                  nullable: false
+                  example: mykolacool@gmail.com
+                password:
+                  type: string
+                  title: password for registered user
+                  nullable: false
+                  example: some password
+                  maxLength: 15
+                  minLength: 8
+                form:
+                  type: string
+                  title: form in school
+                  nullable: false
+                  enum:
+                    - FIRST
+                    - SECOND
+                    - THIRD
+                    - FOURTH
+                    - FIFTH
+                    - SIXTH
+                    - SEVENTH
+                    - EIGHTH
+                    - NINTH
+                    - TENTH
+                    - ELEVENTH
+                    - TWELFTH
+                  example: ELEVENTH
+                age:
+                  type: number
+                  title: user's age
+                  nullable: false
+                  example: 18
+      responses:
+        '201':
+          description: successfully registered new user but needs to be verified. So you need create new http request for verification email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    title: verification token to confirm email
+                    example: 859c98c0-a2c9-4a95-8e96-f57e77c28c7d
+        '400':
+          description: When user typed email/username that already exists in database
+          content:
+            application/user.auth.access.refresh.v1+json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    title: explanation of exception
+                    nullable: false
+                    example: Email/username already exists
+  /api/v1/email/send-verification:
+    get:
+      parameters:
+        - name: email
+          in: query
+          description: The email to which the verification message is to be sent
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          description: The token obtained after successful registration
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Message sent
+  /api/v1/student/registration/confirm:
+    description: this is endpoint where you user redirect to auth page
+    get:
+      parameters:
+        - name: token
+          in: query
+          description: The token for email confirmation
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: email confirmed. now user can be authenticated
+        '404':
+          description: token in params is invalid
+  /api/v1/authentication:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usernameOrEmail:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jwt:
+                    type: string
+          description: when credentials valid
+          headers:
+            Set-Cookie:
+              description: Refresh token cookie
+              schema:
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  timestamp:
+                    type: string
+          description: when username or email doesn't exist
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  timestamp:
+                    type: string
+          description: when password is invalid or user email has not confirmed yet
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  timestamp:
+                    type: string
+          description: when user token is banned
+  /api/v1/authentication/refresh:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jwt:
+                    type: string
+          description: when credentials valid
+          headers:
+            Set-Cookie:
+              description: Refresh token cookie
+              schema:
+                type: string
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  timestamp:
+                    type: string
+          description: when refreshToken invalid

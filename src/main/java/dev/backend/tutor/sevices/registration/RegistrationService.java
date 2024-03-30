@@ -14,6 +14,6 @@ public interface RegistrationService {
      * @return RegistrationDtoResponse dto with token for confirmation
      * @throws AlreadyExistsUserException if request is not valid
      */
-    RegistrationDtoResponse registerAccount(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException;
+    RegistrationDtoResponse registerAccount(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException;
 
 }

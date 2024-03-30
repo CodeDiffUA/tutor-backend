@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/authentication")
+@CrossOrigin(originPatterns = "*")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -31,7 +32,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponseDto> signIn(
             @RequestBody AuthenticationDtoRequest dtoRequestWithEmail, HttpServletResponse httpServletResponse) throws UsernameNotFoundException, NotConfirmedEmailException, NotFoundUserException {
         JwtAndRefreshDto jwtAndRefreshDto = authenticationService.signIn(dtoRequestWithEmail);
-        var cookie = createCookieWithRefreshTokeb(httpServletResponse, jwtAndRefreshDto);
+        var cookie = createCookieWithRefreshToken(httpServletResponse, jwtAndRefreshDto);
         httpServletResponse.addCookie(cookie);
         return ResponseEntity
                 .ok()
@@ -42,14 +43,14 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponseDto> signInWithRefreshToken(
             @RequestBody UpdateJwtTokenRequest updateJwtTokenRequest, HttpServletResponse httpServletResponse) throws NotFoundUserException, InvalidTokenException {
         JwtAndRefreshDto jwtAndRefreshDto = updateTokenService.updateRefreshTokenToken(updateJwtTokenRequest);
-        var cookie = createCookieWithRefreshTokeb(httpServletResponse, jwtAndRefreshDto);
+        var cookie = createCookieWithRefreshToken(httpServletResponse, jwtAndRefreshDto);
         httpServletResponse.addCookie(cookie);
         return ResponseEntity
                 .ok()
                 .body(new AuthenticationResponseDto(jwtAndRefreshDto.jwt()));
     }
 
-    private Cookie createCookieWithRefreshTokeb(HttpServletResponse httpServletResponse, JwtAndRefreshDto jwtAndRefreshDto) {
+    private Cookie createCookieWithRefreshToken(HttpServletResponse httpServletResponse, JwtAndRefreshDto jwtAndRefreshDto) {
         Cookie cookie = new Cookie("refreshToken", jwtAndRefreshDto.refreshToken());
         cookie.setPath("/");
         cookie.setMaxAge(86400);

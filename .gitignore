@@ -11,7 +11,6 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -31,5 +30,4 @@ mvnw
 HELP.md
 tutor.iml
 .env
-target
 
