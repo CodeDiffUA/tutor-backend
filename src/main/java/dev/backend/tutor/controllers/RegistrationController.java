@@ -5,8 +5,8 @@ import dev.backend.tutor.dtos.auth.RegistrationDtoResponse;
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.exceptions.InvalidTokenException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
-import dev.backend.tutor.sevices.registration.RegistrationService;
-import dev.backend.tutor.sevices.registration.confirm.ConfirmationEmailService;
+import dev.backend.tutor.sevices.auth.signUp.SignUpService;
+import dev.backend.tutor.sevices.auth.signUp.confirm.ConfirmationEmailService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,18 +16,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/student/registration")
 @CrossOrigin(originPatterns = "*")
 public class RegistrationController {
-    private final RegistrationService registrationService;
+    private final SignUpService signUpService;
     private final ConfirmationEmailService confirmationEmailService;
 
-    public RegistrationController(RegistrationService registrationService, ConfirmationEmailService confirmationEmailService) {
-        this.registrationService = registrationService;
+    public RegistrationController(SignUpService signUpService, ConfirmationEmailService confirmationEmailService) {
+        this.signUpService = signUpService;
         this.confirmationEmailService = confirmationEmailService;
     }
 
     @PostMapping
     public ResponseEntity<RegistrationDtoResponse> registerStudent(
             @RequestBody RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException {
-        RegistrationDtoResponse confirmationToken  = registrationService.registerAccount(registrationDtoRequest);
+        RegistrationDtoResponse confirmationToken  = signUpService.registerAccount(registrationDtoRequest);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(confirmationToken);

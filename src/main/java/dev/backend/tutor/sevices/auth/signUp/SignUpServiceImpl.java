@@ -1,4 +1,4 @@
-package dev.backend.tutor.sevices.registration;
+package dev.backend.tutor.sevices.auth.signUp;
 
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.dtos.auth.RegistrationDtoResponse;
@@ -8,7 +8,7 @@ import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.emails.ConfirmationEmailTokenRepository;
 import dev.backend.tutor.repositories.student.StudentRepository;
-import dev.backend.tutor.sevices.registration.validation.StudentValidationService;
+import dev.backend.tutor.sevices.auth.signUp.validation.StudentValidationService;
 import dev.backend.tutor.sevices.security.refresh.TokenFactory;
 import dev.backend.tutor.utills.student.StudentBuilder;
 import org.springframework.security.core.userdetails.User;
@@ -17,14 +17,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class RegistrationServiceImpl implements RegistrationService {
+public class SignUpServiceImpl implements SignUpService {
     private final StudentRepository studentRepository;
     private final StudentValidationService validationService;
     private final PasswordEncoder passwordEncoder;
     private final TokenFactory tokenFactory;
     private final ConfirmationEmailTokenRepository confirmationEmailTokenRepository;
 
-    public RegistrationServiceImpl(StudentRepository studentRepository, StudentValidationService validationService, PasswordEncoder passwordEncoder, TokenFactory tokenFactory, ConfirmationEmailTokenRepository confirmationEmailTokenRepository) {
+    public SignUpServiceImpl(StudentRepository studentRepository, StudentValidationService validationService, PasswordEncoder passwordEncoder, TokenFactory tokenFactory, ConfirmationEmailTokenRepository confirmationEmailTokenRepository) {
         this.studentRepository = studentRepository;
         this.validationService = validationService;
         this.passwordEncoder = passwordEncoder;

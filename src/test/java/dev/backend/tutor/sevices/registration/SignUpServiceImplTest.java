@@ -7,8 +7,8 @@ import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.emails.ConfirmationEmailTokenRepository;
 import dev.backend.tutor.repositories.student.StudentRepository;
-import dev.backend.tutor.sevices.registration.RegistrationServiceImpl;
-import dev.backend.tutor.sevices.registration.validation.StudentValidationService;
+import dev.backend.tutor.sevices.auth.signUp.SignUpServiceImpl;
+import dev.backend.tutor.sevices.auth.signUp.validation.StudentValidationService;
 import dev.backend.tutor.sevices.security.refresh.TokenFactory;
 import dev.backend.tutor.utills.student.Form;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class RegistrationServiceImplTest {
+public class SignUpServiceImplTest {
 
     @Mock
     private StudentRepository studentRepository;
@@ -41,7 +41,7 @@ public class RegistrationServiceImplTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private RegistrationServiceImpl underTest;
+    private SignUpServiceImpl underTest;
 
     @Test
     void Should_RegisterAccountSuccessful_When_RequestValid() throws AlreadyExistsUserException, NotFoundUserException {

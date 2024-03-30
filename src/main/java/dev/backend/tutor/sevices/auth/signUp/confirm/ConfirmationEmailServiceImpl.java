@@ -1,6 +1,5 @@
-package dev.backend.tutor.sevices.registration.confirm;
+package dev.backend.tutor.sevices.auth.signUp.confirm;
 
-import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
 import dev.backend.tutor.exceptions.InvalidTokenException;
 import dev.backend.tutor.repositories.emails.ConfirmationEmailTokenRepository;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,11 @@
-package dev.backend.tutor.sevices.authentication;
+package dev.backend.tutor.sevices.auth;
 
 import dev.backend.tutor.dtos.auth.AuthenticationDtoRequest;
 import dev.backend.tutor.dtos.auth.JwtAndRefreshDto;
 import dev.backend.tutor.entities.auth.RefreshToken;
 import dev.backend.tutor.exceptions.NotConfirmedEmailException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
+import dev.backend.tutor.sevices.auth.signIn.SignInServiceImpl;
 import dev.backend.tutor.sevices.security.jwt.JwtBuilder;
 import dev.backend.tutor.sevices.security.refresh.RefreshTokenService;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class AuthenticationServiceImplTest {
+public class SignInServiceImplTest {
 
     @Mock
     private UserDetailsService userDetailsService;
@@ -39,7 +40,7 @@ public class AuthenticationServiceImplTest {
     private RefreshTokenService refreshTokenService;
 
     @InjectMocks
-    private AuthenticationServiceImpl underTest;
+    private SignInServiceImpl underTest;
 
     @Test
     void Should_SuccessfullySignInUser() throws UsernameNotFoundException, NotConfirmedEmailException, NotFoundUserException {

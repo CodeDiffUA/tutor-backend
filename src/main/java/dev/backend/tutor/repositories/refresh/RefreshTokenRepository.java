@@ -13,4 +13,6 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long
             "left join fetch s.roles " +
             "where t.token=:token")
     Optional<RefreshToken> findByTokenWithStudentAndHisRoles(String token);
+
+    Optional<RefreshToken> findRefreshTokenByToken(String token);
 }

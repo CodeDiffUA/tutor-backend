@@ -1,12 +1,11 @@
-package dev.backend.tutor.sevices.registration;
+package dev.backend.tutor.sevices.auth.signUp;
 
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.dtos.auth.RegistrationDtoResponse;
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
-import org.springframework.transaction.annotation.Transactional;
 
-public interface RegistrationService {
+public interface SignUpService {
 
     /**
      * register account if request valid

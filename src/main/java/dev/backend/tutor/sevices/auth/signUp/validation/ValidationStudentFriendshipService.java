@@ -1,4 +1,4 @@
-package dev.backend.tutor.sevices.registration.validation;
+package dev.backend.tutor.sevices.auth.signUp.validation;
 
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.exceptions.friendship.AlreadyFriendsException;

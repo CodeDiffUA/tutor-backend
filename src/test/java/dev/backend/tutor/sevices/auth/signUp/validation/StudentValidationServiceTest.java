@@ -1,4 +1,4 @@
-package dev.backend.tutor.sevices.registration.validation;
+package dev.backend.tutor.sevices.auth.signUp.validation;
 
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.repositories.student.StudentRepository;
