@@ -3,7 +3,7 @@ info:
   title: Tutor backend API
   version: 1.0.0
 servers:
-  - url: https://localhost:8080
+  - url: https://tutor-backend-k28m.onrender.com
 paths:
   /api/v1/student/registration:
     post:

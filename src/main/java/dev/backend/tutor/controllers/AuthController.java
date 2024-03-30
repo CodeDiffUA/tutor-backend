@@ -4,10 +4,7 @@ import dev.backend.tutor.dtos.auth.AuthenticationDtoRequest;
 import dev.backend.tutor.dtos.auth.AuthenticationResponseDto;
 import dev.backend.tutor.dtos.auth.JwtAndRefreshDto;
 import dev.backend.tutor.dtos.auth.UpdateJwtTokenRequest;
-import dev.backend.tutor.exceptions.CookieException;
-import dev.backend.tutor.exceptions.InvalidTokenException;
-import dev.backend.tutor.exceptions.NotConfirmedEmailException;
-import dev.backend.tutor.exceptions.NotFoundUserException;
+import dev.backend.tutor.exceptions.*;
 import dev.backend.tutor.sevices.auth.signIn.SignInService;
 import dev.backend.tutor.sevices.auth.signOut.SignOutService;
 import dev.backend.tutor.sevices.security.updateToken.UpdateTokenService;
@@ -39,7 +36,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponseDto> signIn(
-            @RequestBody AuthenticationDtoRequest dtoRequestWithEmail, HttpServletResponse httpServletResponse) throws UsernameNotFoundException, NotConfirmedEmailException, NotFoundUserException {
+            @RequestBody AuthenticationDtoRequest dtoRequestWithEmail, HttpServletResponse httpServletResponse) throws UsernameNotFoundException, NotConfirmedEmailException, NotFoundUserException, WrongCredentialsException {
         JwtAndRefreshDto jwtAndRefreshDto = signInService.signIn(dtoRequestWithEmail);
         var cookie = createCookieWithRefreshToken(httpServletResponse, jwtAndRefreshDto);
         httpServletResponse.addCookie(cookie);
