@@ -1,4 +1,4 @@
-package dev.backend.tutor.sevices.registration.confirm;
+package dev.backend.tutor.sevices.auth.signUp.confirm;
 
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
