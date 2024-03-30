@@ -2,7 +2,7 @@ package dev.backend.tutor.sevices.ban;
 
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.repositories.student.StudentRepository;
-import dev.backend.tutor.sevices.authentication.BanService;
+import dev.backend.tutor.sevices.student.BanService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

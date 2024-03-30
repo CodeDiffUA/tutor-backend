@@ -71,4 +71,14 @@ public class AuthControllerAdvice {
                         DateUtil.currentTimeStamp()
                 ));
     }
+
+    @ExceptionHandler(CookieException.class)
+    public ResponseEntity<?> CookieException(CookieException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ExceptionDto(
+                        e.getMessage(),
+                        DateUtil.currentTimeStamp()
+                ));
+    }
 }
