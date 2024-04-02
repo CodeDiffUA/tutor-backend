@@ -30,13 +30,13 @@ public class ConfirmationEmailServiceImplTest {
     void Should_TrowInvalidTokenException_When_Token_NotExistInDB() {
         // Arrange
         String token = "someToken";
-        when(confirmationEmailTokenRepository.findByToken(token)).thenReturn(Optional.empty());
+        when(confirmationEmailTokenRepository.findByTokenWithStudent(token)).thenReturn(Optional.empty());
 
         // Act & Assert
         assertThrows(InvalidTokenException.class, () -> underTest.confirmEmail(token));
 
         // Verify
-        verify(confirmationEmailTokenRepository, times(1)).findByToken(token);
+        verify(confirmationEmailTokenRepository, times(1)).findByTokenWithStudent(token);
         verifyNoMoreInteractions(confirmationEmailTokenRepository);
     }
 
@@ -46,13 +46,13 @@ public class ConfirmationEmailServiceImplTest {
         String token = "someToken";
         ConfirmationEmailToken expiredToken = new ConfirmationEmailToken();
         expiredToken.setExpiryDate(Instant.now().minusSeconds(3600));
-        when(confirmationEmailTokenRepository.findByToken(token)).thenReturn(Optional.of(expiredToken));
+        when(confirmationEmailTokenRepository.findByTokenWithStudent(token)).thenReturn(Optional.of(expiredToken));
 
         // Act & Assert
         assertThrows(InvalidTokenException.class, () -> underTest.confirmEmail(token));
 
         // Verify
-        verify(confirmationEmailTokenRepository, times(1)).findByToken(token);
+        verify(confirmationEmailTokenRepository, times(1)).findByTokenWithStudent(token);
         verifyNoMoreInteractions(confirmationEmailTokenRepository);
     }
 
@@ -64,14 +64,14 @@ public class ConfirmationEmailServiceImplTest {
         validToken.setExpiryDate(Instant.now().plusSeconds(3600));
         Student student = new Student();
         validToken.setStudent(student);
-        when(confirmationEmailTokenRepository.findByToken(token)).thenReturn(Optional.of(validToken));
+        when(confirmationEmailTokenRepository.findByTokenWithStudent(token)).thenReturn(Optional.of(validToken));
 
         // Act
         underTest.confirmEmail(token);
 
         // Assert
         assertTrue(student.isEnabled());
-        verify(confirmationEmailTokenRepository, times(1)).findByToken(token);
+        verify(confirmationEmailTokenRepository, times(1)).findByTokenWithStudent(token);
         verify(confirmationEmailTokenRepository, times(1)).delete(validToken);
         verifyNoMoreInteractions(confirmationEmailTokenRepository);
     }

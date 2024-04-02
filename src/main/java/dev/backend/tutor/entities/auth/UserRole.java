@@ -4,8 +4,6 @@ import dev.backend.tutor.entities.Student;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Objects;
-
 
 @Entity
 @Table(name = "user_roles")

@@ -1,11 +1,9 @@
 package dev.backend.tutor.sevices.email;
 
-import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
 import dev.backend.tutor.exceptions.InvalidTokenException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.emails.ConfirmationEmailTokenRepository;
-import dev.backend.tutor.repositories.student.StudentRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.jsoup.Jsoup;
@@ -31,7 +29,7 @@ public class EmailService implements EmailSender{
     }
 
     public void sendEmailVerificationMessage(String email, String token) throws NotFoundUserException, InvalidTokenException {
-        ConfirmationEmailToken confirmationEmailToken = confirmationEmailTokenRepository.findByToken(token)
+        ConfirmationEmailToken confirmationEmailToken = confirmationEmailTokenRepository.findByTokenWithStudent(token)
                 .orElseThrow(() -> new InvalidTokenException("no such a token found"));
         if (!email.equals(confirmationEmailToken.getStudent().getEmail())){
             throw new NotFoundUserException("token and email don't match");
