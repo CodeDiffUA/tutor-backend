@@ -231,3 +231,20 @@ paths:
                   timestamp:
                     type: string
           description: when refreshToken invalid
+  /api/v1/forgot-password:
+    patch:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: password successfully changed
+        400:
+          description: new and old password is equal
