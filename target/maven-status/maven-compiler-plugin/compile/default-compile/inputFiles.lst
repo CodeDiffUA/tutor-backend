@@ -19,6 +19,7 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\message\Exception
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\friendship\FriendshipException.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\auth\ConfirmationEmailToken.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\controllers\adviceControllers\FriendshipControllerAdvice.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\controllers\ForgotPasswordController.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\NotConfirmedEmailException.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\SubjectGrades\UkrMovaThemeGrades\SyntaxPunctuation.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\security\jwt\JwtParser.java
@@ -48,11 +49,14 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\friendship\res
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\auth\oath2\Oath2GoogleService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\friendship\FriendshipService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\InvalidTokenException.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\EqualPasswordException.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\auth\RegistrationDtoRequest.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\controllers\RegistrationController.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\friendship\RequestFriendshipResponseDto.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\forgotPassword\ForgotPasswordDtoRequest.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\SubjectGrades\UkrMovaThemeGrades\Lexicology.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\security\updateToken\UpdateTokenServiceImpl.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\controllers\adviceControllers\ForgotPasswordControllerAdvice.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\auth\signOut\SignOutService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\SubjectGrades\UkrMovaThemeGrades\Orthography.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\email\EmailService.java
@@ -80,6 +84,7 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\utills\student\DateUti
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\emails\ConfirmationEmailTokenRepository.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\friendship\response\FriendshipResponseServiceImpl.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\GeneralGrades.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\forgotPassword\ForgotPasswordServiceImpl.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\auth\RegistrationDtoResponse.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\auth\UserRole.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\SubjectGrades\UkrMovaThemeGrades\Morphology.java
@@ -89,6 +94,7 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\friendship\req
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\nofications\NotificationService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\config\WebSocketConfig.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\nofications\NotificationServiceImpl.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\forgotPassword\ForgotPasswordService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\controllers\AuthController.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\SubjectGrades\UkrMovaGrades.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\utills\student\TokenBuilder.java
