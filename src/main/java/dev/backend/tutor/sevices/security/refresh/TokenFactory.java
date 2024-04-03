@@ -1,5 +1,6 @@
 package dev.backend.tutor.sevices.security.refresh;
 
+import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
 import dev.backend.tutor.entities.auth.RefreshToken;
 import dev.backend.tutor.entities.auth.Token;
@@ -33,12 +34,11 @@ public class TokenFactory {
                 .buildRefreshToken();
     }
 
-    public ConfirmationEmailToken createConfirmationEmailToken(@NonNull UserDetails userDetails) throws NotFoundUserException {
+    public ConfirmationEmailToken createConfirmationEmailToken(@NonNull Student student) {
         return Token.builder()
                 .withToken(UUID.randomUUID().toString())
                 .withExpiryDate(Instant.now().plusSeconds(3600*24))
-                .withStudent(studentRepository.findStudentByUsername(userDetails.getUsername())
-                        .orElseThrow(() -> new NotFoundUserException("cannot find user - " + userDetails.getUsername())))
+                .withStudent(student)
                 .buildConfirmationToken();
     }
 }
