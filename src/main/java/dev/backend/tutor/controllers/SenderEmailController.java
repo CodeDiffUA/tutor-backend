@@ -27,7 +27,7 @@ public class SenderEmailController {
 
     @GetMapping("/forgot-password")
     public ResponseEntity<?> sendForgotPasswordEmail(
-            @Param("email") String email) throws NotFoundUserException, InvalidTokenException, IOException {
+            @RequestParam("email") String email) throws NotFoundUserException, InvalidTokenException, IOException {
         emailSender.sendEmailForgotPasswordMessage(email);
         return ResponseEntity.ok().build();
     }
