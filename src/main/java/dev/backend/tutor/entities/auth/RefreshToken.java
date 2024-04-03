@@ -1,8 +1,8 @@
 package dev.backend.tutor.entities.auth;
 
 import dev.backend.tutor.entities.Student;
-import dev.backend.tutor.utills.student.TokenBuilder;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 import java.time.Instant;
 

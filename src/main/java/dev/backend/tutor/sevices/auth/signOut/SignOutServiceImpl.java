@@ -1,6 +1,5 @@
 package dev.backend.tutor.sevices.auth.signOut;
 
-import dev.backend.tutor.dtos.auth.UpdateJwtTokenRequest;
 import dev.backend.tutor.exceptions.InvalidTokenException;
 import dev.backend.tutor.repositories.refresh.RefreshTokenRepository;
 import org.springframework.stereotype.Service;

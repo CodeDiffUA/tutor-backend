@@ -1,7 +1,6 @@
 package dev.backend.tutor.controllers;
 
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
-import dev.backend.tutor.dtos.auth.RegistrationDtoResponse;
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.exceptions.InvalidTokenException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
@@ -25,12 +24,10 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public ResponseEntity<RegistrationDtoResponse> registerStudent(
+    public ResponseEntity<?> registerStudent(
             @RequestBody RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException {
-        RegistrationDtoResponse confirmationToken  = signUpService.registerAccount(registrationDtoRequest);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(confirmationToken);
+        signUpService.registerAccount(registrationDtoRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @PostMapping("/confirm")
     public ResponseEntity<?> performConfirmation(@Param("token") String token) throws InvalidTokenException {

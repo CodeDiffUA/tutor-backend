@@ -20,7 +20,7 @@ public class ConfirmationEmailServiceImpl implements ConfirmationEmailService{
     @Override
     @Transactional
     public void confirmEmail(String token) throws InvalidTokenException {
-        var confirmationToken = confirmationEmailTokenRepository.findByToken(token)
+        var confirmationToken = confirmationEmailTokenRepository.findByTokenWithStudent(token)
                 .orElseThrow(() -> new InvalidTokenException("token not found"));
         if (confirmationToken.getExpiryDate().isBefore(Instant.now())){
             throw new InvalidTokenException("token expired");

@@ -1,8 +1,6 @@
 package dev.backend.tutor.controllers.adviceControllers;
 
 import dev.backend.tutor.dtos.message.ExceptionDto;
-import dev.backend.tutor.exceptions.AlreadyExistsUserException;
-import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.exceptions.friendship.AlreadyFriendsException;
 import dev.backend.tutor.exceptions.friendship.BlockedUsersException;
 import dev.backend.tutor.exceptions.friendship.FriendshipException;
