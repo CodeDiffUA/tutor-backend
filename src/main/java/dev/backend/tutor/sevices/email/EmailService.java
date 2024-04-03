@@ -58,6 +58,18 @@ public class EmailService implements EmailSender{
         }
     }
 
+    private void checkIfTokenAndEmailRelated(String email, ConfirmationEmailToken confirmationEmailToken) throws NotFoundUserException {
+        if (!email.equals(confirmationEmailToken.getStudent().getEmail())){
+            throw new NotFoundUserException("token and email don't match");
+        }
+    }
+
+    private void checkIfEmailExistsInDB(String email) throws NotFoundUserException {
+        if (studentRepository.existsStudentByEmail(email)){
+            throw new NotFoundUserException("no such email in database - " + email);
+        }
+    }
+
 
     private String getEmailHtml(String token, String path, String url) throws IOException {
         var html = Jsoup.parse(new File(path), "UTF-8").outerHtml();

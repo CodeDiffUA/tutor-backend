@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
-@RequestMapping("/api/v1/student/registration")
+@RequestMapping("/api/v1/registration")
 @CrossOrigin(originPatterns = "*")
 public class RegistrationController {
     private final SignUpService signUpService;

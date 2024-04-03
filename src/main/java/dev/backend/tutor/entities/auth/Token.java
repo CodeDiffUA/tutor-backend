@@ -14,7 +14,7 @@ public abstract class Token {
     private Long id;
 
     // Common fields for both tokens
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_username", referencedColumnName = "username")
     private Student student;
 
