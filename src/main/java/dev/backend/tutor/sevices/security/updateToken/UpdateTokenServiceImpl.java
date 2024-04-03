@@ -1,6 +1,5 @@
 package dev.backend.tutor.sevices.security.updateToken;
 
-import dev.backend.tutor.dtos.auth.AuthenticationResponseDto;
 import dev.backend.tutor.dtos.auth.JwtAndRefreshDto;
 import dev.backend.tutor.dtos.auth.UpdateJwtTokenRequest;
 import dev.backend.tutor.entities.Student;

@@ -40,7 +40,7 @@ public class Student {
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserRole> roles = new HashSet<>();
 
-    private boolean enabled;
+    private boolean enabled = false;
 
     public void addRole(UserRole userRole) {
         roles.add(userRole);

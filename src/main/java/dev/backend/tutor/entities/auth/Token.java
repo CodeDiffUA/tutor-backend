@@ -1,13 +1,11 @@
 package dev.backend.tutor.entities.auth;
 
 import dev.backend.tutor.entities.Student;
-
+import dev.backend.tutor.utills.student.TokenBuilder;
+import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.util.Objects;
-
-import dev.backend.tutor.utills.student.TokenBuilder;
-import jakarta.persistence.*;
 
 @MappedSuperclass
 public abstract class Token {
@@ -16,7 +14,7 @@ public abstract class Token {
     private Long id;
 
     // Common fields for both tokens
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_username", referencedColumnName = "username")
     private Student student;
 
