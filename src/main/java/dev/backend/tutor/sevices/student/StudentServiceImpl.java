@@ -22,7 +22,6 @@ public class StudentServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         Student student = studentRepository.findStudentsByUsernameOrEmailWithRoles(usernameOrEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("no user - " + usernameOrEmail));
-
         checkIfBanned(student);
         checkIfEnabled(student);
         return new User(usernameOrEmail, student.getPassword(), student.getRoles());

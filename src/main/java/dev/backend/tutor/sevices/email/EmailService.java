@@ -22,18 +22,19 @@ public class EmailService implements EmailSender{
 
     private final JavaMailSender mailSender;
     private final ConfirmationEmailTokenRepository confirmationEmailTokenRepository;
+    private final StudentRepository studentRepository;
 
-    public EmailService(JavaMailSender mailSender, ConfirmationEmailTokenRepository confirmationEmailTokenRepository) {
+    public EmailService(JavaMailSender mailSender, ConfirmationEmailTokenRepository confirmationEmailTokenRepository, StudentRepository studentRepository) {
         this.mailSender = mailSender;
         this.confirmationEmailTokenRepository = confirmationEmailTokenRepository;
+        this.studentRepository = studentRepository;
     }
 
     public void sendEmailVerificationMessage(String email, String token) throws NotFoundUserException, InvalidTokenException {
         ConfirmationEmailToken confirmationEmailToken = confirmationEmailTokenRepository.findByTokenWithStudent(token)
                 .orElseThrow(() -> new InvalidTokenException("no such a token found"));
-        if (!email.equals(confirmationEmailToken.getStudent().getEmail())){
-            throw new NotFoundUserException("token and email don't match");
-        }
+//        checkIfEmailExistsInDB(email);
+        checkIfTokenAndEmailRelated(email, confirmationEmailToken);
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper =
@@ -47,6 +48,18 @@ public class EmailService implements EmailSender{
             throw new IllegalStateException("failed to send email");
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void checkIfTokenAndEmailRelated(String email, ConfirmationEmailToken confirmationEmailToken) throws NotFoundUserException {
+        if (!email.equals(confirmationEmailToken.getStudent().getEmail())){
+            throw new NotFoundUserException("token and email don't match");
+        }
+    }
+
+    private void checkIfEmailExistsInDB(String email) throws NotFoundUserException {
+        if (studentRepository.existsStudentByEmail(email)){
+            throw new NotFoundUserException("no such email in database - " + email);
         }
     }
 

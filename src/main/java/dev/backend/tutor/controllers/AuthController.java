@@ -43,7 +43,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponseDto> signIn(
-            @RequestBody AuthenticationDtoRequest dtoRequestWithEmail, HttpServletResponse httpServletResponse) throws UsernameNotFoundException, NotConfirmedEmailException, NotFoundUserException {
+            @RequestBody AuthenticationDtoRequest dtoRequestWithEmail, HttpServletResponse httpServletResponse) throws UsernameNotFoundException, NotConfirmedEmailException, NotFoundUserException, WrongCredentialsException {
         JwtAndRefreshDto jwtAndRefreshDto = signInService.signIn(dtoRequestWithEmail);
         var cookie = createCookieWithRefreshToken(httpServletResponse, jwtAndRefreshDto);
         httpServletResponse.addCookie(cookie);
