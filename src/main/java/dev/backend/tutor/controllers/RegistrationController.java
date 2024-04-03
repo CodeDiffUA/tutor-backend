@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/api/v1/registration")
@@ -24,7 +25,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registerStudent(
+    public ResponseEntity<Void> registerStudent(
             @RequestBody RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException {
         signUpService.registerAccount(registrationDtoRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -32,6 +33,6 @@ public class RegistrationController {
     @PostMapping("/confirm")
     public ResponseEntity<?> performConfirmation(@Param("token") String token) throws InvalidTokenException {
         confirmationEmailService.confirmEmail(token);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new RedirectView("localhost:3000/login"));
     }
 }
