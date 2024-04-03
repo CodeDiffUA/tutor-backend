@@ -50,7 +50,7 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<AuthenticationResponseDto> signOut(
-            HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws UsernameNotFoundException, NotConfirmedEmailException, NotFoundUserException, InvalidTokenException, CookieException {
+            HttpServletRequest httpServletRequest) throws UsernameNotFoundException, NotConfirmedEmailException, InvalidTokenException, CookieException {
         var refreshCookie = getRefreshTokenCookie(httpServletRequest);
         var refreshStringToken = refreshCookie.getValue();
         signOutService.signOut(refreshStringToken);

@@ -1,7 +1,6 @@
 package dev.backend.tutor.controllers;
 
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
-import dev.backend.tutor.dtos.auth.RegistrationDtoResponse;
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.exceptions.InvalidTokenException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
@@ -11,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/api/v1/student/registration")
@@ -25,16 +25,14 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public ResponseEntity<RegistrationDtoResponse> registerStudent(
+    public ResponseEntity<Void> registerStudent(
             @RequestBody RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException {
-        RegistrationDtoResponse confirmationToken  = signUpService.registerAccount(registrationDtoRequest);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(confirmationToken);
+        signUpService.registerAccount(registrationDtoRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @PostMapping("/confirm")
     public ResponseEntity<?> performConfirmation(@Param("token") String token) throws InvalidTokenException {
         confirmationEmailService.confirmEmail(token);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new RedirectView("localhost:3000/login"));
     }
 }

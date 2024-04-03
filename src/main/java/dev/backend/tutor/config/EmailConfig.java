@@ -11,7 +11,7 @@ import java.util.Properties;
 public class EmailConfig {
 
     private static final String EMAIL_SENDER = "shraierbohdan@gmail.com";
-    private static final String EMAIL_PASSWORD = "ubflwnzuzgjgkxrv";
+    private static final String EMAIL_PASSWORD = "lncdiruuxavtgttn";
 
     @Bean
     public JavaMailSender getJavaMailSender() {
