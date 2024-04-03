@@ -31,7 +31,8 @@ public class Oath2GoogleService {
     @Value("${spring.security.oauth2.resource-server.opaque-token.client-secret}")
     private String clientSecret;
 
-    private static final String REDIRECT_URI = "http://localhost:8080/api/v1/authentication/callback";
+    private static final String REDIRECT_URI_DEV = "http://localhost:8080/api/v1/authentication/callback";
+    private static final String REDIRECT_URI_PROD = "https://tutor-backend-k28m.onrender.com/api/v1/authentication/callback";
     private final OpaqueTokenIntrospector opaqueTokenIntrospector;
     private final JwtBuilder jwtBuilder;
     private final TokenFactory tokenFactory;
@@ -47,7 +48,7 @@ public class Oath2GoogleService {
     public String getGoogleAuthorizationRedirectUrl() throws IOException, NotFoundUserException {
         return new GoogleAuthorizationCodeRequestUrl(
                 clientId,
-                REDIRECT_URI,
+                REDIRECT_URI_PROD,
                 Arrays.asList("email", "profile", "openid")
         ).build();
     }
@@ -94,7 +95,7 @@ public class Oath2GoogleService {
                 clientId,
                 clientSecret,
                 code,
-                REDIRECT_URI
+                REDIRECT_URI_PROD
         ).execute().getAccessToken();
     }
 }

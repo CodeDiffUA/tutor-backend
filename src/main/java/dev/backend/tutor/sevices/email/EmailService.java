@@ -4,6 +4,7 @@ import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
 import dev.backend.tutor.exceptions.InvalidTokenException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.emails.ConfirmationEmailTokenRepository;
+import dev.backend.tutor.repositories.student.StudentRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.jsoup.Jsoup;

@@ -33,6 +33,7 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\security\refre
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\AlreadyExistsUserException.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\friendship\request\FriendshipRequestServiceImpl.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\messegeEntities\Notification.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\WrongCredentialsException.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\friendship\FriendshipServiceImpl.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\email\EmailSender.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\auth\RefreshToken.java

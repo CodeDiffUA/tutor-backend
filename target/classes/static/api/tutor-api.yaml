@@ -3,7 +3,7 @@ info:
   title: Tutor backend API
   version: 1.0.0
 servers:
-  - url: https://localhost:8080
+  - url: https://tutor-backend-k28m.onrender.com
 paths:
   /api/v1/student/registration:
     post:
@@ -98,7 +98,7 @@ paths:
       responses:
         '200':
           description: Message sent
-  /api/v1/student/registration/confirm:
+  /api/v1/registration/confirm:
     description: this is endpoint where you user redirect to auth page
     get:
       parameters:
@@ -113,7 +113,7 @@ paths:
           description: email confirmed. now user can be authenticated
         '404':
           description: token in params is invalid
-  /api/v1/authentication:
+  /api/v1/authentication/login:
     post:
       requestBody:
         content:
@@ -173,16 +173,38 @@ paths:
                   timestamp:
                     type: string
           description: when user token is banned
+  /api/v1/authentication/logout:
+    post:
+      parameters:
+        - name: refreshToken
+          in: cookie
+          required: true
+          schema:
+            type: string
+          description: The refresh token
+      responses:
+        '200':
+          description: user's refreshToken deleted from db. But you need to delete jwt in frontend-side
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  timestamp:
+                    type: string
+          description: when refreshToken invalid
   /api/v1/authentication/refresh:
     post:
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                refreshToken:
-                  type: string
+      parameters:
+        - name: refreshToken
+          in: cookie
+          required: true
+          schema:
+            type: string
+          description: The refresh token
       responses:
         '200':
           content:
