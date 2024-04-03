@@ -82,6 +82,7 @@ dev\backend\tutor\dtos\email\ConfirmationRequest.class
 dev\backend\tutor\sevices\auth\signUp\validation\StudentValidationService.class
 dev\backend\tutor\controllers\adviceControllers\RegistrationControllerAdvice.class
 dev\backend\tutor\entities\SubjectGrades\UkrMovaThemeGrades\StylisticsTextLanguageDevelopment.class
+dev\backend\tutor\exceptions\WrongCredentialsException.class
 dev\backend\tutor\sevices\friendship\request\FriendshipRequestServiceImpl.class
 dev\backend\tutor\dtos\message\ExceptionDto.class
 dev\backend\tutor\sevices\auth\signOut\SignOutService.class
