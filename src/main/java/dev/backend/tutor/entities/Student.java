@@ -1,6 +1,7 @@
 package dev.backend.tutor.entities;
 
 
+import dev.backend.tutor.entities.auth.Role;
 import dev.backend.tutor.entities.auth.UserRole;
 import dev.backend.tutor.entities.messegeEntities.Notification;
 import dev.backend.tutor.utills.student.Form;
@@ -21,7 +22,6 @@ public class Student {
 
     private Integer age; //todo make datetime
     private Form form;
-    private boolean banned = false;
 
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<GeneralGrades> generalGradesList = new ArrayList<>();
@@ -40,9 +40,8 @@ public class Student {
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserRole> roles = new HashSet<>();
 
-    private boolean enabled = false;
-
     public void addRole(UserRole userRole) {
+        userRole.setStudent(this);
         roles.add(userRole);
     }
 
@@ -151,22 +150,42 @@ public class Student {
         return roles;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
+
     public String getEmail() {
         return email;
     }
 
     public boolean isBanned() {
-        return banned;
+        return containsRole(Role.ROLE_BANNED_STUDENT);
+    }
+    public boolean isNotActivated() {
+        return containsRole(Role.ROLE_UNACTIVATED_STUDENT);
     }
 
-    public void setBanned(boolean banned) {
-        this.banned = banned;
+    public void activate() {
+        if (isNotActivated()) {
+            roles.remove(new UserRole(this, Role.ROLE_UNACTIVATED_STUDENT));
+            roles.add(new UserRole(this, Role.ROLE_ACTIVATED_STUDENT));
+        }
+    }
+
+
+    private boolean containsRole(Role role){
+        for (UserRole userRole : roles) {
+            if (userRole.getRole() == role) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public void banStudent() {
+        this.roles.add(new UserRole(this, Role.ROLE_BANNED_STUDENT));
+    }
+
+    public void unbanStudent() {
+        this.roles.remove(new UserRole(this, Role.ROLE_BANNED_STUDENT));
     }
 }
