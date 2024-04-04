@@ -1,17 +1,20 @@
 package dev.backend.tutor.entities;
 
 
+import dev.backend.tutor.entities.auth.Role;
 import dev.backend.tutor.entities.auth.UserRole;
 import dev.backend.tutor.entities.messegeEntities.Notification;
 import dev.backend.tutor.utills.student.Form;
 import dev.backend.tutor.utills.student.StudentBuilder;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
 @Entity
 @Table(name = "accounts")
-public class Student {
+public class Student implements UserDetails {
     @Id
     private String username;
     @Column(nullable = false, unique = true)
@@ -21,7 +24,6 @@ public class Student {
 
     private Integer age; //todo make datetime
     private Form form;
-    private boolean banned = false;
 
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<GeneralGrades> generalGradesList = new ArrayList<>();
@@ -40,9 +42,8 @@ public class Student {
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserRole> roles = new HashSet<>();
 
-    private boolean enabled = false;
-
     public void addRole(UserRole userRole) {
+        userRole.setStudent(this);
         roles.add(userRole);
     }
 
@@ -111,9 +112,48 @@ public class Student {
 
     //  getter and setters
 
+    @Override
     public String getUsername() {
         return username;
     }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        /*
+         Locking a user account is typically used as a security measure in response to multiple failed login attempts,
+         to prevent brute force attacks or unauthorized access. For example, after a certain number of failed login attempts,
+         an account may be locked for a specific duration or until the user performs a password reset.
+         */
+        // fixme implement user locking
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isBanned() && !isNotActivated();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
+
 
     public void setUsername(String username) {
         this.username = username;
@@ -143,30 +183,48 @@ public class Student {
         return blockedStudents;
     }
 
-    public String getPassword() {
-        return password;
+    public Integer getAge() {
+        return age;
     }
 
-    public Set<UserRole> getRoles() {
-        return roles;
+    public Form getForm() {
+        return form;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
     public String getEmail() {
         return email;
     }
 
     public boolean isBanned() {
-        return banned;
+        return containsRole(Role.ROLE_BANNED_STUDENT);
+    }
+    public boolean isNotActivated() {
+        return containsRole(Role.ROLE_UNACTIVATED_STUDENT);
     }
 
-    public void setBanned(boolean banned) {
-        this.banned = banned;
+    public void activate() {
+        if (isNotActivated()) {
+            roles.remove(new UserRole(this, Role.ROLE_UNACTIVATED_STUDENT));
+            roles.add(new UserRole(this, Role.ROLE_ACTIVATED_STUDENT));
+        }
+    }
+
+
+    private boolean containsRole(Role role){
+        for (UserRole userRole : roles) {
+            if (userRole.getRole() == role) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public void banStudent() {
+        this.roles.add(new UserRole(this, Role.ROLE_BANNED_STUDENT));
+    }
+
+    public void unbanStudent() {
+        this.roles.remove(new UserRole(this, Role.ROLE_BANNED_STUDENT));
     }
 }

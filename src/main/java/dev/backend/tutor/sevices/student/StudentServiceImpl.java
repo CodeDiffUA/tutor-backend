@@ -2,12 +2,14 @@ package dev.backend.tutor.sevices.student;
 
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.exceptions.NotConfirmedEmailException;
+import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.student.StudentRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class StudentServiceImpl implements UserDetailsService {
@@ -23,12 +25,22 @@ public class StudentServiceImpl implements UserDetailsService {
         Student student = studentRepository.findStudentsByUsernameOrEmailWithRoles(usernameOrEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("no user - " + usernameOrEmail));
         checkIfBanned(student);
-        checkIfEnabled(student);
-        return new User(usernameOrEmail, student.getPassword(), student.getRoles());
+        checkIfActivated(student);
+        return student;
     }
 
-    private void checkIfEnabled(Student student) {
-        if (!student.isEnabled()) {
+
+    public Student getStudentWithRolesByUsernameOrEmail(String usernameOrEmail) throws NotFoundUserException {
+        return studentRepository.findStudentsByUsernameOrEmailWithRoles(usernameOrEmail)
+                .orElseThrow(() -> new NotFoundUserException("no " + usernameOrEmail+" in db"));
+    }
+
+    public void saveStudent(Student student) {
+        studentRepository.insertStudent(student);
+    }
+
+    private void checkIfActivated(Student student) {
+        if (student.isNotActivated()) {
             throw new NotConfirmedEmailException("User has not confirmed email yet");
         }
     }

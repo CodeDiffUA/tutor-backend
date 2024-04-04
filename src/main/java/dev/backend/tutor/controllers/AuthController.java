@@ -8,6 +8,7 @@ import dev.backend.tutor.exceptions.*;
 import dev.backend.tutor.sevices.auth.oath2.Oath2GoogleService;
 import dev.backend.tutor.sevices.auth.signIn.SignInService;
 import dev.backend.tutor.sevices.auth.signOut.SignOutService;
+import dev.backend.tutor.sevices.cookie.CookieService;
 import dev.backend.tutor.sevices.security.updateToken.UpdateTokenService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,19 +27,19 @@ import java.util.Arrays;
 @CrossOrigin(originPatterns = "*")
 public class AuthController {
 
-    private static final Integer REFRESH_COOKIE_LIVE_TERM = 3600 * 24 * 14;
-
     private final SignInService signInService;
     private final UpdateTokenService updateTokenService;
     private final SignOutService signOutService;
     private final Oath2GoogleService oath2GoogleService;
+    private final CookieService cookieService;
 
 
-    public AuthController(SignInService signInService, UpdateTokenService updateTokenService, SignOutService signOutService, Oath2GoogleService oath2GoogleService) {
+    public AuthController(SignInService signInService, UpdateTokenService updateTokenService, SignOutService signOutService, Oath2GoogleService oath2GoogleService, CookieService cookieService) {
         this.signInService = signInService;
         this.updateTokenService = updateTokenService;
         this.signOutService = signOutService;
         this.oath2GoogleService = oath2GoogleService;
+        this.cookieService = cookieService;
     }
 
     @PostMapping("/login")
@@ -100,19 +101,10 @@ public class AuthController {
     }
 
     private Cookie getRefreshTokenCookie(HttpServletRequest httpServletRequest) throws CookieException {
-        return Arrays.stream(httpServletRequest.getCookies())
-                .filter(cookie -> cookie.getName().equals("refreshToken"))
-                .findFirst()
-                .orElseThrow(() -> new CookieException("no refresh cookie"));
+        return cookieService.getRefreshTokenCookie(httpServletRequest);
     }
 
     private Cookie createCookieWithRefreshToken(HttpServletResponse httpServletResponse, JwtAndRefreshDto jwtAndRefreshDto) {
-        Cookie cookie = new Cookie("refreshToken", jwtAndRefreshDto.refreshToken());
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(REFRESH_COOKIE_LIVE_TERM);
-        httpServletResponse.setContentType("text/plain");
-        httpServletResponse.addCookie(cookie);
-        return cookie;
+        return cookieService.createCookieWithRefreshToken(httpServletResponse, jwtAndRefreshDto);
     }
 }
