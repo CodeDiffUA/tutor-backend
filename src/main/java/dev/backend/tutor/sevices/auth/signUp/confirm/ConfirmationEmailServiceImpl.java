@@ -1,5 +1,6 @@
 package dev.backend.tutor.sevices.auth.signUp.confirm;
 
+import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
 import dev.backend.tutor.exceptions.InvalidTokenException;
 import dev.backend.tutor.repositories.emails.ConfirmationEmailTokenRepository;
 import org.springframework.stereotype.Service;
@@ -20,13 +21,18 @@ public class ConfirmationEmailServiceImpl implements ConfirmationEmailService{
     @Override
     @Transactional
     public void confirmEmail(String token) throws InvalidTokenException {
-        var confirmationToken = confirmationEmailTokenRepository.findByTokenWithStudent(token)
+        var confirmationToken = confirmationEmailTokenRepository.findByTokenWithStudentWithRoles(token)
                 .orElseThrow(() -> new InvalidTokenException("token not found"));
         if (confirmationToken.getExpiryDate().isBefore(Instant.now())){
             throw new InvalidTokenException("token expired");
         }
         var student = confirmationToken.getStudent();
-        student.setEnabled(true);
+        student.activate();
         confirmationEmailTokenRepository.delete(confirmationToken);
+    }
+
+    @Transactional
+    public void saveConfirmationToken(ConfirmationEmailToken confirmationEmailToken) {
+        confirmationEmailTokenRepository.save(confirmationEmailToken);
     }
 }

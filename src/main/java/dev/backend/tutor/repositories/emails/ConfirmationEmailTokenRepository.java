@@ -13,6 +13,12 @@ public interface ConfirmationEmailTokenRepository extends JpaRepository<Confirma
             "left join fetch token.student " +
             "where token.token=:token")
     Optional<ConfirmationEmailToken> findByTokenWithStudent(String token);
+
+    @Query("select token from ConfirmationEmailToken token " +
+            "left join fetch token.student s " +
+            "left join fetch s.roles " +
+            "where token.token=:token")
+    Optional<ConfirmationEmailToken> findByTokenWithStudentWithRoles(String token);
     
     Optional<ConfirmationEmailToken> findByToken(String token);
 }

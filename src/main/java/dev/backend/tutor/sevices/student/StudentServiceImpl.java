@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class StudentServiceImpl implements UserDetailsService {
@@ -23,12 +24,17 @@ public class StudentServiceImpl implements UserDetailsService {
         Student student = studentRepository.findStudentsByUsernameOrEmailWithRoles(usernameOrEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("no user - " + usernameOrEmail));
         checkIfBanned(student);
-        checkIfEnabled(student);
+        checkIfActivated(student);
         return new User(usernameOrEmail, student.getPassword(), student.getRoles());
     }
 
-    private void checkIfEnabled(Student student) {
-        if (!student.isEnabled()) {
+    @Transactional
+    public void saveStudent(Student student) {
+        studentRepository.save(student);
+    }
+
+    private void checkIfActivated(Student student) {
+        if (student.isNotActivated()) {
             throw new NotConfirmedEmailException("User has not confirmed email yet");
         }
     }

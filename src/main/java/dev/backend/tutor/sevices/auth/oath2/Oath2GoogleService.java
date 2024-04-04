@@ -11,7 +11,6 @@ import dev.backend.tutor.exceptions.BannedException;
 import dev.backend.tutor.exceptions.NotConfirmedEmailException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.student.StudentRepository;
-import dev.backend.tutor.sevices.security.jwt.JwtBuilder;
 import dev.backend.tutor.sevices.security.refresh.TokenFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User;
@@ -34,13 +33,11 @@ public class Oath2GoogleService {
     private static final String REDIRECT_URI_DEV = "http://localhost:8080/api/v1/authentication/callback";
     private static final String REDIRECT_URI_PROD = "https://tutor-backend-k28m.onrender.com/api/v1/authentication/callback";
     private final OpaqueTokenIntrospector opaqueTokenIntrospector;
-    private final JwtBuilder jwtBuilder;
     private final TokenFactory tokenFactory;
     private final StudentRepository studentRepository;
 
-    public Oath2GoogleService(OpaqueTokenIntrospector opaqueTokenIntrospector, JwtBuilder jwtBuilder, TokenFactory tokenFactory, StudentRepository studentRepository) {
+    public Oath2GoogleService(OpaqueTokenIntrospector opaqueTokenIntrospector, TokenFactory tokenFactory, StudentRepository studentRepository) {
         this.opaqueTokenIntrospector = opaqueTokenIntrospector;
-        this.jwtBuilder = jwtBuilder;
         this.tokenFactory = tokenFactory;
         this.studentRepository = studentRepository;
     }
@@ -62,7 +59,7 @@ public class Oath2GoogleService {
     }
 
     private JwtAndRefreshDto generateJwtAndRefreshTokenFromUserDetails(UserDetails userDetails) throws NotFoundUserException {
-        String jwt = jwtBuilder.generateJwt(userDetails);
+        String jwt = tokenFactory.createJwt(userDetails);
         RefreshToken refreshToken = tokenFactory.createRefreshToken(userDetails);
         return new JwtAndRefreshDto(jwt, refreshToken.getToken());
     }
@@ -75,7 +72,7 @@ public class Oath2GoogleService {
         var student = studentRepository.findStudentsByUsernameOrEmailWithRoles(email).orElseThrow(
                 () -> new NotFoundUserException("not found user -> " + email + ". You need to sign up")
         );
-        if (!student.isEnabled()) {
+        if (student.isNotActivated()) {
             throw new NotConfirmedEmailException("User has not confirmed email yet!");
         }
         if (student.isBanned()) {
