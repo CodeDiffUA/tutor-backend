@@ -7,6 +7,7 @@ import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.exceptions.WrongCredentialsException;
 import dev.backend.tutor.sevices.security.jwt.JwtBuilder;
 import dev.backend.tutor.sevices.security.refresh.RefreshTokenService;
+import dev.backend.tutor.sevices.security.refresh.TokenFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,12 +18,12 @@ import org.springframework.stereotype.Service;
 public class SignInServiceImpl implements SignInService {
 
     private final UserDetailsService userDetailsService;
-    private final JwtBuilder jwtBuilder;
+    private final TokenFactory tokenFactory;
     private final RefreshTokenService refreshTokenService;
 
-    public SignInServiceImpl(UserDetailsService userDetailsService, JwtBuilder jwtBuilder, RefreshTokenService refreshTokenService) {
+    public SignInServiceImpl(UserDetailsService userDetailsService, TokenFactory tokenFactory, RefreshTokenService refreshTokenService) {
         this.userDetailsService = userDetailsService;
-        this.jwtBuilder = jwtBuilder;
+        this.tokenFactory = tokenFactory;
         this.refreshTokenService = refreshTokenService;
     }
 
@@ -30,7 +31,7 @@ public class SignInServiceImpl implements SignInService {
     public JwtAndRefreshDto signIn(AuthenticationDtoRequest authenticationDtoRequest) throws UsernameNotFoundException, NotConfirmedEmailException, NotFoundUserException, WrongCredentialsException {
         UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDtoRequest.usernameOrEmail());
         checkPassword(userDetails.getPassword(), authenticationDtoRequest.password());
-        String jwt = jwtBuilder.generateJwt(userDetails);
+        String jwt = tokenFactory.createJwt(userDetails);
         String refreshToken = refreshTokenService.createRefreshToken(userDetails).getToken();
         return new JwtAndRefreshDto(jwt, refreshToken);
     }

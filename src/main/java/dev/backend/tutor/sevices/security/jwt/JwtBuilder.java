@@ -18,18 +18,8 @@ public class JwtBuilder {
         this.jwtUtil = jwtUtil;
     }
 
-    public String generateJwt(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
 
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList();
-        claims.put("roles", roles);
-
-        return buildJwt(claims, userDetails.getUsername());
-    }
-
-    private String buildJwt(Map<String, Object> claims, String username) {
+    public String buildJwt(Map<String, Object> claims, String username) {
         return Jwts.builder()
                 .claims(claims)
                 .subject(username)

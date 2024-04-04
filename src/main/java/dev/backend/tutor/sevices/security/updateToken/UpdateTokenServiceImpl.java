@@ -20,13 +20,11 @@ public class UpdateTokenServiceImpl implements UpdateTokenService{
     private final RefreshTokenRepository refreshTokenRepository;
     private final TokenFactory tokenFactory;
     private final RefreshTokenValidationService refreshTokenValidationService;
-    private final JwtBuilder jwtBuilder;
 
-    public UpdateTokenServiceImpl(RefreshTokenRepository refreshTokenRepository, TokenFactory tokenFactory, RefreshTokenValidationService refreshTokenValidationService, JwtBuilder jwtBuilder) {
+    public UpdateTokenServiceImpl(RefreshTokenRepository refreshTokenRepository, TokenFactory tokenFactory, RefreshTokenValidationService refreshTokenValidationService) {
         this.refreshTokenRepository = refreshTokenRepository;
         this.tokenFactory = tokenFactory;
         this.refreshTokenValidationService = refreshTokenValidationService;
-        this.jwtBuilder = jwtBuilder;
     }
 
     @Override
@@ -38,7 +36,7 @@ public class UpdateTokenServiceImpl implements UpdateTokenService{
         RefreshToken newRefreshToken = tokenFactory.createRefreshToken(userDetails);
         refreshTokenRepository.delete(refreshToken);
         refreshTokenRepository.save(newRefreshToken);
-        String jwt = jwtBuilder.generateJwt(userDetails);
+        String jwt = tokenFactory.createJwt(userDetails);
         return new JwtAndRefreshDto(jwt, refreshToken.getToken());
     }
 

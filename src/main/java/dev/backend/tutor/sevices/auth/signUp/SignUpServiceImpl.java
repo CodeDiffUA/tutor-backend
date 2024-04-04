@@ -1,46 +1,65 @@
 package dev.backend.tutor.sevices.auth.signUp;
 
+import dev.backend.tutor.dtos.auth.JwtAndRefreshDto;
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
+import dev.backend.tutor.entities.auth.RefreshToken;
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.emails.ConfirmationEmailTokenRepository;
 import dev.backend.tutor.repositories.student.StudentRepository;
+import dev.backend.tutor.sevices.auth.signUp.confirm.ConfirmationEmailServiceImpl;
 import dev.backend.tutor.sevices.auth.signUp.validation.StudentValidationService;
+import dev.backend.tutor.sevices.security.jwt.JwtBuilder;
 import dev.backend.tutor.sevices.security.refresh.TokenFactory;
+import dev.backend.tutor.sevices.student.StudentServiceImpl;
 import dev.backend.tutor.utills.student.StudentBuilder;
+import jakarta.persistence.EntityManager;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SignUpServiceImpl implements SignUpService {
-    private final StudentRepository studentRepository;
+    private final StudentServiceImpl studentService;
     private final StudentValidationService validationService;
     private final PasswordEncoder passwordEncoder;
     private final TokenFactory tokenFactory;
-    private final ConfirmationEmailTokenRepository confirmationEmailTokenRepository;
+    private final ConfirmationEmailServiceImpl confirmationEmailService;
+    private final EntityManager entityManager;
 
-    public SignUpServiceImpl(StudentRepository studentRepository, StudentValidationService validationService, PasswordEncoder passwordEncoder, TokenFactory tokenFactory, ConfirmationEmailTokenRepository confirmationEmailTokenRepository) {
-        this.studentRepository = studentRepository;
+    public SignUpServiceImpl(StudentServiceImpl studentService, StudentValidationService validationService, PasswordEncoder passwordEncoder, TokenFactory tokenFactory, ConfirmationEmailServiceImpl confirmationEmailService, EntityManager entityManager) {
+        this.studentService = studentService;
         this.validationService = validationService;
         this.passwordEncoder = passwordEncoder;
         this.tokenFactory = tokenFactory;
-        this.confirmationEmailTokenRepository = confirmationEmailTokenRepository;
+        this.confirmationEmailService = confirmationEmailService;
+        this.entityManager = entityManager;
     }
 
     @Override
     @Transactional
-    public void registerAccount(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException {
+    public JwtAndRefreshDto registerAccount(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException {
         validateRequest(registrationDtoRequest);
         Student student = createStudent(registrationDtoRequest);
-        studentRepository.save(student);
+        studentService.saveStudent(student);
+        entityManager.flush();
         ConfirmationEmailToken token = createConfirmationToken(student);
-        confirmationEmailTokenRepository.save(token);
+        confirmationEmailService.saveConfirmationToken(token);
+        return getJwtAndRefreshToken(student);
     }
 
-    private ConfirmationEmailToken createConfirmationToken(Student student) throws NotFoundUserException {
+    private JwtAndRefreshDto getJwtAndRefreshToken(Student  student) throws NotFoundUserException {
+        UserDetails userDetails = new User(student.getUsername(), student.getPassword(), student.getRoles());
+        String jwt = tokenFactory.createJwt(userDetails);
+        RefreshToken refreshToken = tokenFactory.createRefreshToken(userDetails);
+        return new JwtAndRefreshDto(jwt, refreshToken.getToken());
+    }
+
+    private ConfirmationEmailToken createConfirmationToken(Student student) {
         return tokenFactory.createConfirmationEmailToken(student);
     }
 
