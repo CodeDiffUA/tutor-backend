@@ -14,15 +14,15 @@ public class BanService {
 
     @Transactional
     public void banStudent(String usernameOrEmail) {
-        var student = studentRepository.findStudentsByUsernameOrEmail(usernameOrEmail).orElseThrow();
-        student.setBanned(true);
+        var student = studentRepository.findStudentsByUsernameOrEmailWithRoles(usernameOrEmail).orElseThrow();
+        student.banStudent();
         studentRepository.save(student);
     }
 
     @Transactional
     public void unbanStudent(String usernameOrEmail) {
-        var student = studentRepository.findStudentsByUsernameOrEmail(usernameOrEmail).orElseThrow();
-        student.setBanned(false);
+        var student = studentRepository.findStudentsByUsernameOrEmailWithRoles(usernameOrEmail).orElseThrow();
+        student.unbanStudent();
         studentRepository.save(student);
     }
 }

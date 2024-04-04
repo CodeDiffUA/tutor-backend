@@ -74,6 +74,10 @@ public abstract class Token {
         this.expiryDate = expiryDate;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public static TokenBuilder builder() {
         return new TokenBuilder();
     }
