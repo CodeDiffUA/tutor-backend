@@ -2,6 +2,7 @@ package dev.backend.tutor.sevices.student;
 
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.exceptions.NotConfirmedEmailException;
+import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.student.StudentRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,12 +26,17 @@ public class StudentServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("no user - " + usernameOrEmail));
         checkIfBanned(student);
         checkIfActivated(student);
-        return new User(usernameOrEmail, student.getPassword(), student.getRoles());
+        return student;
     }
 
-    @Transactional
+
+    public Student getStudentWithRolesByUsernameOrEmail(String usernameOrEmail) throws NotFoundUserException {
+        return studentRepository.findStudentsByUsernameOrEmailWithRoles(usernameOrEmail)
+                .orElseThrow(() -> new NotFoundUserException("no " + usernameOrEmail+" in db"));
+    }
+
     public void saveStudent(Student student) {
-        studentRepository.save(student);
+        studentRepository.insertStudent(student);
     }
 
     private void checkIfActivated(Student student) {

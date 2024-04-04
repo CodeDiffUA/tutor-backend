@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface ConfirmationEmailTokenRepository extends JpaRepository<ConfirmationEmailToken, Long> {
+public interface ConfirmationEmailTokenRepository extends JpaRepository<ConfirmationEmailToken, Long>, CustomConfirmationEmailTokenRepository {
 
 
     @Query("select token from ConfirmationEmailToken token " +

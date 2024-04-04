@@ -81,4 +81,14 @@ public class AuthControllerAdvice {
                         DateUtil.currentTimeStamp()
                 ));
     }
+
+    @ExceptionHandler(WrongCredentialsException.class)
+    public ResponseEntity<?> WrongCredentialsException(WrongCredentialsException e) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ExceptionDto(
+                        e.getMessage(),
+                        DateUtil.currentTimeStamp()
+                ));
+    }
 }

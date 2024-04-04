@@ -17,7 +17,6 @@ public class StudentCustomRepositoryImpl implements StudentCustomRepository {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Student> findSenderAndRecipientStudentsWithFriendsAndBlocked(
             String senderLogin, String recipientLogin
     ) {
@@ -42,4 +41,22 @@ public class StudentCustomRepositoryImpl implements StudentCustomRepository {
 
         return students;
     }
+
+    @Override
+    @Transactional
+    public Student insertStudent(Student student) {
+        entityManager.createNativeQuery("""
+                        INSERT INTO accounts (username, email, password, age, form)\s
+                        VALUES (?, ?, ?, ?, ?)
+                        """)
+                .setParameter(1, student.getUsername())
+                .setParameter(2, student.getEmail())
+                .setParameter(3, student.getPassword())
+                .setParameter(4, student.getAge())
+                .setParameter(5, student.getForm())
+                .executeUpdate();
+        return student;
+    }
+
+
 }

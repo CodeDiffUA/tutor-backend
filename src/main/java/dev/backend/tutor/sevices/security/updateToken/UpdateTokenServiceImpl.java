@@ -7,9 +7,8 @@ import dev.backend.tutor.entities.auth.RefreshToken;
 import dev.backend.tutor.exceptions.InvalidTokenException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.refresh.RefreshTokenRepository;
-import dev.backend.tutor.sevices.security.jwt.JwtBuilder;
 import dev.backend.tutor.sevices.security.refresh.RefreshTokenValidationService;
-import dev.backend.tutor.sevices.security.refresh.TokenFactory;
+import dev.backend.tutor.sevices.security.TokenFactory;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -32,21 +31,16 @@ public class UpdateTokenServiceImpl implements UpdateTokenService{
         var refreshToken = getRefreshToken(updateJwtTokenRequest.refreshToken());
         refreshTokenValidationService.validateExpiration(refreshToken);
         Student student = extractStudentFromRefreshToken(refreshToken);
-        UserDetails userDetails = getUserDetailsFromStudent(student);
-        RefreshToken newRefreshToken = tokenFactory.createRefreshToken(userDetails);
+        RefreshToken newRefreshToken = tokenFactory.createRefreshToken(student);
         refreshTokenRepository.delete(refreshToken);
         refreshTokenRepository.save(newRefreshToken);
-        String jwt = tokenFactory.createJwt(userDetails);
+        String jwt = tokenFactory.createJwt(student);
         return new JwtAndRefreshDto(jwt, refreshToken.getToken());
     }
 
     private RefreshToken getRefreshToken(String token) throws InvalidTokenException {
         return refreshTokenRepository.findByTokenWithStudentAndHisRoles(token)
                 .orElseThrow(InvalidTokenException::new);
-    }
-
-    private UserDetails getUserDetailsFromStudent(Student student) {
-        return new User(student.getUsername(), student.getPassword(), student.getRoles());
     }
 
     private Student extractStudentFromRefreshToken(RefreshToken refreshToken) {

@@ -7,12 +7,14 @@ import dev.backend.tutor.entities.messegeEntities.Notification;
 import dev.backend.tutor.utills.student.Form;
 import dev.backend.tutor.utills.student.StudentBuilder;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
 @Entity
 @Table(name = "accounts")
-public class Student {
+public class Student implements UserDetails {
     @Id
     private String username;
     @Column(nullable = false, unique = true)
@@ -110,9 +112,48 @@ public class Student {
 
     //  getter and setters
 
+    @Override
     public String getUsername() {
         return username;
     }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        /*
+         Locking a user account is typically used as a security measure in response to multiple failed login attempts,
+         to prevent brute force attacks or unauthorized access. For example, after a certain number of failed login attempts,
+         an account may be locked for a specific duration or until the user performs a password reset.
+         */
+        // fixme implement user locking
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isBanned() && !isNotActivated();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
+
 
     public void setUsername(String username) {
         this.username = username;
@@ -142,15 +183,13 @@ public class Student {
         return blockedStudents;
     }
 
-    public String getPassword() {
-        return password;
+    public Integer getAge() {
+        return age;
     }
 
-    public Set<UserRole> getRoles() {
-        return roles;
+    public Form getForm() {
+        return form;
     }
-
-
 
     public String getEmail() {
         return email;

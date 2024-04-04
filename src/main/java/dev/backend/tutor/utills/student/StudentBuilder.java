@@ -45,7 +45,7 @@ public class StudentBuilder {
         student.setPassword(this.password);
         student.setAge(this.age);
         student.setForm(this.form);
-        if (student.getRoles().isEmpty()) {
+        if (student.getAuthorities().isEmpty()) {
             student.addRole(new UserRole(student, Role.ROLE_UNACTIVATED_STUDENT));
         }
         return student;

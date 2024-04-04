@@ -33,6 +33,6 @@ public class ConfirmationEmailServiceImpl implements ConfirmationEmailService{
 
     @Transactional
     public void saveConfirmationToken(ConfirmationEmailToken confirmationEmailToken) {
-        confirmationEmailTokenRepository.save(confirmationEmailToken);
+        confirmationEmailTokenRepository.insert(confirmationEmailToken);
     }
 }

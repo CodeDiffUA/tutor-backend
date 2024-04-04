@@ -47,13 +47,13 @@ public class UserRole implements GrantedAuthority {
         if (this == o) return true;
         if (!(o instanceof UserRole userRole)) return false;
 
-        if (!id.equals(userRole.id)) return false;
+        if (!student.equals(userRole.student)) return false;
         return getRole() == userRole.getRole();
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result = student.hashCode();
         result = 31 * result + getRole().hashCode();
         return result;
     }

@@ -11,7 +11,7 @@ import dev.backend.tutor.exceptions.BannedException;
 import dev.backend.tutor.exceptions.NotConfirmedEmailException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.student.StudentRepository;
-import dev.backend.tutor.sevices.security.refresh.TokenFactory;
+import dev.backend.tutor.sevices.security.TokenFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,7 +42,7 @@ public class Oath2GoogleService {
         this.studentRepository = studentRepository;
     }
 
-    public String getGoogleAuthorizationRedirectUrl() throws IOException, NotFoundUserException {
+    public String getGoogleAuthorizationRedirectUrl() {
         return new GoogleAuthorizationCodeRequestUrl(
                 clientId,
                 REDIRECT_URI_PROD,
@@ -54,18 +54,13 @@ public class Oath2GoogleService {
         String token = getAccessTokenFromRequest(code);
         String email = getEmailFromToken(token);
         Student student = getStudentWithRolesByEmail(email);
-        UserDetails userDetails = getUserDetailsFromStudent(student);
-        return generateJwtAndRefreshTokenFromUserDetails(userDetails);
+        return generateJwtAndRefreshTokenFromUserDetails(student);
     }
 
-    private JwtAndRefreshDto generateJwtAndRefreshTokenFromUserDetails(UserDetails userDetails) throws NotFoundUserException {
-        String jwt = tokenFactory.createJwt(userDetails);
-        RefreshToken refreshToken = tokenFactory.createRefreshToken(userDetails);
+    private JwtAndRefreshDto generateJwtAndRefreshTokenFromUserDetails(Student student) throws NotFoundUserException {
+        String jwt = tokenFactory.createJwt(student);
+        RefreshToken refreshToken = tokenFactory.createRefreshToken(student);
         return new JwtAndRefreshDto(jwt, refreshToken.getToken());
-    }
-
-    private UserDetails getUserDetailsFromStudent(Student student) {
-        return new User(student.getUsername(), student.getPassword(), student.getRoles());
     }
 
     private Student getStudentWithRolesByEmail(String email) throws NotFoundUserException, BannedException {

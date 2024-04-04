@@ -7,12 +7,9 @@ import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
 import dev.backend.tutor.entities.auth.RefreshToken;
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
-import dev.backend.tutor.repositories.emails.ConfirmationEmailTokenRepository;
-import dev.backend.tutor.repositories.student.StudentRepository;
 import dev.backend.tutor.sevices.auth.signUp.confirm.ConfirmationEmailServiceImpl;
 import dev.backend.tutor.sevices.auth.signUp.validation.StudentValidationService;
-import dev.backend.tutor.sevices.security.jwt.JwtBuilder;
-import dev.backend.tutor.sevices.security.refresh.TokenFactory;
+import dev.backend.tutor.sevices.security.TokenFactory;
 import dev.backend.tutor.sevices.student.StudentServiceImpl;
 import dev.backend.tutor.utills.student.StudentBuilder;
 import jakarta.persistence.EntityManager;
@@ -53,9 +50,8 @@ public class SignUpServiceImpl implements SignUpService {
     }
 
     private JwtAndRefreshDto getJwtAndRefreshToken(Student  student) throws NotFoundUserException {
-        UserDetails userDetails = new User(student.getUsername(), student.getPassword(), student.getRoles());
-        String jwt = tokenFactory.createJwt(userDetails);
-        RefreshToken refreshToken = tokenFactory.createRefreshToken(userDetails);
+        String jwt = tokenFactory.createJwt(student);
+        RefreshToken refreshToken = tokenFactory.createRefreshToken(student);
         return new JwtAndRefreshDto(jwt, refreshToken.getToken());
     }
 

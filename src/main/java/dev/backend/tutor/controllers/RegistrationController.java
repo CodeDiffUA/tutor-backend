@@ -45,7 +45,7 @@ public class RegistrationController {
                 .status(HttpStatus.CREATED)
                 .body(new AuthenticationResponseDto(jwtAndRefreshDto.jwt()));
     }
-    @PostMapping("/confirm")
+    @GetMapping("/confirm")
     public ResponseEntity<?> performConfirmation(@Param("token") String token) throws InvalidTokenException {
         confirmationEmailService.confirmEmail(token);
         return ResponseEntity.ok(new RedirectView("localhost:3000/login"));
