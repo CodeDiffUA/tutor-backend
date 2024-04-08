@@ -1,7 +1,10 @@
 package dev.backend.tutor.sevices.email;
 
+import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
+import dev.backend.tutor.entities.confirmationPasswordToken.ConfirmationPasswordToken;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.emails.ConfirmationEmailTokenRepository;
+import dev.backend.tutor.repositories.passwords.ConfirmationPasswordTokenRepository;
 import dev.backend.tutor.repositories.student.StudentRepository;
 import dev.backend.tutor.sevices.security.TokenFactory;
 import jakarta.mail.MessagingException;
@@ -18,7 +21,7 @@ import java.io.IOException;
 public class EmailService implements EmailSender{
     private static final String EMAIL_CONFIRMATION_PATH = "src/main/resources/static/gmailConfirmation.html";
     private static final String EMAIL_FORGOT_PASSWORD_PATH = "src/main/resources/static/gmailForgotPassword.html";
-    private static final String FORGOT_PASSWORD_PAGE = "http://localhost:3000/forgot-password";
+    private static final String FORGOT_PASSWORD_PAGE = "http://localhost:3000/forgot-password?token=";
     private static final String CONFIRM_EMAIL_ENDPOINT_DEV = "http://localhost:8080/api/v1/registration/confirm?token=";
     private static final String CONFIRM_EMAIL_ENDPOINT_PROD = "https://tutor-backend-k28m.onrender.com/api/v1/registration/confirm?token=";
     private static final String CORPORATE_EMAIL = "shraierbohdan@gmail.com";
@@ -27,23 +30,17 @@ public class EmailService implements EmailSender{
     private final TokenFactory tokenFactory;
     private final StudentRepository studentRepository;
     private final ConfirmationEmailTokenRepository confirmationEmailTokenRepository;
+    private final ConfirmationPasswordTokenRepository confirmationPasswordTokenRepository;
 
-    public EmailService(JavaMailSender mailSender, TokenFactory tokenFactory, StudentRepository studentRepository, ConfirmationEmailTokenRepository confirmationEmailTokenRepository) {
+    public EmailService(JavaMailSender mailSender, TokenFactory tokenFactory, StudentRepository studentRepository, ConfirmationEmailTokenRepository confirmationEmailTokenRepository, ConfirmationPasswordTokenRepository confirmationPasswordTokenRepository) {
         this.mailSender = mailSender;
         this.tokenFactory = tokenFactory;
         this.studentRepository = studentRepository;
         this.confirmationEmailTokenRepository = confirmationEmailTokenRepository;
+        this.confirmationPasswordTokenRepository = confirmationPasswordTokenRepository;
     }
 
     public void sendEmailVerificationMessage(String email) throws NotFoundUserException, IOException {
-        sendEmail(email, EMAIL_CONFIRMATION_PATH, CONFIRM_EMAIL_ENDPOINT_DEV);
-    }
-
-    public void sendEmailForgotPasswordMessage(String email) throws NotFoundUserException, IOException {
-        sendEmail(email, EMAIL_FORGOT_PASSWORD_PATH, FORGOT_PASSWORD_PAGE);
-    }
-
-    private void sendEmail(String email, String path, String url) throws NotFoundUserException, IOException{
         var student = studentRepository.findStudentsByUsernameOrEmailWithRoles(email)
                 .orElseThrow(() -> new NotFoundUserException("cannot find user - " + email));
         var token = tokenFactory.createConfirmationEmailToken(student);
@@ -52,7 +49,26 @@ public class EmailService implements EmailSender{
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper =
                     new MimeMessageHelper(mimeMessage, "utf-8");
-            String content = getEmailHtml(token.getToken(), path, url);
+            String content = getEmailHtml(token.getToken(), EMAIL_CONFIRMATION_PATH, CONFIRM_EMAIL_ENDPOINT_PROD);
+            helper.setFrom(CORPORATE_EMAIL);
+            helper.setTo(email);
+            helper.setText(content, true);
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            throw new IllegalStateException("failed to send email");
+        }
+    }
+
+    public void sendEmailForgotPasswordMessage(String email) throws NotFoundUserException, IOException {
+        var student = studentRepository.findStudentsByUsernameOrEmailWithRoles(email)
+                .orElseThrow(() -> new NotFoundUserException("cannot find user - " + email));
+        var token = tokenFactory.createConfirmationPasswordToken(student);
+        confirmationPasswordTokenRepository.insert(token);
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(mimeMessage, "utf-8");
+            String content = getEmailHtml(token.getToken(), EMAIL_CONFIRMATION_PATH, CONFIRM_EMAIL_ENDPOINT_PROD);
             helper.setFrom(CORPORATE_EMAIL);
             helper.setTo(email);
             helper.setText(content, true);

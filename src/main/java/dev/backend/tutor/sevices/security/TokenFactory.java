@@ -4,6 +4,7 @@ import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
 import dev.backend.tutor.entities.auth.RefreshToken;
 import dev.backend.tutor.entities.auth.Token;
+import dev.backend.tutor.entities.confirmationPasswordToken.ConfirmationPasswordToken;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.student.StudentRepository;
 import dev.backend.tutor.sevices.security.jwt.JwtBuilder;
@@ -56,5 +57,13 @@ public class TokenFactory {
                 .withExpiryDate(Instant.now().plusSeconds(3600*24))
                 .withStudent(student)
                 .buildConfirmationToken();
+    }
+
+    public ConfirmationPasswordToken createConfirmationPasswordToken(@NonNull Student student) {
+        return Token.builder()
+                .withToken(UUID.randomUUID().toString())
+                .withExpiryDate(Instant.now().plusSeconds(3600*24))
+                .withStudent(student)
+                .buildConfirmationPasswordToken();
     }
 }
