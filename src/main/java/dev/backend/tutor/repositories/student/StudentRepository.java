@@ -42,8 +42,7 @@ public interface StudentRepository extends JpaRepository<Student, String>, Stude
             "where s.username=:usernameOrEmail or s.email=:usernameOrEmail")
     Optional<Student> findStudentsByUsernameOrEmail(String usernameOrEmail);
 
-    @Query(nativeQuery = true, value = "SELECT password from accounts WHERE email=:email")
-    Optional<String> findPasswordByEmail(String email);
+    @Query
 
     boolean existsStudentByUsername(String username);
     boolean existsStudentByEmail(String email);

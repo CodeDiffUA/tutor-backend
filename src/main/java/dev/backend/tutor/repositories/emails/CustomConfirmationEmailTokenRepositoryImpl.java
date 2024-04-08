@@ -1,6 +1,7 @@
 package dev.backend.tutor.repositories.emails;
 
 import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
+import dev.backend.tutor.entities.confirmationPasswordToken.ConfirmationPasswordToken;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,4 +33,5 @@ public class CustomConfirmationEmailTokenRepositoryImpl implements CustomConfirm
                 .executeUpdate();
         return confirmationEmailToken;
     }
+
 }
