@@ -10,7 +10,7 @@ public interface StudentCustomRepository {
             String senderLogin, String recipientLogin
     );
 
-    Student insertStudent(
+    Student saveStudent(
             Student student
     );
 }

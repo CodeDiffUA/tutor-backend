@@ -55,14 +55,8 @@ public class AuthController {
 
     @GetMapping("/google-login")
     @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
-    public RedirectView googleSignIn() throws IOException, NotFoundUserException {
+    public RedirectView googleSignIn() {
         return new RedirectView(oath2GoogleService.getGoogleAuthorizationRedirectUrl());
-    }
-
-    @GetMapping("/test")
-    @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
-    public String test() {
-        return "hello";
     }
 
     @GetMapping("/callback")
