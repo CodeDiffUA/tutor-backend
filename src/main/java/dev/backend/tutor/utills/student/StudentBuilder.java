@@ -46,7 +46,8 @@ public class StudentBuilder {
         student.setAge(this.age);
         student.setForm(this.form);
         if (student.getAuthorities().isEmpty()) {
-            student.addRole(new UserRole(student, Role.ROLE_UNACTIVATED_STUDENT));
+            student.addRole(new UserRole(student, Role.ROLE_UNACTIVATED));
+            student.addRole(new UserRole(student, Role.ROLE_STUDENT));
         }
         return student;
     }

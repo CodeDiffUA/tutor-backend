@@ -10,9 +10,8 @@ public interface SignUpService {
     /**
      * register account if request valid
      * @param registrationDtoRequest dto request from ui
-     * @return JwtAndRefreshDto
      * @throws AlreadyExistsUserException if request is not valid
      */
-    JwtAndRefreshDto registerAccount(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException;
+    void registerAccount(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException;
 
 }

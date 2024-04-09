@@ -33,18 +33,29 @@ public class RegistrationController {
         this.cookieService = cookieService;
     }
 
+//    @PostMapping
+//    public ResponseEntity<AuthenticationResponseDto> registerStudent(
+//            @RequestBody RegistrationDtoRequest registrationDtoRequest,
+//            HttpServletResponse httpServletResponse
+//            ) throws AlreadyExistsUserException, NotFoundUserException {
+//        JwtAndRefreshDto jwtAndRefreshDto = signUpService.registerAccount(registrationDtoRequest);
+//        Cookie refreshTokenCookie = createCookieWithRefreshToken(httpServletResponse, jwtAndRefreshDto);
+//        httpServletResponse.addCookie(refreshTokenCookie);
+//        return ResponseEntity
+//                .status(HttpStatus.CREATED)
+//                .body(new AuthenticationResponseDto(jwtAndRefreshDto.jwt()));
+//    }
+
     @PostMapping
     public ResponseEntity<AuthenticationResponseDto> registerStudent(
-            @RequestBody RegistrationDtoRequest registrationDtoRequest,
-            HttpServletResponse httpServletResponse
-            ) throws AlreadyExistsUserException, NotFoundUserException {
-        JwtAndRefreshDto jwtAndRefreshDto = signUpService.registerAccount(registrationDtoRequest);
-        Cookie refreshTokenCookie = createCookieWithRefreshToken(httpServletResponse, jwtAndRefreshDto);
-        httpServletResponse.addCookie(refreshTokenCookie);
+            @RequestBody RegistrationDtoRequest registrationDtoRequest
+    ) throws AlreadyExistsUserException, NotFoundUserException {
+        signUpService.registerAccount(registrationDtoRequest);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new AuthenticationResponseDto(jwtAndRefreshDto.jwt()));
+                .build();
     }
+
     @GetMapping("/confirm")
     public ResponseEntity<?> performConfirmation(@Param("token") String token) throws InvalidTokenException {
         confirmationEmailService.confirmEmail(token);
