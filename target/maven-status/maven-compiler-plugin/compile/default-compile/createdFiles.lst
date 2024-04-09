@@ -17,6 +17,7 @@ dev\backend\tutor\sevices\security\jwt\JwtParser.class
 dev\backend\tutor\sevices\student\BanService.class
 dev\backend\tutor\TutorApplication.class
 dev\backend\tutor\controllers\RegistrationController.class
+dev\backend\tutor\repositories\passwords\CustomConfirmationPasswordTokenRepository.class
 dev\backend\tutor\sevices\security\refresh\RefreshTokenValidationServiceImpl.class
 dev\backend\tutor\entities\SubjectGrades\UkrMovaThemeGrades\SyntaxPunctuation.class
 dev\backend\tutor\sevices\forgotPassword\ForgotPasswordServiceImpl.class
@@ -64,6 +65,7 @@ dev\backend\tutor\dtos\friendship\RequestFriendshipRequestDto.class
 dev\backend\tutor\sevices\security\jwt\JwtBuilder.class
 dev\backend\tutor\sevices\friendship\FriendshipService.class
 dev\backend\tutor\sevices\email\EmailService.class
+dev\backend\tutor\repositories\passwords\ConfirmationPasswordTokenRepository.class
 dev\backend\tutor\sevices\cookie\CookieService.class
 dev\backend\tutor\sevices\student\StudentServiceImpl.class
 dev\backend\tutor\entities\SubjectGrades\UkrMovaThemeGrades\PhoneticsGraphemicsOrthoepy.class
@@ -90,6 +92,7 @@ dev\backend\tutor\dtos\email\ConfirmationRequest.class
 dev\backend\tutor\sevices\auth\signUp\validation\StudentValidationService.class
 dev\backend\tutor\controllers\adviceControllers\RegistrationControllerAdvice.class
 dev\backend\tutor\entities\SubjectGrades\UkrMovaThemeGrades\StylisticsTextLanguageDevelopment.class
+dev\backend\tutor\repositories\passwords\CustomConfirmationPasswordTokenRepositoryImpl.class
 dev\backend\tutor\exceptions\WrongCredentialsException.class
 dev\backend\tutor\sevices\security\TokenFactory.class
 dev\backend\tutor\sevices\friendship\request\FriendshipRequestServiceImpl.class
@@ -103,6 +106,7 @@ dev\backend\tutor\sevices\friendship\response\FriendshipResponseServiceImpl.clas
 dev\backend\tutor\controllers\SenderEmailController.class
 dev\backend\tutor\sevices\friendship\FriendshipServiceImpl.class
 dev\backend\tutor\controllers\FriendController.class
+dev\backend\tutor\entities\confirmationPasswordToken\ConfirmationPasswordToken.class
 dev\backend\tutor\exceptions\friendship\AlreadyFriendsException.class
 dev\backend\tutor\utills\student\DateUtil.class
 dev\backend\tutor\sevices\auth\signUp\validation\ValidationStudentFriendshipService.class

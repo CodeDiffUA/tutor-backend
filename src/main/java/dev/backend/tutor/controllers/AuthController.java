@@ -59,6 +59,12 @@ public class AuthController {
         return new RedirectView(oath2GoogleService.getGoogleAuthorizationRedirectUrl());
     }
 
+    @GetMapping("/test")
+    @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
+    public String test() {
+        return "hello";
+    }
+
     @GetMapping("/callback")
     public ResponseEntity<?> callback(
             @RequestParam("code") String code,

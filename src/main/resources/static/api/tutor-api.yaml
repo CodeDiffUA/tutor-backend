@@ -9,7 +9,7 @@ paths:
     post:
       requestBody:
         content:
-          application/user.auth.registration.v1+json:
+          application/json:
             schema:
               type: object
               properties:
@@ -64,14 +64,18 @@ paths:
               schema:
                 type: object
                 properties:
-                  token:
+                  accessToken:
                     type: string
-                    title: verification token to confirm email
-                    example: 859c98c0-a2c9-4a95-8e96-f57e77c28c7d
+                    title: access token
+          headers:
+            Set-Cookie:
+              description: Refresh token cookie
+              schema:
+                type: string
         '400':
           description: When user typed email/username that already exists in database
           content:
-            application/user.auth.access.refresh.v1+json:
+            application/json:
               schema:
                 type: object
                 properties:
@@ -98,21 +102,6 @@ paths:
       responses:
         '200':
           description: Message sent
-  /api/v1/registration/confirm:
-    description: this is endpoint where you user redirect to auth page
-    get:
-      parameters:
-        - name: token
-          in: query
-          description: The token for email confirmation
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: email confirmed. now user can be authenticated
-        '404':
-          description: token in params is invalid
   /api/v1/authentication/login:
     post:
       requestBody:

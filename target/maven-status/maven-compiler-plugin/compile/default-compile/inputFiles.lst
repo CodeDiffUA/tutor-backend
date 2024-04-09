@@ -3,6 +3,7 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\security\Token
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\auth\signIn\SignInService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\utills\student\Form.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\auth\Token.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\passwords\ConfirmationPasswordTokenRepository.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\auth\signUp\validation\StudentValidationService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\TutorApplication.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\student\BanService.java
@@ -16,6 +17,7 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\UserInfo.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\security\refresh\RefreshTokenValidationService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\utills\student\StudentBuilder.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\security\updateToken\UpdateTokenService.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\passwords\CustomConfirmationPasswordTokenRepositoryImpl.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\message\ExceptionDto.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\friendship\FriendshipException.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\auth\ConfirmationEmailToken.java
@@ -67,6 +69,7 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\CookieExcep
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\friendship\BlockedUsersException.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\student\StudentCustomRepository.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\config\GoogleOpaqueTokenIntrospector.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\confirmationPasswordToken\ConfirmationPasswordToken.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\Student.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\notification\NotificationRepository.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\auth\signUp\SignUpServiceImpl.java
@@ -85,6 +88,7 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\utills\student\DateUti
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\emails\ConfirmationEmailTokenRepository.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\emails\CustomConfirmationEmailTokenRepository.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\friendship\response\FriendshipResponseServiceImpl.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\passwords\CustomConfirmationPasswordTokenRepository.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\GeneralGrades.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\forgotPassword\ForgotPasswordServiceImpl.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\auth\RegistrationDtoResponse.java
