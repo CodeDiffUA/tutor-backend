@@ -24,7 +24,7 @@ import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/v1/authentication")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http:")
 public class AuthController {
 
     private final SignInService signInService;
