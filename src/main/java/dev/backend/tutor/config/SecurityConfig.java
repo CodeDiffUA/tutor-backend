@@ -28,8 +28,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -53,30 +51,19 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
                 .allowCredentials(true);
     }
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-//        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-//                .cors(c -> c.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests( authrs -> {
                     authrs.requestMatchers("/api/v1/authentication/**").permitAll();
                     authrs.requestMatchers("/api/v1/registration/**").permitAll();
                     authrs.anyRequest().permitAll();
                 })
-                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()))
+//                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()))
                 .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(handling -> {
-//                    handling.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.FORBIDDEN));
                     handling.accessDeniedHandler(accessDeniedHandler());
                 })
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
