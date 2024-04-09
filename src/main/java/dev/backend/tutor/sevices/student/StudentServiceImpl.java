@@ -24,8 +24,8 @@ public class StudentServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         Student student = studentRepository.findStudentsByUsernameOrEmailWithRoles(usernameOrEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("no user - " + usernameOrEmail));
-        checkIfBanned(student);
-        checkIfActivated(student);
+        checkIfBanned(student); // todo: remove it when presentation is
+        checkIfActivated(student); // todo: remove it when presentation is
         return student;
     }
 
@@ -36,7 +36,7 @@ public class StudentServiceImpl implements UserDetailsService {
     }
 
     public void saveStudent(Student student) {
-        studentRepository.insertStudent(student);
+        studentRepository.saveStudent(student);
     }
 
     private void checkIfActivated(Student student) {

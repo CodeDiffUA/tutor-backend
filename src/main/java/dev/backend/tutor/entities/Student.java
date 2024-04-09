@@ -39,7 +39,7 @@ public class Student implements UserDetails {
     )
     private List<Student> friends = new ArrayList<>();
 
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<UserRole> roles = new HashSet<>();
 
     public void addRole(UserRole userRole) {
@@ -146,7 +146,11 @@ public class Student implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isBanned() && !isNotActivated();
+        return !isBanned() && !isNotActivated();
+    }
+
+    public Set<UserRole> getRoles() {
+        return roles;
     }
 
     @Override
@@ -196,16 +200,15 @@ public class Student implements UserDetails {
     }
 
     public boolean isBanned() {
-        return containsRole(Role.ROLE_BANNED_STUDENT);
+        return containsRole(Role.ROLE_BANNED);
     }
     public boolean isNotActivated() {
-        return containsRole(Role.ROLE_UNACTIVATED_STUDENT);
+        return containsRole(Role.ROLE_UNACTIVATED);
     }
 
     public void activate() {
         if (isNotActivated()) {
-            roles.remove(new UserRole(this, Role.ROLE_UNACTIVATED_STUDENT));
-            roles.add(new UserRole(this, Role.ROLE_ACTIVATED_STUDENT));
+            roles.remove(new UserRole(this, Role.ROLE_UNACTIVATED));
         }
     }
 
@@ -221,10 +224,10 @@ public class Student implements UserDetails {
 
 
     public void banStudent() {
-        this.roles.add(new UserRole(this, Role.ROLE_BANNED_STUDENT));
+        this.roles.add(new UserRole(this, Role.ROLE_BANNED));
     }
 
     public void unbanStudent() {
-        this.roles.remove(new UserRole(this, Role.ROLE_BANNED_STUDENT));
+        this.roles.remove(new UserRole(this, Role.ROLE_BANNED));
     }
 }

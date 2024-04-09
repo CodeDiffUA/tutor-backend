@@ -13,6 +13,7 @@ import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.student.StudentRepository;
 import dev.backend.tutor.sevices.security.TokenFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class Oath2GoogleService {
@@ -57,6 +60,16 @@ public class Oath2GoogleService {
         return generateJwtAndRefreshTokenFromUserDetails(student);
     }
 
+    private void checkIfStudentHasAccess(Student student) throws BannedException {
+        if (student.isNotActivated()) {
+            throw new NotConfirmedEmailException("User has not confirmed email yet!");
+        } // todo: remove it when presentation is
+        if (student.isBanned()) {
+            throw new BannedException("User with email " + student.getEmail() + " is banned");
+        } // todo: remove it when presentation is
+    }
+
+
     private JwtAndRefreshDto generateJwtAndRefreshTokenFromUserDetails(Student student) throws NotFoundUserException {
         String jwt = tokenFactory.createJwt(student);
         RefreshToken refreshToken = tokenFactory.createRefreshToken(student);
@@ -67,12 +80,7 @@ public class Oath2GoogleService {
         var student = studentRepository.findStudentsByUsernameOrEmailWithRoles(email).orElseThrow(
                 () -> new NotFoundUserException("not found user -> " + email + ". You need to sign up")
         );
-        if (student.isNotActivated()) {
-            throw new NotConfirmedEmailException("User has not confirmed email yet!");
-        }
-        if (student.isBanned()) {
-            throw new BannedException("User with email " + email + " is banned");
-        }
+        checkIfStudentHasAccess(student); // todo: remove it when presentation is
         return student;
     }
 

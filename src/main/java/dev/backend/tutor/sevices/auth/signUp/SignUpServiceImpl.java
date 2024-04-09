@@ -39,21 +39,21 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Override
     @Transactional
-    public JwtAndRefreshDto registerAccount(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException {
+    public void registerAccount(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException {
         validateRequest(registrationDtoRequest);
         Student student = createStudent(registrationDtoRequest);
         studentService.saveStudent(student);
         entityManager.flush();
         ConfirmationEmailToken token = createConfirmationToken(student);
         confirmationEmailService.saveConfirmationToken(token);
-        return getJwtAndRefreshToken(student);
+//        return getJwtAndRefreshToken(student);
     }
 
-    private JwtAndRefreshDto getJwtAndRefreshToken(Student  student) throws NotFoundUserException {
-        String jwt = tokenFactory.createJwt(student);
-        RefreshToken refreshToken = tokenFactory.createRefreshToken(student);
-        return new JwtAndRefreshDto(jwt, refreshToken.getToken());
-    }
+//    private JwtAndRefreshDto getJwtAndRefreshToken(Student  student) throws NotFoundUserException {
+//        String jwt = tokenFactory.createJwt(student);
+//        RefreshToken refreshToken = tokenFactory.createRefreshToken(student);
+//        return new JwtAndRefreshDto(jwt, refreshToken.getToken());
+//    }
 
     private ConfirmationEmailToken createConfirmationToken(Student student) {
         return tokenFactory.createConfirmationEmailToken(student);

@@ -1,6 +1,7 @@
 package dev.backend.tutor.sevices.security.jwt;
 
 import dev.backend.tutor.exceptions.InvalidJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.logging.Logger;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -22,6 +24,9 @@ public class JwtFilter extends OncePerRequestFilter {
     private static final String BEARER = "Bearer";
 
     private final JwtParser jwtParser;
+
+    private static final Logger logger = Logger.getLogger(JwtFilter.class.getName());
+
 
     public JwtFilter(JwtParser jwtParser) {
         this.jwtParser = jwtParser;
@@ -38,6 +43,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String jwt = jwtAndUsername.jwt();
         String username = jwtAndUsername.username();
+        logger.info(jwt  + " and " + username);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             addUsersAuthTokenToContext(jwt, username);
@@ -54,10 +60,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private JwtAndUsername parseJwtAndUsernameFromAuthHeader(String authHeader) throws InvalidJwtException {
         if (authHeader!= null && authHeader.startsWith(BEARER)){
-            String jwt = authHeader.substring(7);
-            validateJwtExpiration(jwt);
-            String username = parseUsernameFromJwt(jwt);
-            return new JwtAndUsername(jwt, username);
+            String jwtToken = authHeader.substring(7);
+            boolean isJWtTokenValid = validateJwtToken(jwtToken);
+            if (isJWtTokenValid) {
+                String username = parseUsernameFromJwt(jwtToken);
+                return new JwtAndUsername(jwtToken, username);
+            }
         }
         return new JwtAndUsername(null, null);
     }
@@ -66,9 +74,14 @@ public class JwtFilter extends OncePerRequestFilter {
         return jwtParser.extractUsername(jwt);
     }
 
-    private void validateJwtExpiration(String jwt) throws InvalidJwtException {
-        if (jwtParser.extractExpiration(jwt).before(new Date())) {
-            throw new InvalidJwtException("expired access token");
+    private boolean validateJwtToken(String jwt) throws InvalidJwtException {
+        try {
+            if (jwtParser.extractExpiration(jwt).before(new Date())) {
+                throw new InvalidJwtException("expired access token");
+            }
+            return true;
+        } catch (MalformedJwtException malformedJwtException) {
+            return false;
         }
     }
 
