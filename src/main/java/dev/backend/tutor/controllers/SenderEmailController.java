@@ -9,7 +9,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1/email")
-@CrossOrigin(origins = "*")
+@CrossOrigin(originPatterns = "*")
 public class SenderEmailController {
 
     private final EmailSender emailSender;

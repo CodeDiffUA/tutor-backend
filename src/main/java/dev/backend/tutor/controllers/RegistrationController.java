@@ -21,7 +21,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/api/v1/registration")
-@CrossOrigin(origins = "*")
+@CrossOrigin(originPatterns = "*")
 public class RegistrationController {
     private final SignUpService signUpService;
     private final ConfirmationEmailService confirmationEmailService;

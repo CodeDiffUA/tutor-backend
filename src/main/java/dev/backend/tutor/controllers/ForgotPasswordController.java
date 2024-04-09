@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/forgot-password")
-@CrossOrigin(origins = "*")
+@CrossOrigin(originPatterns = "*")
 public class ForgotPasswordController {
 
     private final ForgotPasswordServiceImpl forgotPassword;

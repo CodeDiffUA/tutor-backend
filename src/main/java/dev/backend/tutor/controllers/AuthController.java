@@ -24,7 +24,7 @@ import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/v1/authentication")
-@CrossOrigin(origins = "http:")
+@CrossOrigin(originPatterns = "*")
 public class AuthController {
 
     private final SignInService signInService;
@@ -57,6 +57,12 @@ public class AuthController {
     @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
     public RedirectView googleSignIn() throws IOException, NotFoundUserException {
         return new RedirectView(oath2GoogleService.getGoogleAuthorizationRedirectUrl());
+    }
+
+    @GetMapping("/test")
+    @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
+    public String test() {
+        return "hello";
     }
 
     @GetMapping("/callback")
