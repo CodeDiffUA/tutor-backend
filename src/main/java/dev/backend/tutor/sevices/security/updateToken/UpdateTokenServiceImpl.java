@@ -31,9 +31,9 @@ public class UpdateTokenServiceImpl implements UpdateTokenService{
         Student student = extractStudentFromRefreshToken(refreshToken);
         RefreshToken newRefreshToken = tokenFactory.createRefreshToken(student);
         refreshTokenRepository.delete(refreshToken);
-        refreshTokenRepository.save(newRefreshToken);
+        refreshTokenRepository.insert(newRefreshToken);
         String jwt = tokenFactory.createJwt(student);
-        return new JwtAndRefreshDto(jwt, refreshToken.getToken());
+        return new JwtAndRefreshDto(jwt, newRefreshToken.getToken());
     }
 
     private RefreshToken getRefreshToken(String token) throws InvalidTokenException {
