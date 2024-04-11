@@ -32,8 +32,8 @@ public class EmailService implements EmailSender {
     private static final String CONFIRM_EMAIL_AND_LOGIN_ENDPOINT_PROD = "https://tutor-backend-k28m.onrender.com/api/v1/registration/confirm-login?token=";
 
     // html sources
-    private static final String EMAIL_CONFIRMATION_PATH = "src/main/resources/static/gmailConfirmation.html";
-    private static final String EMAIL_FORGOT_PASSWORD_PATH = "src/main/resources/static/gmailForgotPassword.html";
+    private static final String EMAIL_CONFIRMATION_PATH = "/src/main/resources/static/gmailConfirmation.html";
+    private static final String EMAIL_FORGOT_PASSWORD_PATH = "/src/main/resources/static/gmailForgotPassword.html";
 
     private static final String CORPORATE_EMAIL = "shraierbohdan@gmail.com";
 
@@ -85,10 +85,33 @@ public class EmailService implements EmailSender {
 
 
     private String getEmailHtml(String token, String path, String url) throws IOException {
-        var html = Jsoup.parse(new File(path), "UTF-8").outerHtml();
+        var html = """
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Gmail Confirmation</title>
+                    <link rel="stylesheet" href="gmailConfirmation.css">
+                </head>
+                <body>
+                <div class="container">
+                    <h1>Gmail Confirmation</h1>
+                    <p>Your email address has been successfully confirmed.</p>
+                    <a href="null" class="btn">confirm email</a>
+                <!--    this page does http get request http://localhost:8080/api/v1/email/confirm/-->
+                <!--    params: token -->
+                </div>
+                </body>
+                </html>
+                                
+                """;
         html = html.replace(
                 "null",
                 url + token);
         return html;
     }
+
+
+
 }
