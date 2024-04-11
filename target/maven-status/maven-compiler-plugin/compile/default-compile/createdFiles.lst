@@ -3,6 +3,7 @@ dev\backend\tutor\repositories\notification\NotificationRepository.class
 dev\backend\tutor\repositories\refresh\RefreshTokenRepository.class
 dev\backend\tutor\controllers\adviceControllers\AuthControllerAdvice.class
 dev\backend\tutor\sevices\auth\signOut\SignOutServiceImpl.class
+dev\backend\tutor\repositories\refresh\CustomRefreshTokenRepository.class
 dev\backend\tutor\sevices\auth\signUp\validation\ValidationStudentDataService.class
 dev\backend\tutor\exceptions\BannedException.class
 dev\backend\tutor\sevices\security\jwt\JwtUtil.class
@@ -66,6 +67,7 @@ dev\backend\tutor\sevices\security\jwt\JwtBuilder.class
 dev\backend\tutor\sevices\friendship\FriendshipService.class
 dev\backend\tutor\sevices\email\EmailService.class
 dev\backend\tutor\repositories\passwords\ConfirmationPasswordTokenRepository.class
+dev\backend\tutor\repositories\refresh\CustomRefreshTokenRepositoryImpl.class
 dev\backend\tutor\sevices\cookie\CookieService.class
 dev\backend\tutor\sevices\student\StudentServiceImpl.class
 dev\backend\tutor\entities\SubjectGrades\UkrMovaThemeGrades\PhoneticsGraphemicsOrthoepy.class
