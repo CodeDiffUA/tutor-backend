@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,12 +51,13 @@ public class EmailService implements EmailSender {
         this.confirmationPasswordTokenRepository = confirmationPasswordTokenRepository;
     }
 
+    @Transactional
     public void sendEmailVerificationMessage(String email) throws NotFoundUserException, IOException {
         var student = studentRepository.findStudentsByUsernameOrEmailWithRoles(email)
                 .orElseThrow(() -> new NotFoundUserException("cannot find user - " + email));
         var token = tokenFactory.createConfirmationEmailToken(student);
         confirmationEmailTokenRepository.insert(token);
-        sendMessage(token.getToken(), email, EMAIL_CONFIRMATION_PATH, CONFIRM_EMAIL_ENDPOINT_PROD);
+        sendMessage(token.getToken(), email, EMAIL_CONFIRMATION_PATH, CONFIRM_EMAIL_AND_LOGIN_ENDPOINT_PROD);
     }
 
     public void sendEmailForgotPasswordMessage(String email) throws NotFoundUserException, IOException {

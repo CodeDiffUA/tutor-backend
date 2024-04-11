@@ -39,7 +39,11 @@ public class Student implements UserDetails {
     )
     private List<Student> friends = new ArrayList<>();
 
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(
+            mappedBy = "student",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true)
     private Set<UserRole> roles = new HashSet<>();
 
     public void addRole(UserRole userRole) {
@@ -74,7 +78,7 @@ public class Student implements UserDetails {
     }
 
 
-//    constructor and builder
+    //    constructor and builder
     public Student() {
     }
 
@@ -202,6 +206,7 @@ public class Student implements UserDetails {
     public boolean isBanned() {
         return containsRole(Role.ROLE_BANNED);
     }
+
     public boolean isNotActivated() {
         return containsRole(Role.ROLE_UNACTIVATED);
     }
@@ -213,7 +218,7 @@ public class Student implements UserDetails {
     }
 
 
-    private boolean containsRole(Role role){
+    private boolean containsRole(Role role) {
         for (UserRole userRole : roles) {
             if (userRole.getRole() == role) {
                 return true;

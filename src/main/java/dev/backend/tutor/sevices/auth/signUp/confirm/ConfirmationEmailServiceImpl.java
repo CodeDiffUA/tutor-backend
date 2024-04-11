@@ -49,8 +49,4 @@ public class ConfirmationEmailServiceImpl implements ConfirmationEmailService{
         return student;
     }
 
-    @Transactional
-    public void saveConfirmationToken(ConfirmationEmailToken confirmationEmailToken) {
-        confirmationEmailTokenRepository.insert(confirmationEmailToken);
-    }
 }
