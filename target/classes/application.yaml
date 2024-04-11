@@ -23,3 +23,6 @@ jwt:
   expiration: 20m
   refresh:
     expiration: 14d
+
+front-end:
+  base-url: http://localhost:3000

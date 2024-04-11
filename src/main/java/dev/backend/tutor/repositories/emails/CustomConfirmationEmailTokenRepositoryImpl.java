@@ -1,12 +1,9 @@
 package dev.backend.tutor.repositories.emails;
 
 import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
-import dev.backend.tutor.entities.confirmationPasswordToken.ConfirmationPasswordToken;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigInteger;
 
 @Repository
 public class CustomConfirmationEmailTokenRepositoryImpl implements CustomConfirmationEmailTokenRepository {

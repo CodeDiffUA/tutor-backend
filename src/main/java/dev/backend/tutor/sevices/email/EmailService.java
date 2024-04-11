@@ -1,7 +1,5 @@
 package dev.backend.tutor.sevices.email;
 
-import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
-import dev.backend.tutor.entities.confirmationPasswordToken.ConfirmationPasswordToken;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.emails.ConfirmationEmailTokenRepository;
 import dev.backend.tutor.repositories.passwords.ConfirmationPasswordTokenRepository;
@@ -10,20 +8,33 @@ import dev.backend.tutor.sevices.security.TokenFactory;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.jsoup.Jsoup;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
 
 @Service
-public class EmailService implements EmailSender{
-    private static final String EMAIL_CONFIRMATION_PATH = "src/main/resources/static/gmailConfirmation.html";
-    private static final String EMAIL_FORGOT_PASSWORD_PATH = "src/main/resources/static/gmailForgotPassword.html";
-    private static final String FORGOT_PASSWORD_PAGE = "http://localhost:3000/forgot-password?token=";
+public class EmailService implements EmailSender {
+    @Value("${front-end.base-url}")
+    private static String frontendHostUrl;
+
+    // front-pages
+    private static final String FORGOT_PASSWORD_PAGE = frontendHostUrl + "/forgot-password?token=";
+
+    // redirect endpoints
     private static final String CONFIRM_EMAIL_ENDPOINT_DEV = "http://localhost:8080/api/v1/registration/confirm?token=";
     private static final String CONFIRM_EMAIL_ENDPOINT_PROD = "https://tutor-backend-k28m.onrender.com/api/v1/registration/confirm?token=";
+    private static final String CONFIRM_EMAIL_AND_LOGIN_ENDPOINT_DEV = "http://localhost:8080/api/v1/registration/confirm-login?token=";
+    private static final String CONFIRM_EMAIL_AND_LOGIN_ENDPOINT_PROD = "https://tutor-backend-k28m.onrender.com/api/v1/registration/confirm-login?token=";
+
+    // html sources
+    private static final String EMAIL_CONFIRMATION_PATH = "/src/main/resources/static/gmailConfirmation.html";
+    private static final String EMAIL_FORGOT_PASSWORD_PATH = "/src/main/resources/static/gmailForgotPassword.html";
+
     private static final String CORPORATE_EMAIL = "shraierbohdan@gmail.com";
 
     private final JavaMailSender mailSender;
@@ -40,23 +51,13 @@ public class EmailService implements EmailSender{
         this.confirmationPasswordTokenRepository = confirmationPasswordTokenRepository;
     }
 
+    @Transactional
     public void sendEmailVerificationMessage(String email) throws NotFoundUserException, IOException {
         var student = studentRepository.findStudentsByUsernameOrEmailWithRoles(email)
                 .orElseThrow(() -> new NotFoundUserException("cannot find user - " + email));
         var token = tokenFactory.createConfirmationEmailToken(student);
         confirmationEmailTokenRepository.insert(token);
-        try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper =
-                    new MimeMessageHelper(mimeMessage, "utf-8");
-            String content = getEmailHtml(token.getToken(), EMAIL_CONFIRMATION_PATH, CONFIRM_EMAIL_ENDPOINT_PROD);
-            helper.setFrom(CORPORATE_EMAIL);
-            helper.setTo(email);
-            helper.setText(content, true);
-            mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            throw new IllegalStateException("failed to send email");
-        }
+        sendMessage(token.getToken(), email, EMAIL_CONFIRMATION_PATH, CONFIRM_EMAIL_AND_LOGIN_ENDPOINT_PROD);
     }
 
     public void sendEmailForgotPasswordMessage(String email) throws NotFoundUserException, IOException {
@@ -64,11 +65,15 @@ public class EmailService implements EmailSender{
                 .orElseThrow(() -> new NotFoundUserException("cannot find user - " + email));
         var token = tokenFactory.createConfirmationPasswordToken(student);
         confirmationPasswordTokenRepository.insert(token);
+        sendMessage(token.getToken(), email, EMAIL_FORGOT_PASSWORD_PATH, FORGOT_PASSWORD_PAGE);
+    }
+
+    private void sendMessage(String token, String email, String emailForgotPasswordPath, String forgotPasswordPage) throws IOException {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper =
                     new MimeMessageHelper(mimeMessage, "utf-8");
-            String content = getEmailHtml(token.getToken(), EMAIL_CONFIRMATION_PATH, CONFIRM_EMAIL_ENDPOINT_PROD);
+            String content = getEmailHtml(token, emailForgotPasswordPath, forgotPasswordPage);
             helper.setFrom(CORPORATE_EMAIL);
             helper.setTo(email);
             helper.setText(content, true);
@@ -80,10 +85,33 @@ public class EmailService implements EmailSender{
 
 
     private String getEmailHtml(String token, String path, String url) throws IOException {
-        var html = Jsoup.parse(new File(path), "UTF-8").outerHtml();
+        var html = """
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Gmail Confirmation</title>
+                    <link rel="stylesheet" href="gmailConfirmation.css">
+                </head>
+                <body>
+                <div class="container">
+                    <h1>Gmail Confirmation</h1>
+                    <p>Your email address has been successfully confirmed.</p>
+                    <a href="null" class="btn">confirm email</a>
+                <!--    this page does http get request http://localhost:8080/api/v1/email/confirm/-->
+                <!--    params: token -->
+                </div>
+                </body>
+                </html>
+                                
+                """;
         html = html.replace(
                 "null",
-                url+token);
+                url + token);
         return html;
     }
+
+
+
 }

@@ -29,6 +29,7 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\security\jwt\J
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\auth\signIn\SignInServiceImpl.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\utills\student\StudentListProcessor.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\InvalidJwtException.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\refresh\CustomRefreshTokenRepositoryImpl.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\messages\MessageService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\email\ConfirmationRequest.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\config\EmailConfig.java
@@ -57,6 +58,7 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\controllers\Registrati
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\friendship\RequestFriendshipResponseDto.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\forgotPassword\ForgotPasswordDtoRequest.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\SubjectGrades\UkrMovaThemeGrades\Lexicology.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\refresh\CustomRefreshTokenRepository.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\security\updateToken\UpdateTokenServiceImpl.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\controllers\adviceControllers\ForgotPasswordControllerAdvice.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\auth\signOut\SignOutService.java

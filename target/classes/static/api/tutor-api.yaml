@@ -59,19 +59,6 @@ paths:
       responses:
         '201':
           description: successfully registered new user but needs to be verified. So you need create new http request for verification email
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  accessToken:
-                    type: string
-                    title: access token
-          headers:
-            Set-Cookie:
-              description: Refresh token cookie
-              schema:
-                type: string
         '400':
           description: When user typed email/username that already exists in database
           content:
@@ -91,14 +78,6 @@ paths:
           in: query
           description: The email to which the verification message is to be sent
           required: true
-          schema:
-            type: string
-        - name: token
-          in: query
-          description: The token obtained after successful registration
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: Message sent
@@ -121,7 +100,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  jwt:
+                  accessToken:
                     type: string
           description: when credentials valid
           headers:
@@ -129,6 +108,7 @@ paths:
               description: Refresh token cookie
               schema:
                 type: string
+                example: "cookieName=refreshToken; HttpOnly"
         '400':
           content:
             application/json:
@@ -161,7 +141,7 @@ paths:
                     type: string
                   timestamp:
                     type: string
-          description: when user token is banned
+          description: when user is banned
   /api/v1/authentication/logout:
     post:
       parameters:
@@ -201,7 +181,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  jwt:
+                  accessToken:
                     type: string
           description: when credentials valid
           headers:
@@ -209,6 +189,7 @@ paths:
               description: Refresh token cookie
               schema:
                 type: string
+                example: "cookieName=refreshToken; HttpOnly"
         '404':
           content:
             application/json:
