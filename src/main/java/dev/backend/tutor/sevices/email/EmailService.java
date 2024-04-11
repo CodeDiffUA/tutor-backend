@@ -20,10 +20,18 @@ import java.io.IOException;
 public class EmailService implements EmailSender {
     @Value("${front-end.base-url}")
     private static String frontendHostUrl;
-    private static final String EMAIL_CONFIRMATION_PATH = "src/main/resources/static/gmailConfirmation.html";
+
+    // front-pages
     private static final String FORGOT_PASSWORD_PAGE = frontendHostUrl + "/forgot-password?token=";
-    private static final String CONFIRM_EMAIL_ENDPOINT_DEV = "http://localhost:8080/api/v1/registration/confirm-login?token=";
+
+    // redirect endpoints
+    private static final String CONFIRM_EMAIL_ENDPOINT_DEV = "http://localhost:8080/api/v1/registration/confirm?token=";
     private static final String CONFIRM_EMAIL_ENDPOINT_PROD = "https://tutor-backend-k28m.onrender.com/api/v1/registration/confirm?token=";
+    private static final String CONFIRM_EMAIL_AND_LOGIN_ENDPOINT_DEV = "http://localhost:8080/api/v1/registration/confirm-login?token=";
+    private static final String CONFIRM_EMAIL_AND_LOGIN_ENDPOINT_PROD = "https://tutor-backend-k28m.onrender.com/api/v1/registration/confirm-login?token=";
+
+    // html sources
+    private static final String EMAIL_CONFIRMATION_PATH = "src/main/resources/static/gmailConfirmation.html";
     private static final String EMAIL_FORGOT_PASSWORD_PATH = "src/main/resources/static/gmailForgotPassword.html";
 
     private static final String CORPORATE_EMAIL = "shraierbohdan@gmail.com";
@@ -47,7 +55,7 @@ public class EmailService implements EmailSender {
                 .orElseThrow(() -> new NotFoundUserException("cannot find user - " + email));
         var token = tokenFactory.createConfirmationEmailToken(student);
         confirmationEmailTokenRepository.insert(token);
-        sendMessage(token.getToken(), email, EMAIL_CONFIRMATION_PATH, CONFIRM_EMAIL_ENDPOINT_DEV);
+        sendMessage(token.getToken(), email, EMAIL_CONFIRMATION_PATH, CONFIRM_EMAIL_ENDPOINT_PROD);
     }
 
     public void sendEmailForgotPasswordMessage(String email) throws NotFoundUserException, IOException {
