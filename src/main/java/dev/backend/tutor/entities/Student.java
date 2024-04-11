@@ -125,7 +125,7 @@ public class Student implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
@@ -136,12 +136,12 @@ public class Student implements UserDetails {
          an account may be locked for a specific duration or until the user performs a password reset.
          */
         // fixme implement user locking
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
