@@ -9,12 +9,8 @@ import dev.backend.tutor.exceptions.WrongCredentialsException;
 import dev.backend.tutor.sevices.security.TokenFactory;
 import dev.backend.tutor.sevices.student.StudentServiceImpl;
 import org.springframework.security.authentication.*;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,12 +1,8 @@
 package dev.backend.tutor.sevices.security.jwt;
 
 import io.jsonwebtoken.Jwts;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Component

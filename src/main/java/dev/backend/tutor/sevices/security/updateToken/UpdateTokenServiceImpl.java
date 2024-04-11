@@ -7,10 +7,8 @@ import dev.backend.tutor.entities.auth.RefreshToken;
 import dev.backend.tutor.exceptions.InvalidTokenException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.refresh.RefreshTokenRepository;
-import dev.backend.tutor.sevices.security.refresh.RefreshTokenValidationService;
 import dev.backend.tutor.sevices.security.TokenFactory;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import dev.backend.tutor.sevices.security.refresh.RefreshTokenValidationService;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -4,6 +4,7 @@ import dev.backend.tutor.dtos.auth.JwtAndRefreshDto;
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface SignUpService {
 
@@ -14,4 +15,6 @@ public interface SignUpService {
      */
     void registerAccount(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException;
 
+    @Transactional
+    JwtAndRefreshDto registerAccountWithLogin(RegistrationDtoRequest registrationDtoRequest) throws AlreadyExistsUserException, NotFoundUserException;
 }

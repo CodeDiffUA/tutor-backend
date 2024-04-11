@@ -1,7 +1,6 @@
 package dev.backend.tutor.repositories.student;
 
 import dev.backend.tutor.entities.Student;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

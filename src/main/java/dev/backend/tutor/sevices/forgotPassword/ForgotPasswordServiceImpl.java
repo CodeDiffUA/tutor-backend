@@ -1,7 +1,6 @@
 package dev.backend.tutor.sevices.forgotPassword;
 
 import dev.backend.tutor.dtos.forgotPassword.ForgotPasswordDtoRequest;
-import dev.backend.tutor.entities.confirmationPasswordToken.ConfirmationPasswordToken;
 import dev.backend.tutor.exceptions.EqualPasswordException;
 import dev.backend.tutor.repositories.passwords.ConfirmationPasswordTokenRepository;
 import dev.backend.tutor.repositories.student.StudentRepository;
