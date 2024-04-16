@@ -237,3 +237,32 @@ paths:
           description: password successfully changed
         400:
           description: new and old password is equal
+  /api/v1/report:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                reportReason:
+                  type: string
+                  enum:
+                    - SPAM
+                    - VIOLENCE
+                    - SEXUAL_CONTENT
+                    - PERSONAL_ATTACK
+                    - HATE_SPEECH
+                    - FALSE_INFORMATION
+                    - OTHER
+                content:
+                  type: string
+                date:
+                  type: string
+      responses:
+        '200':
+          description: report successfully sent
+        '400':
+          description: wrong datatype provided
