@@ -9,7 +9,7 @@ import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.exceptions.WrongCredentialsException;
 import dev.backend.tutor.repositories.refresh.RefreshTokenRepository;
 import dev.backend.tutor.sevices.security.TokenFactory;
-import dev.backend.tutor.sevices.student.StudentServiceImpl;
+import dev.backend.tutor.sevices.student.StudentUserDetailsService;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,12 +18,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class SignInServiceImpl implements SignInService {
 
-    private final StudentServiceImpl studentService;
+    private final StudentUserDetailsService studentService;
     private final TokenFactory tokenFactory;
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    public SignInServiceImpl(StudentServiceImpl studentService, TokenFactory tokenFactory, AuthenticationManager authenticationManager, RefreshTokenRepository refreshTokenRepository) {
+    public SignInServiceImpl(StudentUserDetailsService studentService, TokenFactory tokenFactory, AuthenticationManager authenticationManager, RefreshTokenRepository refreshTokenRepository) {
         this.studentService = studentService;
         this.tokenFactory = tokenFactory;
         this.authenticationManager = authenticationManager;
