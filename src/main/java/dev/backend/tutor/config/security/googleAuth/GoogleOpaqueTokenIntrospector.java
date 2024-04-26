@@ -1,4 +1,4 @@
-package dev.backend.tutor.config;
+package dev.backend.tutor.config.security.googleAuth;
 
 
 import dev.backend.tutor.dtos.UserInfo;
