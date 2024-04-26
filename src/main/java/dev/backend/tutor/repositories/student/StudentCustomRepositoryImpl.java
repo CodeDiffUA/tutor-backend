@@ -51,14 +51,20 @@ public class StudentCustomRepositoryImpl implements StudentCustomRepository {
         return student;
     }
 
+    public List<String> fetchUserRoles(String username) {
+        return entityManager.createNativeQuery(
+                        "SELECT role FROM user_roles WHERE student_username = :username", String.class)
+                .setParameter("username", username)
+                .getResultList();
+    }
     private void insertStudentsRolesToDB(Student student) {
         for (UserRole role : student.getRoles()) {
             Long nextId = (Long) entityManager.createNativeQuery("SELECT nextval('user_roles_seq')").getSingleResult();
             role.setId(nextId);
             entityManager.createNativeQuery("""
-                        INSERT INTO user_roles (id, role, student_username)\s
-                        VALUES (?, ?, ?)
-                        """)
+                            INSERT INTO user_roles (id, role, student_username)\s
+                            VALUES (?, ?, ?)
+                            """)
                     .setParameter(1, nextId)
                     .setParameter(2, role.getRole().getRoleName())
                     .setParameter(3, student.getUsername())

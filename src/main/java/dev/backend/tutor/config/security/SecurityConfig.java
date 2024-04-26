@@ -1,8 +1,9 @@
-package dev.backend.tutor.config;
+package dev.backend.tutor.config.security;
 
 
-import dev.backend.tutor.sevices.security.handlers.CustomAccessDeniedHandler;
-import dev.backend.tutor.sevices.security.jwt.JwtFilter;
+import dev.backend.tutor.config.security.tokensAuth.JwtAuthenticationConfigurer;
+//import dev.backend.tutor.sevices.security.jwt.JwtFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,11 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -30,14 +27,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig implements WebMvcConfigurer {
 
-    private final UserDetailsService userDetailsService;
-    private final JwtFilter jwtFilter;
-    private final WebClient userInfoClient;
 
-    public SecurityConfig(UserDetailsService userDetailsService, JwtFilter jwtFilter, WebClient userInfoClient) {
+    @Value("${jwt.access-token-key}") String accessTokenKey;
+    @Value("${jwt.refresh-token-key}") String refreshTokenKey;
+
+
+    private final UserDetailsService userDetailsService;
+
+    public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-        this.jwtFilter = jwtFilter;
-        this.userInfoClient = userInfoClient;
     }
 
     @Override
@@ -49,7 +47,13 @@ public class SecurityConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(
+            HttpSecurity http,
+            JwtAuthenticationConfigurer jwtAuthenticationConfigurer) throws Exception {
+
+        http
+                .apply(jwtAuthenticationConfigurer);
+
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( authrs -> {
@@ -58,28 +62,14 @@ public class SecurityConfig implements WebMvcConfigurer {
                     authrs.anyRequest().permitAll();
                 })
 //                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()))
-                .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling(handling -> {
-                    handling.accessDeniedHandler(accessDeniedHandler());
-                })
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+//                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-    }
-
-    @Bean
-    public AccessDeniedHandler accessDeniedHandler() {
-        return new CustomAccessDeniedHandler();
-    }
-
-    @Bean
-    public OpaqueTokenIntrospector introspector() {
-        return new GoogleOpaqueTokenIntrospector(userInfoClient);
     }
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-
         provider.setPasswordEncoder(passwordEncoder());
         provider.setUserDetailsService(userDetailsService);
         return provider;
