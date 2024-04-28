@@ -218,3 +218,105 @@ paths:
           description: password successfully changed
         400:
           description: new and old password is equal
+  /api/v1/report:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                reportReason:
+                  type: string
+                  enum:
+                    - SPAM
+                    - VIOLENCE
+                    - SEXUAL_CONTENT
+                    - PERSONAL_ATTACK
+                    - HATE_SPEECH
+                    - FALSE_INFORMATION
+                    - OTHER
+                content:
+                  type: string
+                date:
+                  type: string
+      responses:
+        '200':
+          description: report successfully sent
+        '400':
+          description: wrong datatype provided
+  /api/v1/lectures/ukr_mova/theme:
+    get:
+      parameters:
+        - name: themeName
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: return content of lecture by theme
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    theme_name_ukr:
+                      type: string
+                    lection:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          text:
+                            type: string
+                          table:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              content:
+                                type: string
+                          prepared_question:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                question:
+                                  type: string
+                                answer:
+                                  type: string
+                    test_your_knowledge:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          question:
+                            type: string
+                          answers:
+                            type: array
+                            items:
+                              type: string
+                          correct_answer:
+                            type: string
+        '404':
+          description: when theme doesn't exist
+  /api/v1/lectures/ukr_mova/themes:
+    get:
+      responses:
+        '200':
+          description: return all themes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '404':
+          description: when themes doesn't exist
+
+

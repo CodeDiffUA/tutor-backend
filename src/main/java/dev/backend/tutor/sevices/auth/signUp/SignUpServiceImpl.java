@@ -1,15 +1,22 @@
 package dev.backend.tutor.sevices.auth.signUp;
 
-import dev.backend.tutor.dtos.auth.JwtAndRefreshDto;
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.entities.Student;
+<<<<<<< Updated upstream
 import dev.backend.tutor.entities.auth.RefreshToken;
+=======
+import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
+>>>>>>> Stashed changes
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.sevices.auth.signUp.validation.StudentValidationService;
 import dev.backend.tutor.sevices.security.TokenFactory;
 import dev.backend.tutor.sevices.student.StudentServiceImpl;
 import dev.backend.tutor.utills.student.StudentBuilder;
+<<<<<<< Updated upstream
+=======
+import jakarta.persistence.EntityManager;
+>>>>>>> Stashed changes
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

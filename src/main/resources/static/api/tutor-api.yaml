@@ -247,3 +247,147 @@ paths:
           description: report successfully sent
         '400':
           description: wrong datatype provided
+  /api/v1/lectures/ukr_mova/theme:
+    get:
+      parameters:
+        - name: themeName
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: return content of lecture by theme
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    theme_name_ukr:
+                      type: string
+                    lection:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          text:
+                            type: string
+                          table:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              content:
+                                type: string
+                          prepared_question:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                question:
+                                  type: string
+                                answer:
+                                  type: string
+                    test_your_knowledge:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          question:
+                            type: string
+                          answers:
+                            type: array
+                            items:
+                              type: string
+                          correct_answer:
+                            type: string
+        '404':
+          description: when theme doesn't exist
+  /api/v1/lectures/ukr_mova/themes:
+    get:
+      parameters:
+        - name: subject
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: return all themes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: array
+                      items:
+                        type: string
+                    lectures:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          theme_names:
+                            type: array
+                            items:
+                              type: string
+                    points:
+                      type: array
+                      items:
+                        type: number
+        '404':
+          description: when subject doesn't exist
+  /api/v1/lectures/ukr_mova/global_theme:
+    get:
+      parameters:
+        - name: globalName
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: return data about global theme
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: array
+                    items:
+                      type: string
+                  content:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        lectures:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              theme_names:
+                                type: array
+                                items:
+                                  type: string
+                        practices:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              practice_name:
+                                type: array
+                                items:
+                                  type: string
+                  points:
+                    type: array
+                    items:
+                      type: number
+        '404':
+          description: when theme doesn't exist

@@ -1,0 +1,259 @@
+{
+	"Phonetics. Graphics. Orthoepy": {
+		"ukr_name": "Фонетика. Графіка. Орфоепіка",
+		"themes": {
+			"Alphabet. Sounds. Transcription": {
+				"theme_name_ukr": "Алфавіт. Звуки. Транскрипція",
+				"lection": [
+					{
+						"text": "<p><strong>Фонетика</strong> - розділ мовознавства, що вивчає звуковий склад мови.</p><p><strong>Звук мовлення</strong> - найменша неподільна одиниця, яку вимовляємо та чуємо.</p><p><strong>Буква</strong> - знак, який слугує для позначення на письмі звука.</p>",
+						"table": {
+							"name": "",
+							"content": ""
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "<p><strong><i>Алфавіт</i></strong> - сукупність літер, прийнятих у системі будь-якої мови й розміщених в уставленому порядку.</p>",
+						"table": {
+							"name": "<b>Алфавіт</b>",
+							"content": "https://i.ibb.co/wR3M1K2/alphabet.png"
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "<p><strong>Загальна класифікація звуків</strong></p><p><b>Голосні: [а], [о], [у], [и], [і], [е].</b></p>",
+						"table": {
+							"name": "<b>Приголосні</b>",
+							"content": "https://i.ibb.co/h8Y0wN6/consonants.png"
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "<p><strong><i>Зауважте!</i></strong></p><p>1. Літери на позначення всіх <strong>дзвінких</strong> і <strong>сонорних</strong> приголосних розташовані в алфавіті до літери <b><i>о</i></b>, крім <b><i>к</i></b>; <strong>глухих</strong> - після <b><i>о</i></b>, крім <b><i>р</i></b>.</p><p>2. Глухий <strong>[ф] не має</strong> дзвінкої пари; <b>[й] завжди м'який</b>.</p><p>3. <strong>Д</strong>, <strong>т</strong>, <strong>з</strong>, <strong>с</strong>, <strong>ц</strong>, <strong>л</strong>, <strong>н</strong>, <strong>р</strong> (<b><i>д</i></b>е <b><i>т</i></b>и <b><i>з</i></b>'ї<b><i>с</i></b>и <b><i>ц</i></b>і <b><i>л</i></b>и<b><i>н</i></b>и + <b><i>р</i></b>) перед <b><i>ь, я, ю, є</i></b> стають <strong>м'якими</strong> (позначаються у транскрипції[']): <i>тінь</i> [т'ін'].</p><p>Усі інші приголосні перед <b><i>ь</i></b> ніколи не стоять. а перед <b><i>і, я, ю, є</i></b> стають лише пом'якшеними, або напівм'якими (позначають у транскрипції [᾿]): <i>місто</i> [м᾿істо].</p>",
+						"table": {
+							"name": "",
+							"content": ""
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "",
+						"table": {
+							"name": "<b>Співвідношення літер і звуків</b>",
+							"content": "https://i.ibb.co/Khrm9bL/sounds-to-letter.png"
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "",
+						"table": {
+							"name": "<b>Асиміляція голосних</b>",
+							"content": "https://i.ibb.co/z4WvWcK/assimilation-of-vowels.png"
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "",
+						"table": {
+							"name": "<b>Асиміляція приголосних</b>",
+							"content": "https://i.ibb.co/7QNNPv7/assimilation-of-consonants.png"
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "<p><b>Основні норми вимови голосних і приголосних</b></p>",
+						"table": {
+							"name": "",
+							"content": ""
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "",
+						"table": {
+							"name": "<b>Голосні</b>",
+							"content": "https://i.ibb.co/kGqXMt2/pronunciation-of-vowels.png"
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "",
+						"table": {
+							"name": "<b>Приголосні</b>",
+							"content": "https://i.ibb.co/92q218W/pronunciation-of-consonant-sounds.png"
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "",
+						"table": {
+							"name": "<p><b>Особливості вимови окремих груп приголосних</b></p>",
+							"content": "https://i.ibb.co/SJbj5VG/peculiarities-of-the-pronunciation-of-individual-groups-of-consonants.png"
+						},
+						"prepared_question": []
+					}
+				],
+				"test_your_knowledge": [
+					{
+						"question": "",
+						"answers": [
+							"",
+							"",
+							"",
+							""
+						],
+						"correct_answer": ""
+					}
+				]
+			},
+			"alternation_of_sounds": {
+				"theme_name_ukr": "Чергування звуків",
+				"lection": [
+					{
+						"text": "<p><strong>Найпоширеніші випадки чергування звуків</strong></p>",
+						"table": {
+							"name": "",
+							"content": ""
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "",
+						"table": {
+							"name": "<b>Основні чергування голосних</b>",
+							"content": "https://i.ibb.co/z6T7kDs/basic-vowel-alternations.png"
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "",
+						"table": {
+							"name": "<b>Основні чергування приголосних</b>",
+							"content": "https://i.ibb.co/F0h0Tsr/basic-consonant-alternations.png"
+						},
+						"prepared_question": []
+					}
+				],
+				"test_your_knowledge": [
+					{
+						"question": "",
+						"answers": [
+							"",
+							"",
+							"",
+							""
+						],
+						"correct_answer": ""
+					}
+				]
+			},
+			"composition_accent": {
+				"theme_name_ukr": "Склад. Наголос",
+				"lection": [
+					{
+						"text": "<p><strong>Склад</strong> - частина слова, яку вимовляємо одним поштовхом видихуваного повітря (<i>бар</i>-<i>ві</i>-<i>нок</i>, <i>кра</i>-<i>ї</i>-<i>на</i>). У слові стільки складів, скільки голосних звуків.</p><p>Склади бувають <strong>відкриті</strong> (закінчуються на голосний: <i>а</i>-<i>ле</i>-<i>я</i>), і <strong>закриті</strong> (закінчуються на приголосний: <i>міс</i>-<i>ток</i>)</p>",
+						"table": {
+							"name": "",
+							"content": ""
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "<p><strong>Наголос</strong> - виділення силою голосу певного складу в слові. Здебільшого слово має один наголос. В українській мові наголос рухомий (може переміщуватися зі зміною слова чи його форми: <i>кобз<strong>а́</strong>р</i> - <i>кобзар<strong>і́</strong></i>), вільний (наголошемими можуть бути різні за порядком склади: <i>д<strong>е́</strong>рево</i>, <i>знанн<strong>я́</strong></i>, <i>садівн<strong>и́</strong>к</i>).</p><p>Деякі слова мають подвійний наголос: <i>з<strong>а́</strong>вжд<strong>и́</strong></i>, <i>м<strong>а́</strong>б<strong>у́</strong>ть</i>, <i>п<strong>о́</strong>м<strong>и́</strong>лка</i>, <i>пр<strong>о́</strong>ст<strong>и́</strong>й</i>, <i>т<strong>а́</strong>к<strong>о́</strong>ж</i>.</p>",
+						"table": {
+							"name": "",
+							"content": ""
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "",
+						"table": {
+							"name": "<b>Закономірності наголошування</b>",
+							"content": "https://i.ibb.co/sJhyJVn/emphasis-patterns.png"
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "",
+						"table": {
+							"name": "<b>Перелік слів із нормативним наголосом</b>",
+							"content": "https://i.ibb.co/DQmssqv/list-of-words-with-regulatory-stress.png"
+						},
+						"prepared_question": []
+					}
+				],
+				"test_your_knowledge": [
+					{
+						"question": "",
+						"answers": [
+							"",
+							"",
+							"",
+							""
+						],
+						"correct_answer": ""
+					}
+				]
+			}
+		}
+	},
+	"Orthography": {
+		"ukr_name": "Орфографія",
+		"themes": {
+			"spelling_letters_eou": {
+				"theme_name_ukr": "Правопис літер, що позначають ненаголошені Е, И, О",
+				"lection": [
+					{
+						"text": "",
+						"table": {
+							"name": "<b>Е чи И?</b>",
+							"content": "https://i.ibb.co/3BFkL7N/e-or-u.png"
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "",
+						"table": {
+							"name": "<b>Е чи О?</b>",
+							"content": "https://i.ibb.co/sFzfXQ7/e-or-o.png"
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "",
+						"table": {
+							"name": "<b>О чи А?</b>",
+							"content": "https://i.ibb.co/mFjLZX0/o-or-a.png"
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "",
+						"table": {
+							"name": "<b>О чи У?</b>",
+							"content": "https://i.ibb.co/PYSR1dH/o-or-y.png"
+						},
+						"prepared_question": []
+					},
+					{
+						"text": "<p><strong><i>Зауважте!</i></strong></p>У деяких словах написання <strong>е</strong>-<strong>у</strong> треба запам'ятати або перевірити правопис за орфографічним словником: <i>кишеня</i>, <i>директор</i>, <i>деталь</i>, <i>пенал</i> тощо.<p></p>",
+						"table": {
+							"name": "",
+							"content": ""
+						},
+						"prepared_question": []
+					}
+				],
+				"test_your_knowledge": [
+					{
+						"question": "",
+						"answers": [ "", "", "", "" ],
+						"correct_answer": ""
+					}]
+			}
+
+		}
+	}
+}

@@ -19,7 +19,6 @@ public class CustomConfirmationPasswordTokenRepositoryImpl implements CustomConf
 
     @Override
     public Student findStudentByConfirmationPasswordToken(String token) {
-        System.out.println("dsa");
         List<Student> students = entityManager.createNativeQuery("""
             SELECT a.username, a.email, a.password, a.form, a.age
             FROM confirmation_password_tokens
