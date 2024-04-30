@@ -23,13 +23,10 @@ public class CookieService {
     public Cookie createCookieWithRefreshToken(HttpServletResponse httpServletResponse, JwtAndRefreshDto jwtAndRefreshDto) {
         var cookie = new Cookie("__Host-refresh-token", jwtAndRefreshDto.refreshToken());
         cookie.setPath("/");
-        cookie.setDomain("localhost");
-        cookie.setDomain(null);
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setAttribute("SameSite", "lax");
         cookie.setMaxAge(REFRESH_COOKIE_LIVE_TERM_SECONDS);
-//        cookie.setAttribute("withCredentials", true);
         httpServletResponse.setContentType("text/plain");
         return cookie;
     }
