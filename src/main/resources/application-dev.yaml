@@ -15,4 +15,3 @@ jwt:
   expiration: 20m
   refresh:
     expiration: 14d
-

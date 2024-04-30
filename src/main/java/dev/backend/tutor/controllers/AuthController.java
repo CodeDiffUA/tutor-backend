@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/v1/authentication")
@@ -43,7 +44,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponseDto> signIn(
-            @RequestBody AuthenticationDtoRequest dtoRequestWithEmail, HttpServletResponse httpServletResponse) throws UsernameNotFoundException, NotConfirmedEmailException, NotFoundUserException, WrongCredentialsException {
+            @RequestBody AuthenticationDtoRequest dtoRequestWithEmail, HttpServletResponse httpServletResponse, HttpServletRequest request) throws UsernameNotFoundException, NotConfirmedEmailException, NotFoundUserException, WrongCredentialsException {
+        System.out.println(Arrays.toString(Arrays.stream(request.getCookies()).map(Cookie::getName).toArray()));
         JwtAndRefreshDto jwtAndRefreshDto = signInService.signIn(dtoRequestWithEmail);
         var cookie = createCookieWithRefreshToken(httpServletResponse, jwtAndRefreshDto);
         httpServletResponse.addCookie(cookie);
@@ -86,9 +88,10 @@ public class AuthController {
                 .build();
     }
 
-    @PostMapping("/refresh")
+    @GetMapping("/refresh")
     public ResponseEntity<AuthenticationResponseDto> updateAccess(
             HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws NotFoundUserException, InvalidTokenException, CookieException {
+        System.out.println(Arrays.toString(Arrays.stream(httpServletRequest.getCookies()).map(Cookie::getName).toArray()));
         Cookie refreshTokenCookie = getRefreshTokenCookie(httpServletRequest);
         UpdateJwtTokenRequest updateJwtTokenRequest = new UpdateJwtTokenRequest(refreshTokenCookie.getValue());
         JwtAndRefreshDto jwtAndRefreshDto = updateTokenService.updateRefreshTokenToken(updateJwtTokenRequest);
@@ -105,5 +108,10 @@ public class AuthController {
 
     private Cookie createCookieWithRefreshToken(HttpServletResponse httpServletResponse, JwtAndRefreshDto jwtAndRefreshDto) {
         return cookieService.createCookieWithRefreshToken(httpServletResponse, jwtAndRefreshDto);
+    }
+
+    @GetMapping("/hello")
+    private String hello(){
+        return "hello";
     }
 }

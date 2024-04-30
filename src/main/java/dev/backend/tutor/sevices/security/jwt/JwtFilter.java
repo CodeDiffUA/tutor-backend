@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -38,6 +39,7 @@ public class JwtFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
+//        System.out.println(Arrays.toString(Arrays.stream(request.getCookies())));
         String authHeader = request.getHeader(AUTHORIZATION_HEADER);
         JwtAndUsername jwtAndUsername = parseJwtAndUsernameFromAuthHeader(authHeader);
 

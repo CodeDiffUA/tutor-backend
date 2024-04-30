@@ -16,8 +16,12 @@ public class CookieService {
 
 
     public Cookie createCookieWithRefreshToken(HttpServletResponse httpServletResponse, JwtAndRefreshDto jwtAndRefreshDto) {
-        Cookie cookie = new Cookie("refreshToken", jwtAndRefreshDto.refreshToken());
+        Cookie cookie = new Cookie("refresh", jwtAndRefreshDto.refreshToken());
         cookie.setHttpOnly(true);
+        cookie.setDomain(null);
+        cookie.setSecure(true);
+        cookie.setAttribute("SameSite", "None"); // Встановлення "None" дозволяє передавати куки в межах будь-якого сайту, що забезпечує коректну роботу з CORS
+
         cookie.setPath("/");
         cookie.setMaxAge(REFRESH_COOKIE_LIVE_TERM);
         httpServletResponse.setContentType("text/plain");
@@ -27,7 +31,7 @@ public class CookieService {
 
     public Cookie getRefreshTokenCookie(HttpServletRequest httpServletRequest) throws CookieException {
         return Arrays.stream(httpServletRequest.getCookies())
-                .filter(cookie -> cookie.getName().equals("refreshToken"))
+                .filter(cookie -> cookie.getName().equals("refresh"))
                 .findFirst()
                 .orElseThrow(() -> new CookieException("no refresh cookie"));
     }
