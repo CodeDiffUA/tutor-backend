@@ -6,10 +6,12 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\auth\Token.ja
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\passwords\ConfirmationPasswordTokenRepository.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\auth\signUp\validation\StudentValidationService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\TutorApplication.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\controllers\adviceControllers\ReportControllerAdvice.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\student\BanService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\controllers\adviceControllers\AuthControllerAdvice.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\student\StudentCustomRepositoryImpl.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\SubjectGrades\UkrMovaThemeGrades\PhoneticsGraphemicsOrthoepy.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\report\ReportService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\security\jwt\JwtUtil.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\controllers\FriendController.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\auth\signUp\validation\ValidationStudentFriendshipService.java
@@ -72,6 +74,7 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\friendship\
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\student\StudentCustomRepository.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\config\GoogleOpaqueTokenIntrospector.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\confirmationPasswordToken\ConfirmationPasswordToken.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\report\ReportReason.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\Student.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\notification\NotificationRepository.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\auth\signUp\SignUpServiceImpl.java
@@ -94,6 +97,10 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\passwords
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\GeneralGrades.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\forgotPassword\ForgotPasswordServiceImpl.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\auth\RegistrationDtoResponse.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\report\ReportUser.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\report\ReportDto.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\report\ReportUserCustomRepositoryImpl.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\report\ReportUserCustomRepository.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\auth\UserRole.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\SubjectGrades\UkrMovaThemeGrades\Morphology.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\cookie\CookieService.java
@@ -106,9 +113,11 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\nofications\No
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\forgotPassword\ForgotPasswordService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\controllers\AuthController.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\SubjectGrades\UkrMovaGrades.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\report\ReportUserRepository.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\utills\student\TokenBuilder.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\config\WebClientConfig.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\auth\AuthenticationResponseDto.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\controllers\ReportController.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\security\refresh\RefreshTokenValidationServiceImpl.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\BannedException.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\sevices\auth\signUp\confirm\ConfirmationEmailServiceImpl.java
