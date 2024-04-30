@@ -19,21 +19,23 @@ public class CookieService {
             (int) ChronoUnit.SECONDS.between(
                     Instant.now(),
                     Instant.now().plusSeconds(TimeUnit.DAYS.toSeconds(14)));
-
     public Cookie createCookieWithRefreshToken(HttpServletResponse httpServletResponse, JwtAndRefreshDto jwtAndRefreshDto) {
-        var cookie = new Cookie("__Host-refresh-token", jwtAndRefreshDto.refreshToken());
-        cookie.setPath("/");
-        cookie.setSecure(true);
+        Cookie cookie = new Cookie("refresh", jwtAndRefreshDto.refreshToken());
         cookie.setHttpOnly(true);
-        cookie.setAttribute("SameSite", "lax");
+        cookie.setDomain(null);
+        cookie.setSecure(true);
+        cookie.setAttribute("SameSite", "None");
+
+        cookie.setPath("/");
         cookie.setMaxAge(REFRESH_COOKIE_LIVE_TERM_SECONDS);
         httpServletResponse.setContentType("text/plain");
+        httpServletResponse.addCookie(cookie);
         return cookie;
     }
 
     public Cookie getRefreshTokenCookie(HttpServletRequest httpServletRequest) throws CookieException {
         return Arrays.stream(httpServletRequest.getCookies())
-                .filter(cookie -> cookie.getName().equals("refreshToken"))
+                .filter(cookie -> cookie.getName().equals("refresh"))
                 .findFirst()
                 .orElseThrow(() -> new CookieException("no refresh cookie"));
     }
