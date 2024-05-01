@@ -20,7 +20,7 @@ public class CookieService {
                     Instant.now(),
                     Instant.now().plusSeconds(TimeUnit.DAYS.toSeconds(14)));
     public Cookie createCookieWithRefreshToken(HttpServletResponse httpServletResponse, JwtAndRefreshDto jwtAndRefreshDto) {
-        Cookie cookie = new Cookie("refresh", jwtAndRefreshDto.refreshToken());
+        Cookie cookie = new Cookie("__Host-refresh", jwtAndRefreshDto.refreshToken());
         cookie.setHttpOnly(true);
         cookie.setDomain(null);
         cookie.setSecure(true);
@@ -35,7 +35,7 @@ public class CookieService {
 
     public Cookie getRefreshTokenCookie(HttpServletRequest httpServletRequest) throws CookieException {
         return Arrays.stream(httpServletRequest.getCookies())
-                .filter(cookie -> cookie.getName().equals("refresh"))
+                .filter(cookie -> cookie.getName().equals("__Host-refresh"))
                 .findFirst()
                 .orElseThrow(() -> new CookieException("no refresh cookie"));
     }
