@@ -86,7 +86,7 @@ public class AuthController {
                 .build();
     }
 
-    @PostMapping("/refresh")
+    @GetMapping("/refresh")
     public ResponseEntity<AuthenticationResponseDto> updateAccess(
             HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws NotFoundUserException, InvalidTokenException, CookieException {
         Cookie refreshTokenCookie = getRefreshTokenCookie(httpServletRequest);
