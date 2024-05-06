@@ -3,6 +3,8 @@ package dev.backend.tutor.controllers;
 import dev.backend.tutor.exceptions.NoSubjectException;
 import dev.backend.tutor.sevices.lections.LectionService;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -18,11 +20,11 @@ public class LectionController {
 
     @GetMapping("ukr_mova/theme")
     public Map<String, Object> getThemeByName(@RequestParam String themeName) {
-        return lectionService.getThemeByName(themeName);
+        return lectionService.getThemeByNameWithStream(themeName);
     }
 
     @GetMapping("/themes")
-    public List<Map<String, Object>>  getThemes(@RequestParam String subject) throws NoSubjectException {
+    public List<Map<String, Object>>  getThemes(@RequestParam String subject) throws NoSubjectException, IOException {
         return lectionService.getThemeNames(subject);
     }
 

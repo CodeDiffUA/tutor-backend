@@ -307,16 +307,87 @@ paths:
           description: when theme doesn't exist
   /api/v1/lectures/ukr_mova/themes:
     get:
+      parameters:
+        - name: subject
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         '200':
-          description: return all themes
+          description: return all themes by subject (ukr_mova, math, english)
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  type: string
+                  type: object
+                  properties:
+                    name:
+                      type: array
+                      items:
+                        type: string
+                    lectures:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          theme_names:
+                            type: array
+                            items:
+                              type: string
+                    points:
+                      type: array
+                      items:
+                        type: number
         '404':
-          description: when themes doesn't exist
-
-
+          description: when subject doesn't exist
+  /api/v1/lectures/ukr_mova/global_theme:
+    get:
+      parameters:
+        - name: globalName
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: return data about global theme
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: array
+                    items:
+                      type: string
+                  content:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        lectures:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              theme_names:
+                                type: array
+                                items:
+                                  type: string
+                        practices:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              practice_name:
+                                type: array
+                                items:
+                                  type: string
+                  points:
+                    type: array
+                    items:
+                      type: number
+        '404':
+          description: when theme doesn't exist
