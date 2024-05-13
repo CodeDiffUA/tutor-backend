@@ -15,24 +15,40 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class CookieService {
 
-    private static final int REFRESH_COOKIE_LIVE_TERM_SECONDS =
-            (int) ChronoUnit.SECONDS.between(
-                    Instant.now(),
-                    Instant.now().plusSeconds(TimeUnit.DAYS.toSeconds(14)));
-    public Cookie createCookieWithRefreshToken(HttpServletResponse httpServletResponse, JwtAndRefreshDto jwtAndRefreshDto) {
-        Cookie cookie = new Cookie("__Host-refresh", jwtAndRefreshDto.refreshToken());
-        cookie.setHttpOnly(true);
+    public Cookie createSecureHttpOnlyTokenCookie(
+            String cookieName, String cookieValue, Instant expiry)
+    {
+        var cookie = new Cookie(cookieName, cookieValue);
+        cookie.setPath("/");
         cookie.setDomain(null);
         cookie.setSecure(true);
-        cookie.setAttribute("SameSite", "None");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge((int) ChronoUnit.SECONDS.between(Instant.now(), expiry));
+        return cookie;
+    }
 
+    public Cookie getCookieByName(HttpServletRequest httpServletRequest, String cookieName) throws CookieException {
+        return Arrays.stream(httpServletRequest.getCookies())
+                .filter(cookie -> cookie.getName().equals(cookieName))
+                .findFirst()
+                .orElseThrow(() -> new CookieException("no cookie " + cookieName));
+    }
+  
+    @Deprecated
+    public Cookie createCookieWithRefreshToken(HttpServletResponse httpServletResponse, JwtAndRefreshDto jwtAndRefreshDto) {
+        var cookie = new Cookie("__Host-refresh-token", jwtAndRefreshDto.refreshToken());
         cookie.setPath("/");
+        cookie.setDomain(null);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+
         cookie.setMaxAge(REFRESH_COOKIE_LIVE_TERM_SECONDS);
         httpServletResponse.setContentType("text/plain");
         httpServletResponse.addCookie(cookie);
         return cookie;
     }
 
+    @Deprecated
     public Cookie getRefreshTokenCookie(HttpServletRequest httpServletRequest) throws CookieException {
         return Arrays.stream(httpServletRequest.getCookies())
                 .filter(cookie -> cookie.getName().equals("__Host-refresh"))

@@ -9,7 +9,7 @@ import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.sevices.auth.signUp.validation.StudentValidationService;
 import dev.backend.tutor.sevices.security.TokenFactory;
-import dev.backend.tutor.sevices.student.StudentServiceImpl;
+import dev.backend.tutor.config.security.userDetails.StudentUserDetailsService;
 import dev.backend.tutor.utills.student.StudentBuilder;
 
 import jakarta.persistence.EntityManager;
@@ -19,12 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SignUpServiceImpl implements SignUpService {
-    private final StudentServiceImpl studentService;
+    private final StudentUserDetailsService studentService;
     private final StudentValidationService validationService;
     private final PasswordEncoder passwordEncoder;
     private final TokenFactory tokenFactory;
 
-    public SignUpServiceImpl(StudentServiceImpl studentService, StudentValidationService validationService, PasswordEncoder passwordEncoder, TokenFactory tokenFactory) {
+    public SignUpServiceImpl(StudentUserDetailsService studentService, StudentValidationService validationService, PasswordEncoder passwordEncoder, TokenFactory tokenFactory) {
         this.studentService = studentService;
         this.validationService = validationService;
         this.passwordEncoder = passwordEncoder;

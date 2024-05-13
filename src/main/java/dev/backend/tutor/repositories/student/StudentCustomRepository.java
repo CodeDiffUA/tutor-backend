@@ -9,7 +9,7 @@ public interface StudentCustomRepository {
             String senderLogin, String recipientLogin
     );
 
-    Student saveStudent(
-            Student student
-    );
+    Student saveStudent(Student student);
+
+    List<String> fetchUserRoles(String username);
 }
