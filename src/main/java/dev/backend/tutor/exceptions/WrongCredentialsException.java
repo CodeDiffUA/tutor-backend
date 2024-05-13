@@ -1,6 +1,6 @@
 package dev.backend.tutor.exceptions;
 
-public class WrongCredentialsException extends Exception{
+public class WrongCredentialsException extends RuntimeException{
     public WrongCredentialsException() {
         super("Wrong password");
     }

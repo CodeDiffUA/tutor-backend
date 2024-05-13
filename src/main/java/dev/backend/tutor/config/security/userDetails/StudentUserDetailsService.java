@@ -1,4 +1,4 @@
-package dev.backend.tutor.sevices.student;
+package dev.backend.tutor.config.security.userDetails;
 
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.exceptions.NotConfirmedEmailException;
@@ -10,11 +10,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StudentServiceImpl implements UserDetailsService {
+public class StudentUserDetailsService implements UserDetailsService {
 
     private final StudentRepository studentRepository;
 
-    public StudentServiceImpl(StudentRepository studentRepository) {
+    public StudentUserDetailsService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 

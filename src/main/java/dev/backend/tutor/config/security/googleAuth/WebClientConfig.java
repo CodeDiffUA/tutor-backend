@@ -1,4 +1,4 @@
-package dev.backend.tutor.config;
+package dev.backend.tutor.config.security.googleAuth;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
