@@ -4,12 +4,15 @@ import dev.backend.tutor.dtos.auth.JwtAndRefreshDto;
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.entities.auth.RefreshToken;
+import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
 import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.sevices.auth.signUp.validation.StudentValidationService;
 import dev.backend.tutor.sevices.security.TokenFactory;
 import dev.backend.tutor.config.security.userDetails.StudentUserDetailsService;
 import dev.backend.tutor.utills.student.StudentBuilder;
+
+import jakarta.persistence.EntityManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -33,12 +33,7 @@ public class CookieService {
                 .findFirst()
                 .orElseThrow(() -> new CookieException("no cookie " + cookieName));
     }
-
-    private static final int REFRESH_COOKIE_LIVE_TERM_SECONDS =
-            (int) ChronoUnit.SECONDS.between(
-                    Instant.now(),
-                    Instant.now().plusSeconds(TimeUnit.DAYS.toSeconds(14)));
-
+  
     @Deprecated
     public Cookie createCookieWithRefreshToken(HttpServletResponse httpServletResponse, JwtAndRefreshDto jwtAndRefreshDto) {
         var cookie = new Cookie("__Host-refresh-token", jwtAndRefreshDto.refreshToken());
@@ -46,6 +41,7 @@ public class CookieService {
         cookie.setDomain(null);
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
+
         cookie.setMaxAge(REFRESH_COOKIE_LIVE_TERM_SECONDS);
         httpServletResponse.setContentType("text/plain");
         httpServletResponse.addCookie(cookie);
@@ -55,7 +51,7 @@ public class CookieService {
     @Deprecated
     public Cookie getRefreshTokenCookie(HttpServletRequest httpServletRequest) throws CookieException {
         return Arrays.stream(httpServletRequest.getCookies())
-                .filter(cookie -> cookie.getName().equals("refreshToken"))
+                .filter(cookie -> cookie.getName().equals("__Host-refresh"))
                 .findFirst()
                 .orElseThrow(() -> new CookieException("no refresh cookie"));
     }
