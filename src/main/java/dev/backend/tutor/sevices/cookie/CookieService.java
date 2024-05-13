@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -14,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class CookieService {
+
+    private static final int REFRESH_COOKIE_LIVE_TERM_SECONDS = Duration.ofDays(14).toMillisPart();
 
     public Cookie createSecureHttpOnlyTokenCookie(
             String cookieName, String cookieValue, Instant expiry)
