@@ -1,5 +1,7 @@
-package dev.backend.tutor.config.security.tokensAuth.tokens;
+package dev.backend.tutor.config.security.userDetails;
 
+import dev.backend.tutor.config.security.tokensAuth.tokens.Token;
+import dev.backend.tutor.repositories.student.StudentRepository;
 import dev.backend.tutor.repositories.tokens.JwtTokensRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
@@ -9,15 +11,16 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.stream.Stream;
 
 @Service
 public class TokenAuthenticationUserDetailsService implements AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> {
 
     private final JwtTokensRepository jwtTokensRepository;
+    private final StudentRepository studentRepository;
 
-    public TokenAuthenticationUserDetailsService(JwtTokensRepository jwtTokensRepository) {
+    public TokenAuthenticationUserDetailsService(JwtTokensRepository jwtTokensRepository, StudentRepository studentRepository) {
         this.jwtTokensRepository = jwtTokensRepository;
+        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -38,9 +41,8 @@ public class TokenAuthenticationUserDetailsService implements AuthenticationUser
     }
 
     private boolean checkIfEnabled(Token token) {
-        return Stream.of("ROLE_BANNED", "ROLE_UNACTIVATED")
+        return studentRepository.fetchUserRoles(token.subject()).stream()
                 .noneMatch(role -> token.authorities().contains(role)) && checkIfLoggedOut(token);
-
     }
 
     private boolean checkIfExpired(Token token) {

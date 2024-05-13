@@ -1,13 +1,11 @@
 package dev.backend.tutor.config.security.tokensAuth.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.backend.tutor.config.security.tokensAuth.deserializers.RefreshTokenDeserializer;
 import dev.backend.tutor.config.security.tokensAuth.factories.AccessTokenFactory;
 import dev.backend.tutor.config.security.tokensAuth.serializers.AccessTokenSerializer;
 import dev.backend.tutor.config.security.tokensAuth.serializers.RefreshTokenSerializer;
-import dev.backend.tutor.config.security.tokensAuth.tokens.RefreshToken;
-import dev.backend.tutor.config.security.tokensAuth.tokens.TokenUser;
-import dev.backend.tutor.config.security.tokensAuth.tokens.Tokens;
+import dev.backend.tutor.config.security.userDetails.TokenUser;
+import dev.backend.tutor.dtos.auth.TokensDto;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +27,7 @@ import java.nio.file.AccessDeniedException;
 @Component
 public class RefreshTokenFilter extends OncePerRequestFilter {
 
-    private final RequestMatcher requestMatcher = new AntPathRequestMatcher("/api/v2/authentication/refresh", HttpMethod.POST.name());
+    private final RequestMatcher requestMatcher = new AntPathRequestMatcher("/api/native/v2/authentication/refresh", HttpMethod.POST.name());
     private final AccessTokenFactory accessTokenFactory;
     private final AccessTokenSerializer accessTokenSerializer;
     private final RefreshTokenSerializer refreshTokenSerializer;
@@ -45,7 +43,7 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("sup");
+        this.logger.info("refresh token filter called");
         if (this.requestMatcher.matches(request)) {
             var context = this.securityContextRepository.loadDeferredContext(request).get();
             if (this.securityContextRepository.containsContext(request)) {
@@ -59,7 +57,7 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
                     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                     this.objectMapper.writeValue(
                             response.getWriter(),
-                            new Tokens(this.accessTokenSerializer.serialize(accessToken),
+                            new TokensDto(this.accessTokenSerializer.serialize(accessToken),
                                     accessToken.expiresAt().toString(),
                                     refreshTokenSerializer.serialize(user.token()),
                                     user.token().expiresAt().toString())
@@ -68,8 +66,16 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
             } else {
                 throw new AccessDeniedException("This token cant refresh access token");
             }
+            filterChain.doFilter(request, response);
             return;
         }
         filterChain.doFilter(request, response);
     }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return true;
+    }
+
+
 }

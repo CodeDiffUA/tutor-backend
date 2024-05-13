@@ -1,12 +1,14 @@
 package dev.backend.tutor.config.security.tokensAuth.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.backend.tutor.config.security.tokensAuth.deserializers.TokenSerializer;
 import dev.backend.tutor.config.security.tokensAuth.factories.AccessTokenFactory;
+import dev.backend.tutor.config.security.tokensAuth.factories.CookieTokenFactory;
 import dev.backend.tutor.config.security.tokensAuth.factories.RefreshTokenFactory;
 import dev.backend.tutor.config.security.tokensAuth.serializers.AccessTokenSerializer;
+import dev.backend.tutor.config.security.tokensAuth.serializers.CookieTokenSerializer;
 import dev.backend.tutor.config.security.tokensAuth.serializers.RefreshTokenSerializer;
-import dev.backend.tutor.config.security.tokensAuth.tokens.Tokens;
+import dev.backend.tutor.config.security.tokensAuth.utills.RequestAuthenticationConverter;
+import dev.backend.tutor.dtos.auth.TokensDto;
 import dev.backend.tutor.exceptions.BadJsonBodyException;
 import dev.backend.tutor.exceptions.WrongCredentialsException;
 import jakarta.servlet.FilterChain;
@@ -34,40 +36,36 @@ import java.io.IOException;
 @Component
 public class SignInFilter extends OncePerRequestFilter {
 
-    private static final String USERNAME = "usernameOrEmail";
-    private static final String PASSWORD = "password";
-
-    private final RequestMatcher requestMatcher = new AntPathRequestMatcher("/api/v2/authentication/login", HttpMethod.POST.name());
+    private final RequestMatcher requestMatcher = new AntPathRequestMatcher("/api/native/v2/authentication/login", HttpMethod.POST.name());
     private final SecurityContextRepository securityContextRepository = new RequestAttributeSecurityContextRepository();
     private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
 
-    private final RefreshTokenFactory refreshTokenFactory;
-
-    private final AccessTokenFactory accessTokenFactory;
-
-    private final TokenSerializer refreshTokenStringSerializer;
-
-    private final TokenSerializer accessTokenStringSerializer;
-
     private final ObjectMapper objectMapper;
-
     private final AuthenticationManager authenticationManager;
 
+    private final RequestAuthenticationConverter requestAuthenticationConverter;
+    private final RefreshTokenSerializer refreshTokenSerializer;
+    private final AccessTokenSerializer accessTokenSerializer;
+    private final RefreshTokenFactory refreshTokenFactory;
+    private final AccessTokenFactory accessTokenFactory;
 
-    public SignInFilter(RefreshTokenFactory refreshTokenFactory, AccessTokenFactory accessTokenFactory, TokenSerializer refreshTokenStringSerializer, TokenSerializer accessTokenStringSerializer, ObjectMapper objectMapper, AuthenticationManager authenticationManager) {
-        this.refreshTokenFactory = refreshTokenFactory;
-        this.accessTokenFactory = accessTokenFactory;
-        this.refreshTokenStringSerializer = refreshTokenStringSerializer;
-        this.accessTokenStringSerializer = accessTokenStringSerializer;
+
+    public SignInFilter(ObjectMapper objectMapper, AuthenticationManager authenticationManager, RequestAuthenticationConverter requestAuthenticationConverter, RefreshTokenSerializer refreshTokenSerializer, AccessTokenSerializer accessTokenSerializer, RefreshTokenFactory refreshTokenFactory, AccessTokenFactory accessTokenFactory) {
         this.objectMapper = objectMapper;
         this.authenticationManager = authenticationManager;
+        this.requestAuthenticationConverter = requestAuthenticationConverter;
+        this.refreshTokenSerializer = refreshTokenSerializer;
+        this.accessTokenSerializer = accessTokenSerializer;
+        this.refreshTokenFactory = refreshTokenFactory;
+        this.accessTokenFactory = accessTokenFactory;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        this.logger.info("native sign in filter called");
         if (this.requestMatcher.matches(request)) {
-            UsernamePasswordAuthenticationToken authenticationToken = convertRequestBodyToAuthenticationToken(request);
+            UsernamePasswordAuthenticationToken authenticationToken = requestAuthenticationConverter.convertRequestBodyToAuthenticationToken(request);
             Authentication authentication;
             try {
                 authentication = authenticationManager.authenticate(authenticationToken);
@@ -87,9 +85,9 @@ public class SignInFilter extends OncePerRequestFilter {
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                 this.objectMapper.writeValue(response.getWriter(),
-                        new Tokens(this.accessTokenStringSerializer.serialize(accessToken),
+                        new TokensDto(this.accessTokenSerializer.serialize(accessToken),
                                 accessToken.expiresAt().toString(),
-                                this.refreshTokenStringSerializer.serialize(refreshToken),
+                                this.refreshTokenSerializer.serialize(refreshToken),
                                 refreshToken.expiresAt().toString()));
                 return;
             }
@@ -97,16 +95,12 @@ public class SignInFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private UsernamePasswordAuthenticationToken convertRequestBodyToAuthenticationToken(HttpServletRequest request) throws BadJsonBodyException, IOException {
-        // fixme when throws IOException
-        var jsonRequest = this.objectMapper.readTree(request.getReader());
-        var username = jsonRequest.get(USERNAME).asText();
-        var password = jsonRequest.get(PASSWORD).asText();
-        if (username != null && password != null) {
-            return new UsernamePasswordAuthenticationToken(username, password);
-        } else {
-            throw new BadJsonBodyException("properties usernameOrEmail and password set bad");
-        }
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return true;
     }
+
+
+
 
 }

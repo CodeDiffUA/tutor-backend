@@ -66,7 +66,7 @@ public class StudentCustomRepositoryImpl implements StudentCustomRepository {
                             VALUES (?, ?, ?)
                             """)
                     .setParameter(1, nextId)
-                    .setParameter(2, role.getRole().getRoleName())
+                    .setParameter(2, role.getRole().name())
                     .setParameter(3, student.getUsername())
                     .executeUpdate();
         }

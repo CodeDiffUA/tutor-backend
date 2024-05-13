@@ -1,13 +1,9 @@
 package dev.backend.tutor.config.security.tokensAuth;
 
-import dev.backend.tutor.config.security.tokensAuth.deserializers.AccessTokenDeserializer;
-import dev.backend.tutor.config.security.tokensAuth.deserializers.RefreshTokenDeserializer;
 import dev.backend.tutor.config.security.tokensAuth.filters.RefreshTokenFilter;
 import dev.backend.tutor.config.security.tokensAuth.filters.SignInFilter;
 import dev.backend.tutor.config.security.tokensAuth.filters.SignOutFilter;
-import dev.backend.tutor.config.security.tokensAuth.tokens.TokenAuthenticationUserDetailsService;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.jdbc.core.JdbcTemplate;
+import dev.backend.tutor.config.security.userDetails.TokenAuthenticationUserDetailsService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -43,7 +39,7 @@ public class JwtAuthenticationConfigurer
     public void init(HttpSecurity builder) {
         var csrfConfigurer = builder.getConfigurer(CsrfConfigurer.class);
         if (csrfConfigurer != null) {
-            csrfConfigurer.ignoringRequestMatchers(new AntPathRequestMatcher("/jwt/tokens", "POST"));
+            csrfConfigurer.ignoringRequestMatchers(new AntPathRequestMatcher("/", "POST"));
         }
     }
 

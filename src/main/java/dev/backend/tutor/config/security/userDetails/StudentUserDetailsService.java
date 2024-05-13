@@ -1,4 +1,4 @@
-package dev.backend.tutor.sevices.student;
+package dev.backend.tutor.config.security.userDetails;
 
 import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.exceptions.NotConfirmedEmailException;

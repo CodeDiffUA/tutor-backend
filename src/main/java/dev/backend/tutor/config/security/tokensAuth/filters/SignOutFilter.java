@@ -2,8 +2,10 @@ package dev.backend.tutor.config.security.tokensAuth.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.backend.tutor.config.security.tokensAuth.deserializers.RefreshTokenDeserializer;
-import dev.backend.tutor.config.security.tokensAuth.tokens.TokenUser;
+import dev.backend.tutor.config.security.tokensAuth.tokens.Token;
+import dev.backend.tutor.config.security.userDetails.TokenUser;
 import dev.backend.tutor.entities.auth.Role;
+import dev.backend.tutor.exceptions.BadJsonBodyException;
 import dev.backend.tutor.repositories.tokens.JwtTokensRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -25,9 +27,12 @@ import java.nio.file.AccessDeniedException;
 @Component
 public class SignOutFilter extends OncePerRequestFilter {
 
-    private final RequestMatcher requestMatcher = new AntPathRequestMatcher("/api/v2/authentication/logout", HttpMethod.POST.name());
+    private static final String ACCESS_TOKEN = "accessToken";
+    private static final String REFRESH_TOKEN = "refreshToken";
+
+    private final RequestMatcher requestMatcher = new AntPathRequestMatcher("/api/native/v2/authentication/logout", HttpMethod.POST.name());
     private final RefreshTokenDeserializer refreshTokenDeserializer;
-    private SecurityContextRepository securityContextRepository = new RequestAttributeSecurityContextRepository();
+    private final SecurityContextRepository securityContextRepository = new RequestAttributeSecurityContextRepository();
     private final ObjectMapper objectMapper;
     private final JwtTokensRepository jwtTokensRepository;
 
@@ -39,16 +44,21 @@ public class SignOutFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        this.logger.info("native sign out filter called");
         if (this.requestMatcher.matches(request)) {
             if (this.securityContextRepository.containsContext(request)) {
                 var context = this.securityContextRepository.loadDeferredContext(request).get();
                 System.out.println("principal - " + context.getAuthentication().getPrincipal());
-                if (context != null && context.getAuthentication() instanceof PreAuthenticatedAuthenticationToken &&
+                if (context.getAuthentication() instanceof PreAuthenticatedAuthenticationToken &&
                         context.getAuthentication().getPrincipal() instanceof TokenUser user &&
                         context.getAuthentication().getAuthorities()
                                 .contains(new SimpleGrantedAuthority(Role.ROLE_LOGOUT.name()))) {
                     System.out.println(user.getAuthorities());
-                    jwtTokensRepository.deactivateRefreshToken(user.token());
+                    String refreshTokenString = getRefreshTokenFromRequestBody(request);
+                    Token refreshToken = refreshTokenDeserializer.deserialize(refreshTokenString);
+                    Token accessToken = user.token();
+                    jwtTokensRepository.deactivateRefreshToken(refreshToken);
+                    jwtTokensRepository.deactivateRefreshToken(accessToken);
                     response.setStatus(HttpServletResponse.SC_NO_CONTENT);
                     return;
                 } else {
@@ -60,5 +70,23 @@ public class SignOutFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
+
+    private String getRefreshTokenFromRequestBody(
+            HttpServletRequest request) throws BadJsonBodyException, IOException {
+        var jsonRequest = this.objectMapper.readTree(request.getReader());
+        var accessToken = jsonRequest.get(REFRESH_TOKEN).asText();
+        if (accessToken != null) {
+            return accessToken;
+        } else {
+            throw new BadJsonBodyException("could not find refreshToken property in json body");
+        }
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return true;
+    }
+
+
 
 }

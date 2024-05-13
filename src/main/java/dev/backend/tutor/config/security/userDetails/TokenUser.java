@@ -1,5 +1,6 @@
-package dev.backend.tutor.config.security.tokensAuth.tokens;
+package dev.backend.tutor.config.security.userDetails;
 
+import dev.backend.tutor.config.security.tokensAuth.tokens.Token;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 

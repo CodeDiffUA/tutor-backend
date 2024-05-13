@@ -9,7 +9,7 @@ import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.exceptions.WrongCredentialsException;
 import dev.backend.tutor.repositories.refresh.RefreshTokenRepository;
 import dev.backend.tutor.sevices.security.TokenFactory;
-import dev.backend.tutor.sevices.student.StudentUserDetailsService;
+import dev.backend.tutor.config.security.userDetails.StudentUserDetailsService;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

@@ -8,7 +8,7 @@ import dev.backend.tutor.exceptions.AlreadyExistsUserException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.sevices.auth.signUp.validation.StudentValidationService;
 import dev.backend.tutor.sevices.security.TokenFactory;
-import dev.backend.tutor.sevices.student.StudentUserDetailsService;
+import dev.backend.tutor.config.security.userDetails.StudentUserDetailsService;
 import dev.backend.tutor.utills.student.StudentBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
