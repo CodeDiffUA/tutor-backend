@@ -391,3 +391,48 @@ paths:
                       type: number
         '404':
           description: when theme doesn't exist
+  /api/v1/practice/ukr_mova/lexicology/{topic}:
+    get:
+      summary: "GET api/v1/practice/ukr_mova/lexicology/{topic}"
+      operationId: "getLexicologyTestsByTopic"
+      parameters:
+        - name: "topic"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "page"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            format: "int32"
+            default: "0"
+        - name: "size"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            format: "int32"
+            default: "10"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                example: [
+                  {
+                    "question": "Лексичну помилку допущено в рядку",
+                    "correct": [
+                      "бувший директор"
+                    ],
+                    "wrong": [
+                      "автобус на замовлення",
+                      "вимкнути електрику",
+                      "образив мимоволі"
+                    ],
+                    "id": 0
+                  }
+                ]
