@@ -1,7 +1,7 @@
 package dev.backend.tutor.controllers;
 
 import dev.backend.tutor.exceptions.NoSubjectException;
-import dev.backend.tutor.sevices.lections.LectionService;
+import dev.backend.tutor.services.lections.LectionService;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;

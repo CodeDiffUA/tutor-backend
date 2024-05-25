@@ -3,8 +3,8 @@ package dev.backend.tutor.controllers;
 
 import dev.backend.tutor.dtos.forgotPassword.ForgotPasswordDtoRequest;
 import dev.backend.tutor.exceptions.EqualPasswordException;
-import dev.backend.tutor.repositories.student.StudentRepository;
-import dev.backend.tutor.sevices.forgotPassword.ForgotPasswordServiceImpl;
+import dev.backend.tutor.repositories.sql.student.StudentRepository;
+import dev.backend.tutor.services.forgotPassword.ForgotPasswordServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
