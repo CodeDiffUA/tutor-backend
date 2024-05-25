@@ -1,7 +1,7 @@
 package dev.backend.tutor.controllers;
 
 import dev.backend.tutor.dtos.report.ReportDto;
-import dev.backend.tutor.sevices.report.ReportService;
+import dev.backend.tutor.services.report.ReportService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

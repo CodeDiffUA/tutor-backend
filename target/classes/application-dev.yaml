@@ -1,9 +1,19 @@
 # Database Configuration
 spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://shraierbohdan:9j4KkGxhiJB6VVq7@zno.refsfwm.mongodb.net/practice
+  #      username: shraierbohdan
+#      password: 9j4KkGxhiJB6VVq7
+#      host: ac-sqrzccc-shard-00-00.refsfwm.mongodb.net:27017
+#      database: practice
+#      authentication-database: admin
+
   datasource:
     url: jdbc:postgresql://ep-red-mode-a55hpw26.us-east-2.aws.neon.tech/tutor-bakcend?user=tutor-bakcend_owner&password=xQM3fPdRtN4e&sslmode=require
     username: tutor-bakcend_owner
     password: xQM3fPdRtN4e
+
   jpa:
     hibernate:
       ddl-auto: none

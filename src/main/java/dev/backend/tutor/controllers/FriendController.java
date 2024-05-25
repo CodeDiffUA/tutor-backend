@@ -4,7 +4,7 @@ import dev.backend.tutor.dtos.friendship.RequestFriendshipRequestDto;
 import dev.backend.tutor.dtos.friendship.RequestFriendshipResponseDto;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.exceptions.friendship.FriendshipException;
-import dev.backend.tutor.sevices.friendship.FriendshipService;
+import dev.backend.tutor.services.friendship.FriendshipService;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
