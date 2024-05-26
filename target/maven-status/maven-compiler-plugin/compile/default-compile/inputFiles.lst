@@ -95,6 +95,7 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\SubjectGrades
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\services\auth\oath2\Oath2GoogleService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\dtos\auth\AuthenticationDtoRequest.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\NotFoundUserException.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\controllers\adviceControllers\QuickController.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\services\friendship\response\FriendshipResponseServiceImpl.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\CookieException.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\exceptions\friendship\BlockedUsersException.java

@@ -127,6 +127,7 @@ dev\backend\tutor\dtos\message\NotificationDto.class
 dev\backend\tutor\security\tokensAuth\serializers\AccessTokenSerializer.class
 dev\backend\tutor\dtos\email\ConfirmationRequest.class
 dev\backend\tutor\config\MongoConfig.class
+dev\backend\tutor\controllers\adviceControllers\QuickController.class
 dev\backend\tutor\repositories\sql\tokens\JwtTokensRepository.class
 dev\backend\tutor\services\security\TokenFactory.class
 dev\backend\tutor\security\tokensAuth\serializers\TokenDeserializer.class
