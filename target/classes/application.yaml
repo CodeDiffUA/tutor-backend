@@ -1,6 +1,9 @@
 # Database Configuration
 
 spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://shraierbohdan:9j4KkGxhiJB6VVq7@zno.refsfwm.mongodb.net/practice
   datasource:
     url: jdbc:postgresql://ep-red-mode-a55hpw26.us-east-2.aws.neon.tech/tutor-bakcend?user=tutor-bakcend_owner&password=xQM3fPdRtN4e&sslmode=require
     username: tutor-bakcend_owner
