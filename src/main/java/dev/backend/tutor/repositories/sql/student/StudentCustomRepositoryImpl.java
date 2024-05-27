@@ -74,14 +74,14 @@ public class StudentCustomRepositoryImpl implements StudentCustomRepository {
 
     private void insertStudentToDB(Student student) {
         entityManager.createNativeQuery("""
-                        INSERT INTO accounts (username, email, password, age, form)\s
-                        VALUES (?, ?, ?, ?, ?)
-                        """)
+                    INSERT INTO accounts (username, email, password, age, form)\s
+                    VALUES (?, ?, ?, ?, ?)
+                    """)
                 .setParameter(1, student.getUsername())
                 .setParameter(2, student.getEmail())
                 .setParameter(3, student.getPassword())
                 .setParameter(4, student.getAge())
-                .setParameter(5, student.getForm())
+                .setParameter(5, student.getForm() != null ? student.getForm().ordinal() + 1 : null) // +1, бо індекси починаються з 0
                 .executeUpdate();
     }
 

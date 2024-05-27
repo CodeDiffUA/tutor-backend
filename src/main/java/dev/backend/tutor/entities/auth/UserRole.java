@@ -13,7 +13,7 @@ public class UserRole implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_username")
     private Student student;
 
@@ -57,7 +57,8 @@ public class UserRole implements GrantedAuthority {
 
     @Override
     public int hashCode() {
-        int result = student.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (student != null ? student.hashCode() : 0);
         result = 31 * result + getRole().hashCode();
         return result;
     }
