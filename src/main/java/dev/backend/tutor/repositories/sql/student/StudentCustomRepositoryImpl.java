@@ -1,6 +1,6 @@
 package dev.backend.tutor.repositories.sql.student;
 
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.student.Student;
 import dev.backend.tutor.entities.auth.UserRole;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;

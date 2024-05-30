@@ -1,6 +1,6 @@
 package dev.backend.tutor.services.auth.signUp.validation;
 
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.student.Student;
 import dev.backend.tutor.exceptions.friendship.AlreadyFriendsException;
 import dev.backend.tutor.exceptions.friendship.BlockedUsersException;
 import org.springframework.transaction.annotation.Transactional;

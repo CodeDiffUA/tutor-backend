@@ -1,4 +1,4 @@
-package dev.backend.tutor.controllers.adviceControllers;
+package dev.backend.tutor.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,12 +9,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 @RestController
 @RequestMapping("/pwf-23rfpw-35vf-3rffp")
-public class QuickController {
+public class RandomStuffController {
 
 
     @GetMapping

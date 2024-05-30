@@ -2,7 +2,7 @@ package dev.backend.tutor.services.security.updateToken;
 
 import dev.backend.tutor.dtos.auth.JwtAndRefreshDto;
 import dev.backend.tutor.dtos.auth.UpdateJwtTokenRequest;
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.student.Student;
 import dev.backend.tutor.entities.auth.RefreshToken;
 import dev.backend.tutor.exceptions.InvalidTokenException;
 import dev.backend.tutor.exceptions.NotFoundUserException;

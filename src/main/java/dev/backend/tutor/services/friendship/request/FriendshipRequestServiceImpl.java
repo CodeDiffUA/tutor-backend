@@ -1,7 +1,7 @@
 package dev.backend.tutor.services.friendship.request;
 
 import dev.backend.tutor.dtos.friendship.RequestFriendshipRequestDto;
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.student.Student;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.exceptions.friendship.FriendshipException;
 import dev.backend.tutor.repositories.sql.student.StudentRepository;

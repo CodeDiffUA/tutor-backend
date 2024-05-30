@@ -3,6 +3,7 @@ package dev.backend.tutor.controllers.adviceControllers;
 import dev.backend.tutor.dtos.message.ExceptionDto;
 import dev.backend.tutor.exceptions.*;
 import dev.backend.tutor.utills.student.DateUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -42,26 +43,6 @@ public class AuthControllerAdvice {
                 ));
     }
 
-    @ExceptionHandler(InvalidTokenException.class)
-    public ResponseEntity<?> InvalidTokenException(InvalidTokenException e) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(new ExceptionDto(
-                        e.getMessage(),
-                        DateUtil.currentTimeStamp()
-                ));
-    }
-
-    @ExceptionHandler(InvalidJwtException.class)
-    public ResponseEntity<?> InvalidJwtException(InvalidJwtException e) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(new ExceptionDto(
-                        e.getMessage(),
-                        DateUtil.currentTimeStamp()
-                ));
-    }
-
     @ExceptionHandler(BannedException.class)
     public ResponseEntity<?> BannedException(BannedException e) {
         return ResponseEntity
@@ -91,4 +72,6 @@ public class AuthControllerAdvice {
                         DateUtil.currentTimeStamp()
                 ));
     }
+
+
 }

@@ -1,5 +1,6 @@
 package dev.backend.tutor.entities;
 import dev.backend.tutor.entities.SubjectGrades.UkrMovaGrades;
+import dev.backend.tutor.entities.student.Student;
 import jakarta.persistence.*;
 
 @Entity

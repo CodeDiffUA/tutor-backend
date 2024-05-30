@@ -1,6 +1,6 @@
 package dev.backend.tutor.utills.student;
 
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.student.Student;
 import dev.backend.tutor.entities.auth.ConfirmationEmailToken;
 import dev.backend.tutor.entities.auth.RefreshToken;
 import dev.backend.tutor.entities.confirmationPasswordToken.ConfirmationPasswordToken;

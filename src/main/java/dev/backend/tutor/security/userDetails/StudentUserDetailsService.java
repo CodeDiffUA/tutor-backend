@@ -1,6 +1,6 @@
 package dev.backend.tutor.security.userDetails;
 
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.student.Student;
 import dev.backend.tutor.exceptions.NotConfirmedEmailException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.sql.student.StudentRepository;
