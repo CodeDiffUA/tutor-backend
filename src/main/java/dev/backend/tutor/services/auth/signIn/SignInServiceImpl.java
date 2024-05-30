@@ -3,7 +3,7 @@ package dev.backend.tutor.services.auth.signIn;
 import dev.backend.tutor.security.userDetails.StudentUserDetailsService;
 import dev.backend.tutor.dtos.auth.AuthenticationDtoRequest;
 import dev.backend.tutor.dtos.auth.JwtAndRefreshDto;
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.student.Student;
 import dev.backend.tutor.entities.auth.RefreshToken;
 import dev.backend.tutor.exceptions.NotConfirmedEmailException;
 import dev.backend.tutor.exceptions.NotFoundUserException;

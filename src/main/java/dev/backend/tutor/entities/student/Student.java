@@ -1,11 +1,12 @@
-package dev.backend.tutor.entities;
+package dev.backend.tutor.entities.student;
 
 
+import dev.backend.tutor.entities.GeneralGrades;
+import dev.backend.tutor.entities.ai.AiChat;
 import dev.backend.tutor.entities.auth.Role;
 import dev.backend.tutor.entities.auth.UserRole;
 import dev.backend.tutor.entities.messegeEntities.Notification;
 import dev.backend.tutor.utills.student.Form;
-import dev.backend.tutor.utills.student.StudentBuilder;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,8 +29,11 @@ public class Student implements UserDetails {
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<GeneralGrades> generalGradesList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "recipient")
+    @OneToMany(mappedBy = "recipient", fetch = FetchType.LAZY)
     private List<Notification> notifications = new ArrayList<>();
+
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    private List<AiChat> chats = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -213,7 +217,9 @@ public class Student implements UserDetails {
 
     public void activate() {
         if (isNotActivated()) {
-            roles.remove(new UserRole(this, Role.ROLE_UNACTIVATED));
+            UserRole unActivatedRole = roles.stream().filter(userRole -> userRole.getRole().equals(Role.ROLE_UNACTIVATED)).findFirst()
+                    .orElseThrow();
+            roles.remove(unActivatedRole);
         }
     }
 

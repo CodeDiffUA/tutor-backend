@@ -31,6 +31,11 @@ jwt:
   refresh-token-key: '{"kty":"oct","k":"956PBFst1FguLr5irJD-aQ"}'
   cookie-token-key: '{"kty": "oct", "k": "OuX_DIOF1oBz8DKc7EJtOExC6oLUeQnotS6JsMps55c="}'
 
+open-ai:
+  key: ${GTP_KEY}
+  url: https://api.openai.com/v1/chat/completions
+  model: gpt-3.5-turbo
+
 
 front-end:
   base-url: http://localhost:3000

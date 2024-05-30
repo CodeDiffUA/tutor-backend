@@ -1,9 +1,9 @@
-package dev.backend.tutor.utills.student;
+package dev.backend.tutor.entities.student;
 
 import dev.backend.tutor.dtos.auth.RegistrationDtoRequest;
-import dev.backend.tutor.entities.Student;
 import dev.backend.tutor.entities.auth.Role;
 import dev.backend.tutor.entities.auth.UserRole;
+import dev.backend.tutor.utills.student.Form;
 
 public class StudentBuilder {
     private String username;

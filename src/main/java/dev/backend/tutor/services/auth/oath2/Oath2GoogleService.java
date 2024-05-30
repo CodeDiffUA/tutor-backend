@@ -5,7 +5,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeToken
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import dev.backend.tutor.dtos.auth.JwtAndRefreshDto;
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.student.Student;
 import dev.backend.tutor.entities.auth.RefreshToken;
 import dev.backend.tutor.exceptions.BannedException;
 import dev.backend.tutor.exceptions.NotConfirmedEmailException;

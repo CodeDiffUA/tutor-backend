@@ -1,6 +1,6 @@
 package dev.backend.tutor.entities.confirmationPasswordToken;
 
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.student.Student;
 import dev.backend.tutor.entities.auth.Token;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

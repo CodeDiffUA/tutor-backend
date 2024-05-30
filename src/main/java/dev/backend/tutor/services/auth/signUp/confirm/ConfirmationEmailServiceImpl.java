@@ -1,7 +1,7 @@
 package dev.backend.tutor.services.auth.signUp.confirm;
 
 import dev.backend.tutor.dtos.auth.JwtAndRefreshDto;
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.student.Student;
 import dev.backend.tutor.exceptions.InvalidTokenException;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 import dev.backend.tutor.repositories.sql.emails.ConfirmationEmailTokenRepository;

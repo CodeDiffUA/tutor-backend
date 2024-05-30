@@ -35,7 +35,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponseDto> registerStudent(
+    public ResponseEntity<AuthenticationResponseDto> registerStudentWithLogin(
             @RequestBody RegistrationDtoRequest registrationDtoRequest,
             HttpServletResponse httpServletResponse
             ) throws AlreadyExistsUserException, NotFoundUserException {
@@ -48,7 +48,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public ResponseEntity<AuthenticationResponseDto> registerStudentWithLogin(
+    public ResponseEntity<Void> registerStudent(
             @RequestBody RegistrationDtoRequest registrationDtoRequest
     ) throws AlreadyExistsUserException, NotFoundUserException {
         signUpService.registerAccount(registrationDtoRequest);

@@ -1,6 +1,6 @@
 package dev.backend.tutor.utills.student;
 
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.student.Student;
 import dev.backend.tutor.exceptions.NotFoundUserException;
 
 import java.util.List;
