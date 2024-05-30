@@ -27,7 +27,7 @@ jwt:
   refresh:
     expiration: 14d
 
-  access-token-key: '{"kty":"oct","k":"hi7S5RX5ZRZooHA0RKGct  Z-KtR9FoESgCnH-3BNg5XI"}'
+  access-token-key: '{"kty":"oct","k":"hi7S5RX5ZRZooHA0RKGctZ-KtR9FoESgCnH-3BNg5XI"}'
   refresh-token-key: '{"kty":"oct","k":"956PBFst1FguLr5irJD-aQ"}'
   cookie-token-key: '{"kty": "oct", "k": "OuX_DIOF1oBz8DKc7EJtOExC6oLUeQnotS6JsMps55c="}'
 
