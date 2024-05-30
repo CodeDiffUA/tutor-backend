@@ -1,6 +1,6 @@
 package dev.backend.tutor.entities.messegeEntities;
 
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.student.Student;
 import dev.backend.tutor.utills.student.NotificationBuilder;
 import jakarta.persistence.*;
 

@@ -1,6 +1,6 @@
 package dev.backend.tutor.entities.auth;
 
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.student.Student;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
