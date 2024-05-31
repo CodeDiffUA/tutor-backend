@@ -5,7 +5,9 @@ import dev.backend.tutor.exceptions.NoSubjectException;
 import dev.backend.tutor.exceptions.NoThemeException;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -16,7 +18,7 @@ public class LectionServiceImpl implements LectionService {
     @Override
     public Map<String, Object> getThemeByNameWithStream(String themeName) {
         try {
-            Map<String, Object> map = getMapOfLections("src/main/resources/static/json/ukr_mova_lectures.json");
+            Map<String, Object> map = getMapOfLections("static/json/ukr_mova_lectures.json");
             Optional<Map<String, Object>> optionalTheme = map.entrySet().stream()
                     .map(Map.Entry::getValue)
                     .filter(globalTheme -> globalTheme instanceof Map && ((Map<String, Object>) globalTheme).containsKey("themes"))
@@ -31,20 +33,38 @@ public class LectionServiceImpl implements LectionService {
         }
     }
 
+    public String readFile(final String fileName) throws IOException {
+        URL url = this.getClass()
+                .getClassLoader()
+                .getResource(fileName);
 
-    private static Map<String, Object> getMapOfLections(String path) throws IOException {
-        byte[] jsonData = Files.readAllBytes(Paths.get(path));
+        if(url == null) {
+            throw new IllegalArgumentException(fileName + " is not found 1");
+        }
+
+        File file = new File(url.getFile());
+
+        return new String(Files.readAllBytes(file.toPath()));
+    }
+
+
+    private Map<String, Object> getMapOfLections(String path) throws IOException {
+//        byte[] jsonData = Files.readAllBytes(Paths.get(path));
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> map = objectMapper.readValue(jsonData, Map.class);
+
+        var jsonStrong = readFile(path);
+
+
+        Map<String, Object> map = objectMapper.readValue(jsonStrong, Map.class);
         return map;
     }
 
 
     @Override
     public List<Map<String, Object>>  getThemeNames(String subject) throws NoSubjectException, IOException {
-        String UKR_MOVA = "src/main/resources/static/json/ukr_mova_lectures.json";
-        String MATH = "src/main/resources/static/json/math_lectures.json";
-        String ENGLISH = "src/main/resources/static/json/english_lectures.json";
+        String UKR_MOVA = "static/json/ukr_mova_lectures.json";
+        String MATH = "static/json/math_lectures.json";
+        String ENGLISH = "static/json/english_lectures.json";
         String path = switch (subject) {
             case "ukr_mova" -> UKR_MOVA;
             case "math" -> MATH;
@@ -65,7 +85,7 @@ public class LectionServiceImpl implements LectionService {
     @Override
     public Map<String, Object> getThemesByGlobalName(String globalName) {
         try {
-            Map<String, Object> map = getMapOfLections("src/main/resources/static/json/ukr_mova_lectures.json");
+            Map<String, Object> map = getMapOfLections("static/json/ukr_mova_lectures.json");
 
             var themeStream = map.entrySet().stream()
                     .filter(entry -> entry.getKey().equals(globalName))
