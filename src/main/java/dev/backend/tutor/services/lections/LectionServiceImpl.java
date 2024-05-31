@@ -3,14 +3,16 @@ package dev.backend.tutor.services.lections;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.backend.tutor.exceptions.NoSubjectException;
 import dev.backend.tutor.exceptions.NoThemeException;
+import dev.backend.tutor.utills.student.ToTextFromFileConverter;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -33,29 +35,11 @@ public class LectionServiceImpl implements LectionService {
         }
     }
 
-    public String readFile(final String fileName) throws IOException {
-        URL url = this.getClass()
-                .getClassLoader()
-                .getResource(fileName);
-
-        if(url == null) {
-            throw new IllegalArgumentException(fileName + " is not found 1");
-        }
-
-        File file = new File(url.getFile());
-
-        return new String(Files.readAllBytes(file.toPath()));
-    }
-
 
     private Map<String, Object> getMapOfLections(String path) throws IOException {
-//        byte[] jsonData = Files.readAllBytes(Paths.get(path));
         ObjectMapper objectMapper = new ObjectMapper();
-
-        var jsonStrong = readFile(path);
-
-
-        Map<String, Object> map = objectMapper.readValue(jsonStrong, Map.class);
+        var jsonString = ToTextFromFileConverter.readFile(path);
+        Map<String, Object> map = objectMapper.readValue(jsonString, Map.class);
         return map;
     }
 

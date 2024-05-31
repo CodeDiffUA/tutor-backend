@@ -77,6 +77,7 @@ D:\projects\tutor-backend\src\main\java\dev\backend\tutor\services\security\refr
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\services\email\EmailService.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\auth\UserRole.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\security\tokensAuth\deserializers\CookieTokenDeserializer.java
+D:\projects\tutor-backend\src\main\java\dev\backend\tutor\utills\student\ToTextFromFileConverter.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\controllers\LectionController.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\repositories\sql\report\ReportUserRepository.java
 D:\projects\tutor-backend\src\main\java\dev\backend\tutor\entities\ai\AiChat.java

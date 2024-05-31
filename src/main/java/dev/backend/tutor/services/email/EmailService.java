@@ -5,6 +5,7 @@ import dev.backend.tutor.repositories.sql.emails.ConfirmationEmailTokenRepositor
 import dev.backend.tutor.repositories.sql.passwords.ConfirmationPasswordTokenRepository;
 import dev.backend.tutor.repositories.sql.student.StudentRepository;
 import dev.backend.tutor.services.security.TokenFactory;
+import dev.backend.tutor.utills.student.ToTextFromFileConverter;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
@@ -86,55 +87,12 @@ public class EmailService implements EmailSender {
     }
 
 
-//    private String getEmailHtml(String token, String path, String url) throws IOException {
-//        var html = """
-//                <!DOCTYPE html>
-//                <html lang="en">
-//                <head>
-//                    <meta charset="UTF-8">
-//                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//                    <title>Gmail Confirmation</title>
-//                    <link rel="stylesheet" href="gmailConfirmation.css">
-//                </head>
-//                <body>
-//                <div class="container">
-//                    <h1>Gmail Confirmation</h1>
-//                    <p>Your email address has been successfully confirmed.</p>
-//                    <a href="null" class="btn">confirm email</a>
-//                <!--    this page does http get request http://localhost:8080/api/v1/email/confirm/-->
-//                <!--    params: token -->
-//                </div>
-//                </body>
-//                </html>
-//
-//                """;
-//        html = html.replace(
-//                "null",
-//                url + token);
-//        return html;
-//    }
-
     private String getEmailHtml(String token, String path, String url) throws IOException {
-        var html = readFile(path);
+        var html = ToTextFromFileConverter.readFile(path);
         html = html.replace(
                 "null",
                 url + token);
         return html;
-    }
-
-
-    public String readFile(final String fileName) throws IOException {
-        InputStream inputStream = this.getClass()
-                .getClassLoader()
-                .getResourceAsStream(fileName);
-
-        if (inputStream == null) {
-            throw new IllegalArgumentException(fileName + " is not found");
-        }
-
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-            return reader.lines().collect(Collectors.joining(System.lineSeparator()));
-        }
     }
 
 }
