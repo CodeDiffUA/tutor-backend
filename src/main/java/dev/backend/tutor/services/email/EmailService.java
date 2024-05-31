@@ -15,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.stream.Collectors;
 
 @Service
 public class EmailService implements EmailSender {
@@ -104,7 +106,7 @@ public class EmailService implements EmailSender {
 //                </div>
 //                </body>
 //                </html>
-
+//
 //                """;
 //        html = html.replace(
 //                "null",
@@ -122,17 +124,17 @@ public class EmailService implements EmailSender {
 
 
     public String readFile(final String fileName) throws IOException {
-        URL url = this.getClass()
+        InputStream inputStream = this.getClass()
                 .getClassLoader()
-                .getResource(fileName);
+                .getResourceAsStream(fileName);
 
-        if(url == null) {
-            throw new IllegalArgumentException(fileName + " is not found 1");
+        if (inputStream == null) {
+            throw new IllegalArgumentException(fileName + " is not found");
         }
 
-        File file = new File(url.getFile());
-
-        return new String(Files.readAllBytes(file.toPath()));
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        }
     }
 
 }
