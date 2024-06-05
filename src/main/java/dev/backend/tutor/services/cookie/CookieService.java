@@ -43,10 +43,10 @@ public class CookieService {
         cookie.setDomain(null);
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
-        cookie.setAttribute("SameSite","none");
+        cookie.setAttribute("SameSite","none"); // Directly setting the SameSite attribute
 
 
-        cookie.setMaxAge(REFRESH_COOKIE_LIVE_TERM_SECONDS);
+        cookie.setMaxAge(3600*24*14);
         httpServletResponse.setContentType("text/plain");
         httpServletResponse.addCookie(cookie);
         return cookie;
