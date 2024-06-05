@@ -1,7 +1,7 @@
 package dev.backend.tutor.services.points;
 
 import dev.backend.tutor.dtos.points.PointsDto;
-import dev.backend.tutor.entities.Student;
+import dev.backend.tutor.entities.student.Student;
 import dev.backend.tutor.entities.SubjectGrades.UkrMovaTest;
 import dev.backend.tutor.exceptions.NoSubjectException;
 import dev.backend.tutor.exceptions.NoThemeException;
