@@ -55,7 +55,7 @@ public class CookieService {
     @Deprecated
     public Cookie getRefreshTokenCookie(HttpServletRequest httpServletRequest) throws CookieException {
         return Arrays.stream(httpServletRequest.getCookies())
-                .filter(cookie -> cookie.getName().equals("__Host-refresh"))
+                .filter(cookie -> cookie.getName().equals("__Host-refresh-token"))
                 .findFirst()
                 .orElseThrow(() -> new CookieException("no refresh cookie"));
     }
