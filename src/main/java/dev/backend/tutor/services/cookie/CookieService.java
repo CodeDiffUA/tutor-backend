@@ -43,8 +43,10 @@ public class CookieService {
         cookie.setDomain(null);
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
+        cookie.setAttribute("SameSite","none"); // Directly setting the SameSite attribute
 
-        cookie.setMaxAge(REFRESH_COOKIE_LIVE_TERM_SECONDS);
+
+        cookie.setMaxAge(3600*24*14);
         httpServletResponse.setContentType("text/plain");
         httpServletResponse.addCookie(cookie);
         return cookie;
@@ -53,7 +55,7 @@ public class CookieService {
     @Deprecated
     public Cookie getRefreshTokenCookie(HttpServletRequest httpServletRequest) throws CookieException {
         return Arrays.stream(httpServletRequest.getCookies())
-                .filter(cookie -> cookie.getName().equals("__Host-refresh"))
+                .filter(cookie -> cookie.getName().equals("__Host-refresh-token"))
                 .findFirst()
                 .orElseThrow(() -> new CookieException("no refresh cookie"));
     }

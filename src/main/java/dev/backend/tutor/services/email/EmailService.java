@@ -5,6 +5,7 @@ import dev.backend.tutor.repositories.sql.emails.ConfirmationEmailTokenRepositor
 import dev.backend.tutor.repositories.sql.passwords.ConfirmationPasswordTokenRepository;
 import dev.backend.tutor.repositories.sql.student.StudentRepository;
 import dev.backend.tutor.services.security.TokenFactory;
+import dev.backend.tutor.utills.student.ToTextFromFileConverter;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +14,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.stream.Collectors;
 
 @Service
 public class EmailService implements EmailSender {
@@ -30,8 +35,8 @@ public class EmailService implements EmailSender {
     private static final String CONFIRM_EMAIL_AND_LOGIN_ENDPOINT_PROD = "https://tutor-backend-k28m.onrender.com/api/v1/registration/confirm-login?token=";
 
     // html sources
-    private static final String EMAIL_CONFIRMATION_PATH = "/src/main/resources/static/gmailConfirmation.html";
-    private static final String EMAIL_FORGOT_PASSWORD_PATH = "/src/main/resources/static/gmailForgotPassword.html";
+    private static final String EMAIL_CONFIRMATION_PATH = "static/gmailConfirmation.html";
+    private static final String EMAIL_FORGOT_PASSWORD_PATH = "static/gmailForgotPassword.html";
 
     private static final String CORPORATE_EMAIL = "shraierbohdan@gmail.com";
 
@@ -83,33 +88,11 @@ public class EmailService implements EmailSender {
 
 
     private String getEmailHtml(String token, String path, String url) throws IOException {
-        var html = """
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Gmail Confirmation</title>
-                    <link rel="stylesheet" href="gmailConfirmation.css">
-                </head>
-                <body>
-                <div class="container">
-                    <h1>Gmail Confirmation</h1>
-                    <p>Your email address has been successfully confirmed.</p>
-                    <a href="null" class="btn">confirm email</a>
-                <!--    this page does http get request http://localhost:8080/api/v1/email/confirm/-->
-                <!--    params: token -->
-                </div>
-                </body>
-                </html>
-                                
-                """;
+        var html = ToTextFromFileConverter.readFile(path);
         html = html.replace(
                 "null",
                 url + token);
         return html;
     }
-
-
 
 }

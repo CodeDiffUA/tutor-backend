@@ -143,6 +143,7 @@ dev\backend\tutor\dtos\auth\RegistrationDtoRequest.class
 dev\backend\tutor\dtos\auth\UpdateJwtTokenRequest.class
 dev\backend\tutor\services\auth\oath2\Oath2GoogleService.class
 dev\backend\tutor\services\auth\signOut\SignOutService.class
+dev\backend\tutor\utills\student\ToTextFromFileConverter.class
 dev\backend\tutor\services\cookie\CookieService.class
 dev\backend\tutor\utills\student\NotificationFactory.class
 dev\backend\tutor\security\tokensAuth\JwtAuthenticationConfigurer.class

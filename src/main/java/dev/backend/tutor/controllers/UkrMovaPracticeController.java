@@ -30,7 +30,7 @@ public class UkrMovaPracticeController {
         return ResponseEntity.ok(documents);
     }
 
-    @GetMapping("/syntax-punctuation/{topic}")
+    @GetMapping("/syntax_punctuation/{topic}")
     public List<Document> getSyntaxPunctuationTestsByTopic(
             @PathVariable("topic") String topic,
             @RequestParam(name = "page", defaultValue = "0") int page,
@@ -38,7 +38,7 @@ public class UkrMovaPracticeController {
         return ukrainianLanguageTestsSupplier.getDocumentFromSyntaxPunctuationCollectionByTopicName(topic, page, size);
     }
 
-    @GetMapping("/word-structure/{topic}")
+    @GetMapping("/word_structure/{topic}")
     public List<Document> getWordStructureTestsByTopic(
             @PathVariable("topic") String topic,
             @RequestParam(name = "page", defaultValue = "0") int page,
@@ -47,7 +47,7 @@ public class UkrMovaPracticeController {
         return ukrainianLanguageTestsSupplier.getDocumentFromWordStructureCollectionByTopicName(topic, page, size);
     }
 
-    @GetMapping("/stylistics-text-speech-development/{topic}")
+    @GetMapping("/stylistics_text_speech_development/{topic}")
     public List<Document> getStylisticsTextSpeechDevelopmentTestsByTopic(
             @PathVariable("topic") String topic,
             @RequestParam(name = "page", defaultValue = "0") int page,
@@ -73,7 +73,7 @@ public class UkrMovaPracticeController {
         return ukrainianLanguageTestsSupplier.getDocumentFromMorphologyCollectionByTopicName(topic, page, size);
     }
 
-    @GetMapping("/phonetics-graphics-orthoepy/{topic}")
+    @GetMapping("/phonetics_graphics_orphoepy/{topic}")
     public List<Document> getPhoneticsGraphicsOrthoepyTestsByTopic(
             @PathVariable("topic") String topic,
             @RequestParam(name = "page", defaultValue = "0") int page,
