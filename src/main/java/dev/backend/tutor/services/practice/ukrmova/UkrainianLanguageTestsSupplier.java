@@ -31,10 +31,10 @@ public class UkrainianLanguageTestsSupplier {
         lexicologyCollection = mongoDatabase.getCollection("lexicology");
         orthographyCollection = mongoDatabase.getCollection("orthography");
         morphologyCollection = mongoDatabase.getCollection("morphology");
-        phoneticsGraphicsOrphoepyCollection = mongoDatabase.getCollection("phonetics-graphics-orphoepy");
-        stylisticsTextSpeechDevelopmentCollection = mongoDatabase.getCollection("stylistics-text-speech-development");
-        syntaxPunctuationCollection = mongoDatabase.getCollection("syntax-punctuation");
-        wordStructureCollection = mongoDatabase.getCollection("word-structure");
+        phoneticsGraphicsOrphoepyCollection = mongoDatabase.getCollection("phonetics_graphics_orphoepy");
+        stylisticsTextSpeechDevelopmentCollection = mongoDatabase.getCollection("stylistics_text_speech_development");
+        syntaxPunctuationCollection = mongoDatabase.getCollection("syntax_punctuation");
+        wordStructureCollection = mongoDatabase.getCollection("word_structure");
     }
 
     public List<Document> getDocumentFromLexicologyCollectionByTopicName(String topicName, int page, int size) {
