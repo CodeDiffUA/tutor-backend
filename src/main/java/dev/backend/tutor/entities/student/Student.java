@@ -1,8 +1,8 @@
 package dev.backend.tutor.entities.student;
 
 
-import dev.backend.tutor.entities.GeneralGrades;
 import dev.backend.tutor.entities.ai.AiChat;
+import dev.backend.tutor.entities.SubjectGrades.UkrMovaTest;
 import dev.backend.tutor.entities.auth.Role;
 import dev.backend.tutor.entities.auth.UserRole;
 import dev.backend.tutor.entities.messegeEntities.Notification;
@@ -26,10 +26,15 @@ public class Student implements UserDetails {
     private Integer age; //todo make datetime
     private Form form;
 
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
-    private List<GeneralGrades> generalGradesList = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "ukr_mova_grades", referencedColumnName = "user_ukr_mova_grades")
+    private UkrMovaTest ukrMovaTest;
 
-    @OneToMany(mappedBy = "recipient", fetch = FetchType.LAZY)
+    public void setUkrMovaTest(UkrMovaTest ukrMovaTest) {
+        this.ukrMovaTest = ukrMovaTest;
+    }
+
+    @OneToMany(mappedBy = "recipient")
     private List<Notification> notifications = new ArrayList<>();
 
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
@@ -49,6 +54,21 @@ public class Student implements UserDetails {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true)
     private Set<UserRole> roles = new HashSet<>();
+
+    public void addPoints(String themeName, Integer points, String subjectName){
+        switch (subjectName){
+            case "ukr_mova":
+                this.ukrMovaTest.addPoints(themeName, points);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + subjectName);
+        }
+    };
+
+    public UkrMovaTest getUkrMovaTest() {
+        return ukrMovaTest;
+    }
+
 
     public void addRole(UserRole userRole) {
         userRole.setStudent(this);
@@ -217,9 +237,7 @@ public class Student implements UserDetails {
 
     public void activate() {
         if (isNotActivated()) {
-            UserRole unActivatedRole = roles.stream().filter(userRole -> userRole.getRole().equals(Role.ROLE_UNACTIVATED)).findFirst()
-                    .orElseThrow();
-            roles.remove(unActivatedRole);
+            roles.remove(new UserRole(this, Role.ROLE_UNACTIVATED));
         }
     }
 
